@@ -1,0 +1,400 @@
+<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ExploreMundo - Agência de Turismo</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f4f4f9;
+    color: #333;
+    overflow-x: hidden;
+  }
+
+  header {
+    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920') no-repeat center center/cover;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  header h1 {
+    font-size: 3rem;
+    margin: 0;
+    animation: slideIn 2s ease-out;
+    animation: bounce 3s infinite;
+  }
+
+  @keyframes slideIn {
+    from {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  nav {
+    display: flex;
+    justify-content: center;
+    background: #333;
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    cursor: pointer;
+  }
+
+  nav a:hover {
+    color: #ff9900;
+  }
+
+  section {
+    padding: 30px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  #inicio h2,
+  #destinos h2,
+  #contato h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 700;
+    animation: fadeIn 1.5s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* PLANOS NA TELA INICIAL */
+  #inicio p {
+    text-align: center;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+  }
+
+  .plans {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+  }
+
+  .plan {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgb(0 0 0 / 0.1);
+    width: 280px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    cursor: default;
+  }
+
+  .plan:hover {
+    transform: scale(1.05);
+  }
+
+  .plan img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .plan h2 {
+    background: #ff9900;
+    color: white;
+    margin: 0;
+    padding: 18px 0;
+    font-size: 1.6rem;
+    text-align: center;
+    font-weight: 700;
+  }
+
+  .plan p {
+    padding: 20px 15px;
+    font-size: 1rem;
+    min-height: 90px;
+  }
+
+  .plan button {
+    display: block;
+    width: 80%;
+    margin: 0 auto 20px auto;
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px 0;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+  }
+
+  .plan button:hover {
+    background: #ff9900;
+    color: #333;
+  }
+
+  /* DESTINOS */
+  .destino-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+  }
+
+  .destino {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 300px;
+    box-shadow: 0 6px 16px rgb(0 0 0 / 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    position: relative;
+  }
+
+  .destino:hover {
+    transform: scale(1.05);
+  }
+
+  .destino img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .destino h3 {
+    margin: 0;
+    padding: 15px 0;
+    background: #333;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .description {
+    background: #fafafa;
+    padding: 15px;
+    font-size: 0.95rem;
+    border-top: 1px solid #ddd;
+    display: none;
+    color: #444;
+  }
+
+  .destino.active .description {
+    display: block;
+  }
+
+  /* CONTATO */
+  #contato {
+    background: #ff9900;
+    color: white;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 40px auto 60px auto;
+    padding: 30px 25px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgb(255 153 0 / 0.4);
+  }
+
+  #contato p {
+    font-size: 1.1rem;
+    margin: 10px 0;
+  }
+
+  footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>ExploreMundo - Sua Jornada Começa Aqui</h1>
+</header>
+
+<nav>
+  <a href="#inicio" data-target="inicio">Início</a>
+  <a href="#destinos" data-target="destinos">Destinos</a>
+  <a href="#contato" data-target="contato">Contato</a>
+</nav>
+
+<section id="inicio">
+  <h2>Bem-vindo ao ExploreMundo</h2>
+  <p>Planeje sua viagem dos sonhos com nossa ajuda. Descubra destinos incríveis e aproveite planos feitos sob medida!</p>
+
+  <div class="plans">
+    <div class="plan">
+      <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Plano Básico" />
+      <h2>Básico</h2>
+      <p>Inclui hospedagem e café da manhã em destinos selecionados.</p>
+      <button class="plan-btn">$99.99</button>
+    </div>
+
+    <div class="plan">
+      <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Plano Premium" />
+      <h2>Premium</h2>
+      <p>Adicione passeios guiados e transporte interno.</p>
+      <button class="plan-btn">$199.99</button>
+    </div>
+
+    <div class="plan">
+      <img src="https://images.unsplash.com/photo-1556012018-1b6c6f6b9020?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Plano Luxo" />
+      <h2>Luxo</h2>
+      <p>Inclui tudo do plano Premium mais experiências exclusivas.</p>
+      <button class="plan-btn">$399.99</button>
+    </div>
+  </div>
+</section>
+
+<section id="destinos" class="hidden">
+  <h2>Destinos Populares</h2>
+  <p style="text-align:center; max-width:600px; margin: 0 auto 30px auto;">
+    Explore destinos incríveis ao redor do mundo. Transforme seus sonhos em realidade!
+  </p>
+
+  <div class="destino-gallery">
+    <div class="destino">
+      <img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Paris, França" />
+      <h3>Paris, França</h3>
+      <div class="description">Conhecida como a Cidade do Amor, Paris é famosa por sua arquitetura romântica e pontos turísticos como a Torre Eiffel e o Louvre.</div>
+    </div>
+
+    <div class="destino">
+      <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Rio de Janeiro, Brasil" />
+      <h3>Rio de Janeiro, Brasil</h3>
+      <div class="description">O Rio de Janeiro é lar de praias deslumbrantes, o Pão de Açúcar e o icônico Cristo Redentor.</div>
+    </div>
+
+    <div class="destino">
+      <img src="https://images.unsplash.com/photo-1543443369-7edc0eaf9c7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Tóquio, Japão" />
+      <h3>Tóquio, Japão</h3>
+      <div class="description">A vibrante capital do Japão combina tecnologia de ponta com tradições centenárias.</div>
+    </div>
+
+    <div class="destino">
+      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Lisboa, Portugal" />
+      <h3>Lisboa, Portugal</h3>
+      <div class="description">Lisboa encanta com suas ruas de paralelepípedos, bairros históricos e gastronomia deliciosa.</div>
+    </div>
+
+    <div class="destino">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Porto, Portugal" />
+      <h3>Porto, Portugal</h3>
+      <div class="description">Porto é conhecida pelo vinho do Porto, a Ribeira charmosa e a arquitetura deslumbrante à beira do Douro.</div>
+    </div>
+  </div>
+</section>
+
+<section id="contato" class="hidden">
+  <h2>Fale Conosco</h2>
+  <p>Entre em contato para planejar sua viagem dos sonhos!</p>
+  <p>Email: contato@exploremundo.com</p>
+  <p>Telefone: +55 11 99999-9999</p>
+</section>
+
+<footer>
+  <p>&copy; 2025 ExploreMundo. Todos os direitos reservados.</p>
+</footer>
+
+<script>
+  // Controle das seções da página
+  const navLinks = document.querySelectorAll('nav a');
+  const sections = {
+    inicio: document.getElementById('inicio'),
+    destinos: document.getElementById('destinos'),
+    contato: document.getElementById('contato'),
+  };
+
+  function hideAllSections() {
+    Object.values(sections).forEach(sec => sec.classList.add('hidden'));
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = link.getAttribute('data-target');
+      hideAllSections();
+      sections[target].classList.remove('hidden');
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+  });
+
+  // Inicialmente exibe a seção início
+  hideAllSections();
+  sections.inicio.classList.remove('hidden');
+
+  // Mostrar/ocultar descrição dos destinos ao clicar na imagem ou título
+  const destinos = document.querySelectorAll('.destino');
+  destinos.forEach(dest => {
+    dest.addEventListener('click', () => {
+      if (dest.classList.contains('active')) {
+        dest.classList.remove('active');
+      } else {
+        destinos.forEach(d => d.classList.remove('active'));
+        dest.classList.add('active');
+      }
+    });
+  });
+
+  // Botões dos planos exibem alerta ao clicar
+  const planButtons = document.querySelectorAll('.plan-btn');
+  planButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      alert('Em breve, você receberá um e-mail da nossa equipe.');
+    });
+  });
+</script>
+
+<!-- Script do chat JivoSite para suporte -->
+<script src="//code.jivosite.com/widget/BDw3pW7s5f" async></script>
+
+</body>
+</html>
+</body></html>
