@@ -1,400 +1,608 @@
-<!DOCTYPE html><html><head><style></style></head><body><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ExploreMundo - Agência de Turismo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ExploreMundo - Sua Jornada Começa Agora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  body {
+  /* ========================================
+    CONFIGURAÇÕES GLOBAIS E VARIÁVEIS DE COR
+    ========================================
+  */
+  :root {
+    --primary-color: #0a2540; /* Azul escuro corporativo */
+    --secondary-color: #f2a900; /* Dourado/Amarelo como destaque */
+    --background-color: #f8f9fa; /* Fundo levemente cinza */
+    --text-color: #343a40; /* Cor de texto principal */
+    --light-text-color: #ffffff;
+    --card-bg-color: #ffffff;
+    --footer-bg-color: #0a2540;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+  }
+
+  * {
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f4f4f9;
-    color: #333;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
     overflow-x: hidden;
   }
 
-  header {
-    background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920') no-repeat center center/cover;
-    height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-
-  header h1 {
-    font-size: 3rem;
-    margin: 0;
-    animation: slideIn 2s ease-out;
-    animation: bounce 3s infinite;
-  }
-
-  @keyframes slideIn {
-    from {
-      transform: translateY(-50px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes bounce {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-15px);
-    }
-  }
-
-  nav {
-    display: flex;
-    justify-content: center;
-    background: #333;
-    padding: 12px 0;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-
-  nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 20px;
-    font-size: 1.2rem;
-    font-weight: 600;
-    transition: color 0.3s ease;
-    cursor: pointer;
-  }
-
-  nav a:hover {
-    color: #ff9900;
-  }
-
   section {
-    padding: 30px 20px;
-    max-width: 1100px;
+    padding: 80px 20px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
-  .hidden {
-    display: none;
+  /* ========================================
+    ANIMAÇÕES DE ENTRADA (FADE-IN ON SCROLL)
+    ========================================
+  */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
   }
 
-  #inicio h2,
-  #destinos h2,
-  #contato h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: 700;
-    animation: fadeIn 1.5s ease forwards;
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* PLANOS NA TELA INICIAL */
-  #inicio p {
-    text-align: center;
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto 40px auto;
-  }
-
-  .plans {
+  /* ========================================
+    CABEÇALHO (HERO SECTION)
+    ========================================
+  */
+  header.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1920') no-repeat center center/cover;
+    height: 100vh;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
-  }
-
-  .plan {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgb(0 0 0 / 0.1);
-    width: 280px;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-    cursor: default;
-  }
-
-  .plan:hover {
-    transform: scale(1.05);
-  }
-
-  .plan img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    display: block;
-  }
-
-  .plan h2 {
-    background: #ff9900;
-    color: white;
-    margin: 0;
-    padding: 18px 0;
-    font-size: 1.6rem;
     text-align: center;
-    font-weight: 700;
-  }
-
-  .plan p {
-    padding: 20px 15px;
-    font-size: 1rem;
-    min-height: 90px;
-  }
-
-  .plan button {
-    display: block;
-    width: 80%;
-    margin: 0 auto 20px auto;
-    background: #333;
-    color: white;
-    border: none;
-    padding: 12px 0;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 700;
-    transition: background-color 0.3s ease;
-  }
-
-  .plan button:hover {
-    background: #ff9900;
-    color: #333;
-  }
-
-  /* DESTINOS */
-  .destino-gallery {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-  }
-
-  .destino {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    width: 300px;
-    box-shadow: 0 6px 16px rgb(0 0 0 / 0.1);
-    cursor: pointer;
-    transition: transform 0.3s ease;
+    color: var(--light-text-color);
     position: relative;
   }
 
-  .destino:hover {
-    transform: scale(1.05);
-  }
-
-  .destino img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    display: block;
-  }
-
-  .destino h3 {
-    margin: 0;
-    padding: 15px 0;
-    background: #333;
-    color: white;
+  .hero h1 {
+    font-size: 4rem;
     font-weight: 700;
-    text-align: center;
+    margin-bottom: 1rem;
+    animation: slideDown 1.5s ease-out;
   }
 
-  .description {
-    background: #fafafa;
-    padding: 15px;
-    font-size: 0.95rem;
-    border-top: 1px solid #ddd;
-    display: none;
-    color: #444;
+  .hero p {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    animation: slideDown 1.5s ease-out 0.3s;
+    animation-fill-mode: backwards;
   }
 
-  .destino.active .description {
-    display: block;
+  .cta-button {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    padding: 15px 35px;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    animation: popIn 1s ease-out 1s;
+    animation-fill-mode: backwards;
   }
 
-  /* CONTATO */
-  #contato {
-    background: #ff9900;
-    color: white;
-    border-radius: 12px;
-    max-width: 600px;
-    margin: 40px auto 60px auto;
-    padding: 30px 25px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgb(255 153 0 / 0.4);
+  .cta-button:hover {
+    background-color: #ffc107;
+    transform: translateY(-5px);
   }
 
-  #contato p {
-    font-size: 1.1rem;
-    margin: 10px 0;
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-50px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  footer {
-    background: #333;
-    color: white;
-    text-align: center;
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  
+  /* ========================================
+    BARRA DE NAVEGAÇÃO
+    ========================================
+  */
+  nav {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent;
+    transition: background-color 0.4s ease, padding 0.4s ease;
+  }
+
+  nav.scrolled {
+    background-color: var(--primary-color);
     padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
+  
+  nav a {
+    color: var(--light-text-color);
+    text-decoration: none;
+    margin: 0 25px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--secondary-color);
+    transition: width 0.4s ease;
+  }
+
+  nav a:hover {
+    color: var(--secondary-color);
+  }
+
+  nav a:hover::after {
+    width: 100%;
+  }
+
+  /* ========================================
+    ESTILOS GERAIS DE SEÇÃO E TÍTULOS
+    ========================================
+  */
+  .section-title {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+  }
+
+  .section-subtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 60px auto;
+    color: #6c757d;
+  }
+  
+  /* ========================================
+    SEÇÃO: SOBRE NÓS
+    ========================================
+  */
+  #sobre {
+    text-align: center;
+  }
+
+  /* ========================================
+    SEÇÃO: DESTAQUES (GALERIA)
+    ========================================
+  */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    height: 400px;
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.1);
+  }
+
+  .gallery-item .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: var(--light-text-color);
+    padding: 40px 20px 20px 20px;
+    transform: translateY(100%);
+    transition: transform 0.5s ease;
+  }
+  
+  .gallery-item .overlay h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+  }
+  
+  .gallery-item:hover .overlay {
+    transform: translateY(0);
+  }
+
+  /* ========================================
+    SEÇÃO: PACOTES DE VIAGEM
+    ========================================
+  */
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    justify-content: center;
+  }
+
+  .plan-card {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    padding: 40px 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .plan-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
+  .plan-card h3 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+  }
+  
+  .plan-card .price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    margin-bottom: 25px;
+  }
+  
+  .plan-card .price span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #6c757d;
+  }
+  
+  .plan-card ul {
+    list-style: none;
+    margin-bottom: 30px;
+  }
+  
+  .plan-card ul li {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+  
+  /* ========================================
+    SEÇÃO: TESTEMUNHOS
+    ========================================
+  */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+
+  .testimonial-card {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .testimonial-card p.quote {
+    font-size: 1.1rem;
+    font-style: italic;
+    flex-grow: 1;
+    margin-bottom: 20px;
+  }
+
+  .testimonial-card p.author {
+    font-weight: 600;
+    color: var(--secondary-color);
+    align-self: flex-end;
+  }
+
+  /* ========================================
+    SEÇÃO: CONTATO
+    ========================================
+  */
+  #contato {
+    background-color: var(--card-bg-color);
+    border-radius: var(--border-radius);
+    padding: 60px;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .contact-form input, .contact-form textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+  }
+
+  .contact-form textarea {
+    resize: vertical;
+    min-height: 150px;
+  }
+  
+  .contact-form button {
+    align-self: center;
+    cursor: pointer;
+  }
+
+  /* ========================================
+    RODAPÉ
+    ========================================
+  */
+  footer {
+    background-color: var(--footer-bg-color);
+    color: var(--light-text-color);
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .footer-content p {
+    margin-bottom: 20px;
+  }
+  
+  .social-links a {
+    color: var(--light-text-color);
+    margin: 0 15px;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    color: var(--secondary-color);
+  }
+
+  /* ========================================
+    RESPONSIVIDADE
+    ========================================
+  */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 2.8rem; }
+    .hero p { font-size: 1.2rem; }
+    .section-title { font-size: 2.2rem; }
+    nav { flex-direction: column; align-items: center; }
+    nav a { margin: 8px 15px; }
+  }
+
 </style>
 </head>
 <body>
-<header>
-  <h1>ExploreMundo - Sua Jornada Começa Aqui</h1>
+
+<header class="hero">
+  <nav id="navbar">
+    <a href="#sobre">Sobre Nós</a>
+    <a href="#destaques">Destaques</a>
+    <a href="#pacotes">Pacotes</a>
+    <a href="#testemunhos">Testemunhos</a>
+    <a href="#contato">Contato</a>
+  </nav>
+  <div class="hero-content">
+    <h1>ExploreMundo</h1>
+    <p>Sua jornada inesquecível começa aqui.</p>
+    <a href="#pacotes" class="cta-button">Ver Pacotes</a>
+  </div>
 </header>
 
-<nav>
-  <a href="#inicio" data-target="inicio">Início</a>
-  <a href="#destinos" data-target="destinos">Destinos</a>
-  <a href="#contato" data-target="contato">Contato</a>
-</nav>
+<main>
 
-<section id="inicio">
-  <h2>Bem-vindo ao ExploreMundo</h2>
-  <p>Planeje sua viagem dos sonhos com nossa ajuda. Descubra destinos incríveis e aproveite planos feitos sob medida!</p>
-
-  <div class="plans">
-    <div class="plan">
-      <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Plano Básico" />
-      <h2>Básico</h2>
-      <p>Inclui hospedagem e café da manhã em destinos selecionados.</p>
-      <button class="plan-btn">$99.99</button>
+  <section id="sobre">
+    <div class="fade-in">
+      <h2 class="section-title">Nós Criamos Experiências</h2>
+      <p class="section-subtitle">
+        Na ExploreMundo, nossa paixão é transformar sonhos em realidade. Somos mais que uma agência de turismo; somos arquitetos de memórias. Com uma equipe de especialistas dedicados, planejamos cada detalhe da sua viagem para que sua única preocupação seja aproveitar o momento.
+      </p>
     </div>
-
-    <div class="plan">
-      <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Plano Premium" />
-      <h2>Premium</h2>
-      <p>Adicione passeios guiados e transporte interno.</p>
-      <button class="plan-btn">$199.99</button>
+  </section>
+  
+  <section id="destaques">
+    <div class="fade-in">
+        <h2 class="section-title">Destinos em Destaque</h2>
+        <p class="section-subtitle">Deixe-se inspirar por alguns dos lugares mais incríveis que você pode explorar conosco.</p>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Paris, França">
+                <div class="overlay"><h3>Paris, França</h3></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Rio de Janeiro, Brasil">
+                <div class="overlay"><h3>Rio de Janeiro, Brasil</h3></div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1543443369-7edc0eaf9c7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400" alt="Tóquio, Japão">
+                <div class="overlay"><h3>Tóquio, Japão</h3></div>
+            </div>
+        </div>
     </div>
+  </section>
 
-    <div class="plan">
-      <img src="https://images.unsplash.com/photo-1556012018-1b6c6f6b9020?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Plano Luxo" />
-      <h2>Luxo</h2>
-      <p>Inclui tudo do plano Premium mais experiências exclusivas.</p>
-      <button class="plan-btn">$399.99</button>
+  <section id="pacotes">
+    <div class="fade-in">
+      <h2 class="section-title">Pacotes de Viagem</h2>
+      <p class="section-subtitle">Encontre o plano perfeito para sua próxima aventura. Todos os pacotes são flexíveis e podem ser personalizados.</p>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <h3>Essencial</h3>
+          <p class="price">$999 <span>/pessoa</span></p>
+          <ul>
+            <li>✓ Hospedagem Confortável</li>
+            <li>✓ Café da Manhã Incluso</li>
+            <li>✓ Roteiro Sugerido</li>
+            <li>✗ Passeios Guiados</li>
+          </ul>
+          <a href="#contato" class="cta-button">Consultar</a>
+        </div>
+        <div class="plan-card">
+          <h3>Premium</h3>
+          <p class="price">$1999 <span>/pessoa</span></p>
+          <ul>
+            <li>✓ Hospedagem Superior</li>
+            <li>✓ Café da Manhã e Jantares</li>
+            <li>✓ Roteiro Personalizado</li>
+            <li>✓ Passeios Guiados</li>
+          </ul>
+          <a href="#contato" class="cta-button">Consultar</a>
+        </div>
+        <div class="plan-card">
+          <h3>Luxo</h3>
+          <p class="price">$3999 <span>/pessoa</span></p>
+          <ul>
+            <li>✓ Hospedagem 5 Estrelas</li>
+            <li>✓ Todas as Refeições</li>
+            <li>✓ Roteiro Exclusivo</li>
+            <li>✓ Experiências VIP</li>
+          </ul>
+          <a href="#contato" class="cta-button">Consultar</a>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="destinos" class="hidden">
-  <h2>Destinos Populares</h2>
-  <p style="text-align:center; max-width:600px; margin: 0 auto 30px auto;">
-    Explore destinos incríveis ao redor do mundo. Transforme seus sonhos em realidade!
-  </p>
-
-  <div class="destino-gallery">
-    <div class="destino">
-      <img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Paris, França" />
-      <h3>Paris, França</h3>
-      <div class="description">Conhecida como a Cidade do Amor, Paris é famosa por sua arquitetura romântica e pontos turísticos como a Torre Eiffel e o Louvre.</div>
+  <section id="testemunhos">
+    <div class="fade-in">
+        <h2 class="section-title">O Que Nossos Clientes Dizem</h2>
+        <p class="section-subtitle">A confiança e a satisfação de quem viaja conosco é nosso maior orgulho.</p>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="quote">"A viagem para a Itália foi simplesmente perfeita! Cada detalhe foi pensado pela equipe da ExploreMundo. Mal posso esperar pela próxima!"</p>
+                <p class="author">- Ana Silva</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="quote">"Profissionalismo impecável. Transformaram nossa lua de mel no Sudeste Asiático em uma experiência mágica e sem preocupações. Recomendo de olhos fechados."</p>
+                <p class="author">- Marcos e Juliana</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="quote">"Eu não sabia por onde começar a planejar meu mochilão pela América do Sul. A ExploreMundo montou um roteiro incrível que superou todas as minhas expectativas."</p>
+                <p class="author">- Carlos Pereira</p>
+            </div>
+        </div>
     </div>
+  </section>
 
-    <div class="destino">
-      <img src="https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Rio de Janeiro, Brasil" />
-      <h3>Rio de Janeiro, Brasil</h3>
-      <div class="description">O Rio de Janeiro é lar de praias deslumbrantes, o Pão de Açúcar e o icônico Cristo Redentor.</div>
+  <section id="contato">
+    <div class="fade-in">
+        <h2 class="section-title">Vamos Planejar Sua Viagem?</h2>
+        <p class="section-subtitle">Envie-nos uma mensagem! Nossa equipe de especialistas está pronta para criar a viagem dos seus sonhos.</p>
+        <form class="contact-form" action="#" method="POST">
+            <input type="text" name="name" placeholder="Seu Nome Completo" required>
+            <input type="email" name="email" placeholder="Seu Melhor E-mail" required>
+            <textarea name="message" placeholder="Conte-nos sobre a viagem que você imagina... (Destinos, datas, número de pessoas, etc.)" required></textarea>
+            <button type="submit" class="cta-button">Enviar Mensagem</button>
+        </form>
     </div>
+  </section>
 
-    <div class="destino">
-      <img src="https://images.unsplash.com/photo-1543443369-7edc0eaf9c7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Tóquio, Japão" />
-      <h3>Tóquio, Japão</h3>
-      <div class="description">A vibrante capital do Japão combina tecnologia de ponta com tradições centenárias.</div>
-    </div>
-
-    <div class="destino">
-      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Lisboa, Portugal" />
-      <h3>Lisboa, Portugal</h3>
-      <div class="description">Lisboa encanta com suas ruas de paralelepípedos, bairros históricos e gastronomia deliciosa.</div>
-    </div>
-
-    <div class="destino">
-      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=300" alt="Porto, Portugal" />
-      <h3>Porto, Portugal</h3>
-      <div class="description">Porto é conhecida pelo vinho do Porto, a Ribeira charmosa e a arquitetura deslumbrante à beira do Douro.</div>
-    </div>
-  </div>
-</section>
-
-<section id="contato" class="hidden">
-  <h2>Fale Conosco</h2>
-  <p>Entre em contato para planejar sua viagem dos sonhos!</p>
-  <p>Email: contato@exploremundo.com</p>
-  <p>Telefone: +55 11 99999-9999</p>
-</section>
+</main>
 
 <footer>
-  <p>&copy; 2025 ExploreMundo. Todos os direitos reservados.</p>
+  <div class="footer-content">
+    <p>&copy; 2025 ExploreMundo. Todos os direitos reservados. Feito com paixão por viagens.</p>
+    <div class="social-links">
+      <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+    </div>
+  </div>
 </footer>
 
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
 <script>
-  // Controle das seções da página
-  const navLinks = document.querySelectorAll('nav a');
-  const sections = {
-    inicio: document.getElementById('inicio'),
-    destinos: document.getElementById('destinos'),
-    contato: document.getElementById('contato'),
-  };
+  // ===============================================
+  // SCRIPT PARA EFEITOS DE INTERATIVIDADE DA PÁGINA
+  // ===============================================
 
-  function hideAllSections() {
-    Object.values(sections).forEach(sec => sec.classList.add('hidden'));
-  }
+  document.addEventListener('DOMContentLoaded', () => {
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = link.getAttribute('data-target');
-      hideAllSections();
-      sections[target].classList.remove('hidden');
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    });
-  });
-
-  // Inicialmente exibe a seção início
-  hideAllSections();
-  sections.inicio.classList.remove('hidden');
-
-  // Mostrar/ocultar descrição dos destinos ao clicar na imagem ou título
-  const destinos = document.querySelectorAll('.destino');
-  destinos.forEach(dest => {
-    dest.addEventListener('click', () => {
-      if (dest.classList.contains('active')) {
-        dest.classList.remove('active');
+    // 1. EFEITO STICKY NA BARRA DE NAVEGAÇÃO
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
       } else {
-        destinos.forEach(d => d.classList.remove('active'));
-        dest.classList.add('active');
+        navbar.classList.remove('scrolled');
       }
     });
-  });
 
-  // Botões dos planos exibem alerta ao clicar
-  const planButtons = document.querySelectorAll('.plan-btn');
-  planButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      alert('Em breve, você receberá um e-mail da nossa equipe.');
+    // 2. ANIMAÇÃO DE FADE-IN AO ROLAR A PÁGINA
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        } else {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
     });
+
+    // 3. Impede o comportamento padrão do formulário (apenas para demonstração)
+    const contactForm = document.querySelector('.contact-form');
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Obrigado pelo seu contato! Em breve retornaremos.');
+        contactForm.reset();
+    });
+
   });
 </script>
 
-<!-- Script do chat JivoSite para suporte -->
-<script src="//code.jivosite.com/widget/BDw3pW7s5f" async></script>
-
 </body>
 </html>
-</body></html>
