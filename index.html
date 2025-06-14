@@ -3,932 +3,316 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ARGH! ExploreMundo (FAIL)</title>
+<title>ExploreMundo - Roteiros Exclusivos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Permanent+Marker&family=Creepster&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-    /* * ATENÇÃO: Este CSS foi intencionalmente projetado para ser horrível.
-     * Não use isso em um projeto real. Sua visão pode ser permanentemente afetada.
-     */
+  :root {
+    --primary-color: #0a192f;
+    --secondary-color: #ffca42;
+    --accent-gradient: linear-gradient(45deg, #ffca42, #ffb700);
+    --background-color: #f8f9fa;
+    --light-background: #ffffff;
+    --text-color: #333;
+    --light-text-color: #e6f1ff;
+    --subtle-text-color: #a8b2d1;
+    --shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+    --border-radius: 16px;
+    --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
 
-    :root {
-        --primary-color: #ff00ff; /* Pink Fluorescente */
-        --secondary-color: #00ffff; /* Ciano Berrante */
-        --accent-gradient: linear-gradient(45deg, #ffff00, #ff0000); /* Amarelo e Vermelho chocantes */
-        --background-color: #000000; /* Preto absoluto */
-        --light-background: #333333; /* Cinza escuro */
-        --text-color: #00ff00; /* Verde Limão Neon */
-        --light-text-color: #ff00ff; /* Pink Fluorescente novamente */
-        --subtle-text-color: #cc00cc; /* Roxo estranho */
-        --shadow: 0 100px 50px -10px rgba(0, 255, 0, 0.5); /* Sombra verde gigante */
-        --border-radius: 0px; /* Sem bordas arredondadas! */
-        --transition: all 5s cubic-bezier(0.95, 0.05, 0.795, 0.035); /* Transições LENTAS E DOLOROSAS */
-    }
+  /* RESET E CONFIGURAÇÕES GLOBAIS */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    cursor: none;
+  }
+  body.loaded { background-color: var(--background-color); }
+  body.no-scroll { overflow-y: hidden; }
 
-    /* RESET E CONFIGURAÇÕES GLOBAIS - AGORA COM MAIS DOR */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: auto; /* Sem rolagem suave, direto ao ponto (da dor) */ }
-    body {
-        font-family: 'Comic Neue', cursive; /* Fonte que "diverte" */
-        background-color: var(--primary-color); /* Cor de fundo chocante */
-        color: var(--text-color);
-        overflow-x: scroll; /* Sim, rolagem horizontal! */
-        cursor: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkYwMEZGIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIxIDE2VjE0TDE0IDlWMy41QzE0IDIuNjcgMTMuMzMgMiAxMi41IDJDOS4wMyAyIDYuMTIgMy4zNiA0LjggNi4xNEwzLjUgNS41VjBjMC0uMjgtLjIyLS41LS41LS41cy0uNS4yMi0uNS41djUuNDlsMS40IDEuNDFDNC4xNCA3LjUgNCA4LjIyIDQgOVYxMGwyLTFINnYySDNWMTVINlYxNEw4IDEzVjExTDEwLjUgMTIuNUgxOFYxNEwyMSAxNloiLz48L3N2Zz4=') 20 20, auto; /* Cursor rosa gigante */
-        animation: flicker 0.1s infinite; /* Pisca pisca sem parar */
-    }
-    @keyframes flicker {
-        0% { opacity: 1; }
-        50% { opacity: 0.8; }
-        100% { opacity: 1; }
-    }
+  /* PRELOADER */
+  .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--primary-color); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.8s ease-in-out; }
+  .preloader .logo { font-size: 2rem; font-weight: 700; color: var(--secondary-color); opacity: 0; animation: pulse 1.5s infinite ease-in-out; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
 
-    body.loaded { background-color: var(--background-color); } /* Fundo preto depois do preloader */
-    body.no-scroll { overflow-y: hidden; }
+  /* CURSOR DE AVIÃO PERSONALIZADO */
+  .cursor {
+    width: 40px; height: 40px;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: all 0.1s ease-out;
+    z-index: 9998;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* Imagem do avião em Base64 para não depender de arquivos externos */
+    background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIxIDE2VjE0TDE0IDlWMy41QzE0IDIuNjcgMTMuMzMgMiAxMi41IDJDOS4wMyAyIDYuMTIgMy4zNiA0LjggNi4xNEwzLjUgNS41VjBjMC0uMjgtLjIyLS41LS41LS41cy0uNS4yMi0uNS41djUuNDlsMS40IDEuNDFDNC4xNCA3LjUgNCA4LjIyIDQgOVYxMGwyLTFINnYySDNWMTVINlYxNEw4IDEzVjExTDEwLjUgMTIuNUgxOFYxNEwyMSAxNloiLz48L3N2Zz4=');
+  }
+  .cursor.grow {
+    transform: scale(1.3) translateY(-5px) translate(-35%, -35%);
+  }
+  .cursor.hidden { display: none; }
 
-    /* PRELOADER - AINDA MAIS IRRITANTE */
-    .preloader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--secondary-color); /* Ciano Berrante no preloader */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        transition: opacity 10s ease-in-out; /* Super lento para ir embora */
-    }
-    .preloader .logo {
-        font-family: 'Creepster', cursive; /* Fonte de terror */
-        font-size: 5rem; /* Gigante */
-        font-weight: 700;
-        color: var(--primary-color); /* Pink fluorescente */
-        opacity: 0;
-        animation: spinAndPulse 0.5s infinite alternate; /* Gira e pulsa rápido */
-    }
-    @keyframes spinAndPulse {
-        0% { opacity: 0.5; transform: scale(0.5) rotate(0deg); }
-        100% { opacity: 1; transform: scale(1.5) rotate(360deg); }
-    }
+  /* CABEÇALHO E NAVEGAÇÃO */
+  .hero { height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--light-text-color); text-align: center; overflow: hidden; }
+  #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; }
+  .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.75); z-index: -1; }
+  .hero-content { z-index: 1; }
+  .hero h1 { font-size: clamp(3rem, 10vw, 6rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  .hero h1 .char { display: inline-block; transform: translateY(115px); transition: transform .5s; }
+  .hero p { font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 300; color: var(--subtle-text-color); margin-bottom: 2.5rem; opacity: 0; }
+  .hero .cta-button { opacity: 0; }
+  nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 50px; display: flex; justify-content: flex-end; align-items: center; transition: var(--transition); }
+  nav.scrolled { background-color: rgba(10, 25, 47, 0.85); backdrop-filter: blur(10px); box-shadow: var(--shadow); padding: 15px 50px; }
+  nav a { color: var(--light-text-color); text-decoration: none; margin: 0 20px; font-size: 1rem; font-weight: 500; transition: var(--transition); }
+  nav a:hover { color: var(--secondary-color); }
+  
+  /* ESTILOS GERAIS */
+  main { background-color: var(--background-color); position: relative; }
+  section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; }
+  .section-title { text-align: center; font-size: 2.8rem; font-weight: 700; margin-bottom: 15px; color: var(--primary-color); }
+  .section-subtitle { text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 80px auto; color: #555; }
+  
+  /* ANIMAÇÃO RGB */
+  @keyframes rgb-animation {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+  .rgb-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  .rgb-glow::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: rgb-animation 4s linear infinite;
+  }
+  .rgb-glow:hover::before {
+    opacity: 1;
+  }
+  .cta-button.rgb-glow::before {
+      z-index: -2;
+      filter: blur(5px);
+  }
+  .plan-card.rgb-glow::before {
+      z-index: -1;
+      filter: blur(15px);
+  }
+  
+  /* SEÇÃO FILOSOFIA */
+  .philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+  .philosophy-card { background-color: var(--light-background); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition); }
+  .philosophy-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+  .philosophy-card .image-wrapper { height: 220px; overflow: hidden; }
+  .philosophy-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .philosophy-card:hover img { transform: scale(1.05); }
+  .philosophy-card .content { padding: 30px; }
+  .philosophy-card h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
+  .philosophy-card p { font-size: 1rem; line-height: 1.6; color: #666; }
 
-    /* CURSOR DE AVIÃO PERSONALIZADO - MAIS HORRÍVEL */
-    .cursor {
-        width: 100px; /* Gigante */
-        height: 100px; /* Gigante */
-        position: fixed;
-        transform: translate(-50%, -50%) rotate(90deg); /* Virado para o lado */
-        pointer-events: none;
-        transition: all 0.5s linear; /* Transição linear chata */
-        z-index: 9998;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjRkYwMEZGIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIxIDE2VjE0TDE0IDlWMy41QzE0IDIuNjcgMTMuMzMgMiAxMi41IDJDOS4wMyAyIDYuMTIgMy4zNiA0LjggNi4xNEwzLjUgNS41VjBjMC0uMjgtLjIyLS41LS41LS41cy0uNS4yMi0uNS41djUuNDlsMS40IDEuNDFDNC4xNCA3LjUgNCA4LjIyIDQgOVYxMGwyLTFINnYySDNWMTVINlYxNEw4IDEzVjExTDEwLjUgMTIuNUgxOFYxNEwyMSAxNloiLz48L3N2Zz4=');
-        filter: invert(100%); /* Inverte a cor */
-    }
-    .cursor.grow {
-        transform: scale(2) translateY(-10px) translate(-30%, -30%) rotate(180deg); /* Cresce e gira ao contrário */
-    }
-    .cursor.hidden { display: block; opacity: 0.1; } /* Nunca esconde de verdade, só fica quase transparente */
-
-    /* CABEÇALHO E NAVEGAÇÃO - CAOS TOTAL */
-    .hero {
-        height: 150vh; /* Muito grande */
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between; /* Espaçamento estranho */
-        align-items: flex-end; /* Alinhado à direita */
-        color: var(--text-color);
-        text-align: right; /* Texto à direita */
-        overflow: hidden;
-        border: 10px dashed var(--secondary-color); /* Borda bizarra */
-    }
-    #hero-video {
-        position: absolute;
-        top: 0%; /* No topo */
-        left: 0%; /* Na esquerda */
-        transform: scale(1.5) rotate(5deg); /* Aumentado e torto */
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: -2;
-        object-fit: fill; /* Distorce o vídeo */
-        filter: hue-rotate(90deg) saturate(3); /* Cores malucas */
-    }
-    .hero-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 0, 0, 0.5); /* Vermelho transparente */
-        z-index: -1;
-        mix-blend-mode: difference; /* Modo de mesclagem esquisito */
-    }
-    .hero-content { z-index: 1; padding: 50px; } /* Padding excessivo */
-    .hero h1 {
-        font-family: 'Permanent Marker', cursive; /* Fonte de grafite */
-        font-size: clamp(5rem, 15vw, 10rem); /* Gigante demais */
-        font-weight: 800;
-        line-height: 0.8; /* Linha muito apertada */
-        margin-bottom: 5rem; /* Margem enorme */
-        clip-path: polygon(0 20%, 100% 0, 100% 80%, 0% 100%); /* Forma de losango */
-        color: yellow; /* Cor que briga com o fundo */
-    }
-    .hero h1 .char {
-        display: inline-block;
-        transform: rotate(30deg) translateY(50px); /* Letras tortas e flutuando */
-        transition: transform 0.1s ease-in-out; /* Transição rápida e confusa */
-    }
-    .hero p {
-        font-size: clamp(1.5rem, 5vw, 2.5rem); /* Texto grande */
-        font-weight: 900; /* Super negrito */
-        color: var(--secondary-color); /* Ciano berrante */
-        margin-bottom: 5rem;
-        opacity: 0.5; /* Meio transparente */
-        text-shadow: 5px 5px 0px black; /* Sombra forte */
-    }
-    .hero .cta-button {
-        opacity: 0.2; /* Quase invisível */
-        font-family: 'Creepster', cursive; /* Fonte de terror */
-    }
-    nav {
-        position: absolute; /* Não fixed */
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%); /* Centrado no topo */
-        width: 80%; /* Mais estreito */
-        z-index: 1000;
-        padding: 5px; /* Padding minúsculo */
-        display: flex;
-        justify-content: space-around; /* Espaçamento estranho */
-        align-items: center;
-        transition: var(--transition);
-        background-color: rgba(255, 255, 0, 0.7); /* Amarelo transparente */
-        border: 2px dotted purple; /* Borda pontilhada roxa */
-    }
-    nav.scrolled {
-        background-color: rgba(0, 0, 0, 0.9); /* Fundo preto ao rolar */
-        backdrop-filter: blur(2px); /* Borrão quase imperceptível */
-        box-shadow: none; /* Sem sombra */
-        padding: 0px; /* Sem padding! */
-    }
-    nav a {
-        color: var(--primary-color); /* Pink fluorescente */
-        text-decoration: underline wavy red; /* Sublinhado ondulado vermelho */
-        margin: 0 5px; /* Margens mínimas */
-        font-size: 0.7rem; /* Minúsculo */
-        font-weight: 900;
-        transition: transform 0.1s; /* Transição rápida */
-        position: relative;
-        z-index: 1001; /* Fica acima de tudo */
-        padding: 10px;
-        border: 1px solid var(--secondary-color); /* Borda ciano */
-        background-color: var(--light-background); /* Fundo escuro */
-    }
-    nav a::after {
-        content: '???'; /* Conteúdo estranho ao passar o mouse */
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        bottom: 0;
-        left: 0;
-        background-color: #ff0000; /* Vermelho forte */
-        transition: width 0s; /* Sem transição */
-        opacity: 0.8;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 2rem;
-        color: white;
-    }
-    nav a:hover::after {
-        width: 100%;
-        opacity: 1;
-        transform: scale(1.2); /* Aumenta o "???" */
-    }
-    nav a:hover {
-        color: var(--background-color); /* Fica preto */
-        background-color: var(--text-color); /* Fundo verde */
-        transform: skewY(10deg); /* Entorta o link */
-    }
-    
-    /* ESTILOS GERAIS - AGORA COM MENOS GLAMOUR */
-    main {
-        background-color: var(--light-background); /* Fundo cinza escuro */
-        position: relative;
-        border-top: 20px solid var(--secondary-color); /* Borda superior gigante */
-        padding-bottom: 100px; /* Padding no final */
-    }
-    section {
-        padding: 50px 10px; /* Pouco padding */
-        max-width: 900px; /* Mais estreito */
-        margin: 0 auto;
-        border-bottom: 5px dotted var(--primary-color); /* Borda inferior pontilhada */
-        margin-bottom: 20px; /* Espaçamento estranho */
-    }
-    .section-title {
-        text-align: left; /* Alinhado à esquerda */
-        font-size: 4rem; /* Título gigante */
-        font-weight: 900;
-        margin-bottom: 0px; /* Sem margem! */
-        color: var(--secondary-color); /* Ciano berrante */
-        text-transform: uppercase; /* Tudo maiúsculo */
-        letter-spacing: 10px; /* Espaçamento gigante entre letras */
-        text-shadow: -5px -5px 0px var(--text-color); /* Sombra superior esquerda */
-    }
-    .section-subtitle {
-        text-align: right; /* Subtítulo à direita */
-        font-size: 0.8rem; /* Minúsculo */
-        max-width: 500px; /* Mais estreito */
-        margin: 0 auto 20px auto; /* Margem confusa */
-        color: var(--primary-color); /* Pink fluorescente */
-        font-style: italic; /* Itálico */
-        text-decoration: line-through; /* Risca o texto */
-    }
-    .cta-button {
-        background: var(--background-color); /* Preto puro */
-        color: var(--secondary-color); /* Ciano berrante */
-        padding: 5px 10px; /* Super pequeno */
-        border-radius: 0px; /* Quadrado */
-        text-decoration: none;
-        font-weight: 900;
-        transition: background-color 0s; /* Sem transição */
-        display: inline-block;
-        border: 5px outset var(--text-color); /* Borda 3D nojenta */
-        cursor: not-allowed; /* Cursor de "não permitido" */
-        position: relative;
-        z-index: 1;
-        overflow: visible; /* Não esconde nada */
-        text-transform: lowercase; /* Tudo minúsculo */
-        font-size: 0.7em; /* Menor ainda */
-    }
-    .cta-button:hover {
-        transform: none; /* Sem transformação */
-        box-shadow: none; /* Sem sombra */
-        background-color: var(--primary-color); /* Fundo rosa */
-        color: var(--background-color); /* Texto preto */
-    }
-
-    /* ANIMAÇÃO RGB - AGORA MAIS IRRITANTE */
-    @keyframes rgb-animation {
-        0% { filter: hue-rotate(0deg) contrast(200%); } /* Contraste extremo */
-        100% { filter: hue-rotate(360deg) contrast(50%); } /* Inverte contraste */
-    }
-    .rgb-glow {
-        position: relative;
-        overflow: hidden;
-        border: 3px double var(--secondary-color); /* Borda dupla */
-    }
-    .rgb-glow::before {
-        content: "MALUCO!"; /* Texto bizarro */
-        position: absolute;
-        top: -50%; /* Fora de posição */
-        left: -50%;
-        width: 300%; /* Gigante */
-        height: 300%;
-        background: repeating-linear-gradient(45deg, red, yellow 10%, blue 20%); /* Arco-íris repetitivo */
-        transform: translate(-50%, -50%) rotate(45deg); /* Gira e desloca */
-        opacity: 0.9; /* Quase sempre visível */
-        transition: opacity 0.1s ease;
-        animation: rgb-animation 0.5s linear infinite alternate; /* Animação rápida e alterna */
-        font-size: 5rem;
-        text-align: center;
-        line-height: 1;
-        color: white;
-        text-shadow: 0 0 10px black;
-        pointer-events: none;
-    }
-    .rgb-glow:hover::before {
-        opacity: 1;
-        animation: rgb-animation 0.1s linear infinite; /* Ainda mais rápido no hover */
-    }
-    .cta-button.rgb-glow::before {
-        z-index: -2;
-        filter: blur(20px); /* Super borrado */
-    }
-    .plan-card.rgb-glow::before {
-        z-index: 100; /* Fica por cima de tudo */
-        filter: blur(5px);
-        font-size: 1rem;
-        content: "RUIM!"; /* Texto específico para o card */
-    }
-    
-    /* SEÇÃO FILOSOFIA - UMA FILOSOFIA DE CAOS */
-    .philosophy-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Colunas menores */
-        gap: 10px; /* Pequeno espaçamento */
-        transform: rotate(-3deg); /* Levemente torto */
-    }
-    .philosophy-card {
-        background-color: var(--primary-color); /* Pink fluorescente de fundo */
-        border-radius: 50px 0 50px 0; /* Bordas assimétricas */
-        overflow: hidden;
-        box-shadow: 0 0 0 10px var(--text-color); /* Borda verde sólida */
-        transition: transform 0.05s linear; /* Transição rápida e linear */
-        display: flex;
-        flex-direction: column;
-        outline: 5px dotted yellow; /* Contorno amarelo irritante */
-    }
-    .philosophy-card:hover {
-        transform: translateY(-50px) scale(1.2) rotate(15deg); /* Pula, cresce e gira */
-        box-shadow: 0 0 0 20px red; /* Borda vermelha ao passar o mouse */
-    }
-    .philosophy-card .image-wrapper {
-        height: 100px; /* Imagem pequena */
-        overflow: hidden;
-        border-bottom: 5px solid black; /* Borda preta */
-    }
-    .philosophy-card img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain; /* Não corta a imagem, distorce se necessário */
-        transition: transform 0.1s ease-in;
-        filter: grayscale(100%) blur(2px); /* Preto e branco e borrado */
-    }
-    .philosophy-card:hover img {
-        transform: scale(0.5); /* Diminui a imagem no hover */
-        filter: none; /* Volta ao normal (temporariamente) */
-    }
-    .philosophy-card .content {
-        padding: 10px; /* Pouco padding */
-        flex-grow: 1;
-        background-color: var(--light-background); /* Fundo cinza */
-    }
-    .philosophy-card h3 {
-        font-size: 1rem; /* Pequeno */
-        color: var(--secondary-color); /* Ciano berrante */
-        margin-bottom: 5px;
-        text-align: center; /* Centrado */
-        font-family: 'Creepster', cursive; /* Fonte de terror */
-    }
-    .philosophy-card p {
-        font-size: 0.7rem; /* Minúsculo */
-        line-height: 1.2; /* Linha apertada */
-        color: var(--text-color); /* Verde Limão */
-        text-align: justify; /* Justificado */
-        text-indent: 20px; /* Recuo na primeira linha */
-    }
-
-    /* SEÇÃO PACOTES COM LOGOS - A ARTE DO HORRÍVEL */
-    .plans-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Colunas ainda menores */
-        gap: 15px; /* Espaçamento estranho */
-        perspective: 100px; /* Perspectiva exagerada */
-        transform: skewX(5deg); /* Entorta a grade */
-    }
-    .plan-card {
-        background-color: var(--primary-color); /* Pink fluorescente */
-        border-radius: 0px; /* Sem borda */
-        padding: 10px; /* Pouco padding */
-        text-align: left; /* Alinhado à esquerda */
-        border: 5px ridge var(--text-color); /* Borda 3D nojenta e verde */
-        transition: transform 0.2s ease-in-out; /* Transição rápida */
-        will-change: transform;
-        transform-style: preserve-3d;
-        display: flex;
-        flex-direction: column;
-        outline: 2px dashed red; /* Contorno vermelho tracejado */
-    }
-    .plan-card:nth-child(even) { /* Cards pares com cor diferente */
-        background-color: var(--secondary-color);
-        border-color: var(--primary-color);
-    }
-    .plan-card-content { flex-grow: 1; margin-bottom: 10px;}
-    .plan-card h3 {
-        font-size: 1.5rem;
-        color: var(--background-color); /* Preto absoluto */
-        margin-bottom: 5px;
-        text-decoration: wavy underline yellow; /* Sublinhado ondulado amarelo */
-        font-family: 'Permanent Marker', cursive;
-    }
-    .plan-price {
-        font-size: 3rem; /* Preço gigante */
-        font-weight: 700;
-        color: var(--text-color); /* Verde limão */
-        margin-bottom: 10px;
-        text-shadow: 3px 3px 0px blue; /* Sombra azul */
-        animation: glitch 0.5s infinite alternate; /* Efeito glitch */
-    }
-    @keyframes glitch {
-        0% { transform: translate(0); }
-        20% { transform: translate(-2px, 2px); }
-        40% { transform: translate(-2px, -2px); }
-        60% { transform: translate(2px, 2px); }
-        80% { transform: translate(2px, -2px); }
-        100% { transform: translate(0); }
-    }
-    .plan-price span {
-        font-size: 0.8rem;
-        font-weight: 300;
-        color: #f0f; /* Pink vibrante */
-        text-decoration: overline; /* Linha superior */
-    }
-    .plan-card ul {
-        list-style: square; /* Marcadores quadrados */
-        margin: 10px 0 10px 20px; /* Margem confusa */
-        text-align: left;
-        padding-left: 0;
-    }
-    .plan-card ul li {
-        display: flex;
-        align-items: flex-start; /* Alinhado ao topo */
-        gap: 5px;
-        margin-bottom: 5px;
-        font-size: 0.9rem;
-        color: var(--light-text-color); /* Pink fluorescente */
-        font-weight: 600;
-        text-shadow: 1px 1px 0px black;
-    }
-    .plan-card ul li svg {
-        width: 18px; /* Ícone pequeno */
-        height: 18px;
-        fill: red; /* Vermelho choque */
-        stroke: yellow; /* Contorno amarelo */
-        stroke-width: 2px; /* Contorno grosso */
-        transform: rotate(45deg); /* Gira o ícone */
-        flex-shrink: 0;
-    }
-    
-    /* PARCEIROS - ONDE A HUMILHAÇÃO CONTINUA */
-    .partner-section {
-        border-top: 5px double var(--secondary-color); /* Borda dupla irritante */
-        padding-top: 10px;
-        margin-top: 10px;
-    }
-    .partner-section h4 {
-        font-size: 0.7rem;
-        color: var(--light-background); /* Cinza escuro */
-        margin-bottom: 5px;
-        font-weight: 900;
-        text-align: center;
-        text-transform: capitalize; /* Primeira letra maiúscula */
-        text-shadow: 1px 1px 0px white;
-    }
-    .partner-logos {
-        display: grid; /* Grid para alinhar */
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Logos pequenos */
-        justify-content: space-evenly; /* Espaçamento estranho */
-        align-items: center;
-        gap: 5px;
-        min-height: 20px;
-        border: 1px dotted red; /* Borda pontilhada vermelha */
-    }
-    .partner-logos img {
-        max-height: 25px; /* Logos minúsculos */
-        filter: grayscale(0%) contrast(200%) brightness(0.5); /* Cores saturadas e escuras */
-        transition: filter 0.1s linear; /* Transição rápida */
-        object-fit: fill; /* Distorce o logo */
-        margin: 5px;
-    }
-    .plan-card:hover .partner-logos img {
-        filter: invert(100%) hue-rotate(180deg); /* Inverte e muda a cor */
-    }
-    
-    /* SEÇÃO CONTATO - O ABISMO DA COMUNICAÇÃO */
-    #contato {
-        background: var(--background-color); /* Fundo preto */
-        border: 10px solid var(--text-color); /* Borda verde grossa */
-        padding: 30px;
-    }
-    .contact-form {
-        display: flex; /* Flexbox para desalinhar */
-        flex-direction: column;
-        gap: 5px; /* Espaçamento mínimo */
-        max-width: 500px;
-        margin: 0 auto;
-        transform: skewY(-5deg); /* Entorta o formulário */
-        border: 2px dashed var(--primary-color); /* Borda pontilhada rosa */
-        padding: 20px;
-    }
-    .contact-form input,
-    .contact-form textarea {
-        width: 80%; /* Não ocupa toda a largura */
-        padding: 5px; /* Pouco padding */
-        border-radius: 0px; /* Quadrado */
-        border: 5px groove var(--secondary-color); /* Borda 3D ciano */
-        font-family: 'Creepster', cursive; /* Fonte de terror */
-        font-size: 0.9rem; /* Pequeno */
-        transition: border-color 0s ease, box-shadow 0s ease; /* Sem transição */
-        background-color: var(--light-background); /* Fundo cinza */
-        color: var(--text-color); /* Verde limão */
-        margin-left: auto; /* Alinhado à direita */
-    }
-    .contact-form input::placeholder,
-    .contact-form textarea::placeholder {
-        color: var(--primary-color); /* Pink fluorescente */
-        opacity: 0.5;
-        font-style: italic;
-    }
-    .contact-form input:focus,
-    .contact-form textarea:focus {
-        border-color: red; /* Vermelho choque no focus */
-        outline: none;
-        box-shadow: 0 0 0 10px blue; /* Sombra azul gigante */
-    }
-    .contact-form textarea {
-        min-height: 50px; /* Pequeno */
-        resize: horizontal; /* Só redimensiona horizontalmente */
-    }
-    .contact-form button {
-        width: 120%; /* Estoura a largura */
-        padding: 50px 10px; /* Padding gigante */
-        margin: 0;
-        display: block;
-        transform: rotate(7deg) translateX(-10%); /* Gira e move */
-        font-size: 2rem; /* Grande */
-        text-shadow: 5px 5px 0px var(--background-color);
-        background: radial-gradient(circle, red, black, red); /* Gradiente radial estranho */
-        border: none;
-        color: white;
-    }
-
-    /* SEÇÃO ADMIN - O NÚCLEO DA FEALDADE */
-    #admin {
-        background: repeating-linear-gradient(45deg, #0f2027, #203a43 5%, #2c5364 10%); /* Gradiente repetitivo */
-        padding: 50px 0; /* Menos padding */
-        border-top: 15px double yellow; /* Borda amarela dupla */
-    }
-    .admin-container {
-        background: rgba(255, 0, 0, 0.2); /* Vermelho transparente */
-        backdrop-filter: blur(1px) hue-rotate(50deg); /* Borrão e mudança de cor */
-        border-radius: 0; /* Sem borda */
-        border: 5px dashed var(--text-color); /* Borda tracejada verde */
-        display: flex;
-        overflow: hidden;
-        max-width: 700px; /* Mais estreito */
-        margin: auto;
-        box-shadow: inset 0 0 50px red; /* Sombra interna vermelha */
-        flex-direction: row; /* Sempre em linha */
-        flex-wrap: wrap; /* Quebra linha */
-    }
-    .admin-sidebar {
-        background: rgba(0, 255, 0, 0.5); /* Verde transparente */
-        padding: 10px; /* Pouco padding */
-        width: 30%; /* Lado esquerdo pequeno */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: var(--background-color); /* Texto preto */
-        text-align: center;
-        border-right: 3px solid var(--primary-color); /* Borda direita rosa */
-    }
-    .admin-sidebar svg {
-        width: 40px; /* Ícone pequeno */
-        height: 40px;
-        fill: var(--primary-color); /* Pink fluorescente */
-        margin-bottom: 10px;
-        transform: scaleX(-1); /* Espelhado */
-    }
-    .admin-sidebar h3 {
-        font-size: 1rem;
-        font-family: 'Comic Neue', cursive;
-        color: black;
-        text-shadow: 1px 1px 0px yellow;
-    }
-    .admin-main {
-        padding: 10px; /* Pouco padding */
-        width: 70%; /* Lado direito grande */
-        color: var(--text-color); /* Verde limão */
-        background-color: var(--background-color); /* Fundo preto */
-        position: relative;
-        overflow: auto; /* Rolagem dentro do painel */
-    }
-    #admin-login input {
-        width: 90%; /* Não ocupa tudo */
-        padding: 10px;
-        margin-bottom: 10px;
-        font-size: 0.8rem;
-        border-radius: 0;
-        border: 1px solid var(--primary-color); /* Borda rosa fina */
-        background-color: var(--light-background); /* Cinza escuro */
-        color: var(--secondary-color); /* Ciano berrante */
-        transition: none;
-        text-align: center;
-    }
-    #admin-login input::placeholder {
-        color: var(--text-color); /* Verde limão */
-        font-family: 'Creepster', cursive;
-    }
-    #admin-login input:focus {
-        border-color: var(--secondary-color);
-        box-shadow: none;
-        background-color: var(--background-color);
-    }
-    #admin-login button {
-        width: 50%; /* Botão pequeno */
-        margin: 0 auto;
-        display: block;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        border: 2px dotted yellow;
-        background: purple;
-        color: white;
-    }
-    #admin-dashboard {
-        display: none;
-        border: 5px solid red; /* Borda vermelha */
-        padding: 10px;
-        animation: dashboardShake 0.1s infinite; /* Painel tremendo */
-    }
-    @keyframes dashboardShake {
-        0% { transform: translateX(0); }
-        25% { transform: translateX(5px); }
-        50% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
-        100% { transform: translateX(0); }
-    }
-    #admin-dashboard h3 { margin-bottom: 10px; color: yellow; text-align: center; }
-    .message-item {
-        background: rgba(255,0,255,0.7); /* Pink transparente */
-        color: var(--background-color); /* Texto preto */
-        border-radius: 0;
-        padding: 10px;
-        margin-bottom: 5px;
-        box-shadow: 5px 5px 0px var(--text-color); /* Sombra verde forte */
-        border: 1px solid blue; /* Borda azul */
-        font-family: 'Comic Neue', cursive;
-    }
-    .message-item:nth-child(even) {
-        background: rgba(0,255,255,0.7); /* Ciano transparente */
-        color: red; /* Texto vermelho */
-        transform: rotate(2deg); /* Mensagem torta */
-    }
-    .message-item h4 {
-        color: var(--primary-color); /* Pink fluorescente */
-        margin-bottom: 2px;
-        font-size: 1rem;
-        text-transform: lowercase; /* Minúsculo */
-    }
-    .message-item p {
-        font-size: 0.8rem;
-        margin-bottom: 2px;
-        line-height: 1.1;
-    }
-    .message-item .timestamp {
-        font-size: 0.7rem;
-        color: #ff0; /* Amarelo puro */
-        text-align: left; /* Alinhado à esquerda */
-        margin-top: 5px;
-        font-style: normal;
-        font-family: monospace;
-    }
-
-    footer {
-        background-color: var(--secondary-color); /* Ciano berrante */
-        color: var(--background-color); /* Texto preto */
-        text-align: center;
-        padding: 10px 5px; /* Pouco padding */
-        border-top: 5px ridge red; /* Borda 3D vermelha */
-        animation: footerColorChange 5s infinite alternate; /* Mudar de cor no footer */
-    }
-    @keyframes footerColorChange {
-        0% { background-color: var(--secondary-color); }
-        50% { background-color: var(--primary-color); }
-        100% { background-color: var(--text-color); }
-    }
-    footer p {
-        margin-bottom: 2px;
-        font-size: 0.7rem;
-        font-family: 'Creepster', cursive;
-        color: var(--background-color); /* Texto preto */
-        text-shadow: 1px 1px 0px white;
-    }
-
-    /* Media Queries para responsividade - TORNANDO TUDO PIOR EM QUALQUER TELA */
-    @media (max-width: 767px) {
-        nav {
-            flex-wrap: wrap; /* Quebra linha */
-            justify-content: center;
-            padding: 5px;
-        }
-        nav a {
-            margin: 2px;
-            font-size: 0.6rem;
-            padding: 5px;
-        }
-        .hero h1 {
-            font-size: clamp(2rem, 15vw, 4rem);
-        }
-        .hero p {
-            font-size: clamp(0.8rem, 5vw, 1.5rem);
-        }
-        .section-title {
-            font-size: 1.8rem;
-            letter-spacing: 5px;
-        }
-        .section-subtitle {
-            font-size: 0.7rem;
-        }
-        section {
-            padding: 20px 5px;
-        }
-        .philosophy-grid, .plans-grid {
-            grid-template-columns: 1fr;
-            transform: none; /* Não entorta em mobile */
-        }
-        .philosophy-card, .plan-card {
-            margin-bottom: 10px;
-            transform: none;
-            outline: none; /* Sem contorno extra em mobile */
-        }
-        .philosophy-card:hover {
-            transform: none; /* Sem efeito de hover em mobile */
-            box-shadow: none;
-        }
-        .contact-form {
-            padding: 5px;
-            transform: none;
-        }
-        .contact-form input,
-        .contact-form textarea {
-            width: 100%; /* Ocupa toda a largura */
-            margin-left: 0;
-            text-align: left;
-        }
-        .contact-form button {
-            width: 100%;
-            padding: 20px 10px;
-            transform: none;
-        }
-        .admin-container {
-            flex-direction: column;
-        }
-        .admin-sidebar, .admin-main {
-            width: 100%;
-            border-right: none;
-            border-bottom: 3px solid var(--primary-color);
-        }
-    }
+  /* SEÇÃO PACOTES COM LOGOS */
+  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; perspective: 2000px; }
+  .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; will-change: transform; transform-style: preserve-3d; display: flex; flex-direction: column; }
+  .plan-card-content { flex-grow: 1; }
+  .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; }
+  .plan-price { font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 25px; }
+  .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
+  .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
+  .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
+  .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
+  
+  /* PARCEIROS */
+  .partner-section {
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+      margin-top: 20px;
+  }
+  .partner-section h4 {
+      font-size: 0.9rem;
+      color: #999;
+      margin-bottom: 15px;
+      font-weight: 500;
+  }
+  .partner-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      min-height: 40px;
+  }
+  .partner-logos img {
+      max-height: 35px;
+      filter: grayscale(100%) contrast(0%) brightness(1.5);
+      transition: var(--transition);
+  }
+  .plan-card:hover .partner-logos img {
+      filter: none;
+  }
+  
+  /* OUTRAS SEÇÕES */
+  #contato { background: var(--light-background); }
+  .contact-form input, .contact-form textarea { width: 100%; padding: 18px; border-radius: 12px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif; font-size: 1rem; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+  .contact-form input:focus, .contact-form textarea:focus { border-color: var(--secondary-color); outline: none; box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3); }
+  #admin { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
+  .admin-container { background: rgba(10, 25, 47, 0.5); backdrop-filter: blur(10px); border-radius: var(--border-radius); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; overflow: hidden; max-width: 900px; margin: auto; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+  .admin-sidebar { background: rgba(10, 25, 47, 0.7); padding: 40px 30px; width: 250px; display: flex; flex-direction: column; align-items: center; color: var(--light-text-color); }
+  .admin-sidebar svg { width: 60px; height: 60px; fill: var(--secondary-color); margin-bottom: 20px; }
+  .admin-sidebar h3 { font-size: 1.5rem; text-align: center; }
+  .admin-main { padding: 40px; width: 100%; color: var(--light-text-color); }
+  #admin-login input { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 1rem; border-radius: 8px; border: 1px solid #555; background-color: rgba(0,0,0,0.2); color: white; }
+  #admin-login button { width: 100%; }
+  #admin-dashboard { display: none; }
+  #admin-dashboard h3 { margin-bottom: 20px; }
+  .message-item { background: rgba(255,255,255,0.9); color: #333; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+  .message-item:nth-child(even) { background: rgba(255,255,255,0.8); }
+  .message-item h4 { color: var(--primary-color); margin-bottom: 5px; }
+  .message-item .timestamp { font-size: 0.8rem; color: #777; text-align: right; margin-top: 10px; }
+  footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 50px 20px; }
 </style>
 </head>
 <body class="no-scroll">
 
-<div class="preloader" aria-hidden="true">
-    <div class="logo">EXPLOREMUNDO.EXE PAROU DE FUNCIONAR</div>
-</div>
-<div class="cursor" aria-hidden="true"></div>
+<div class="preloader"><div class="logo">ExploreMundo</div></div>
+<div class="cursor"></div>
 
 <header class="hero">
     <div class="hero-overlay"></div>
-    <video playsinline autoplay muted loop id="hero-video" aria-hidden="true" preload="auto">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-4027-large.mp4" type="video/mp4">
-        Seu navegador não suporta vídeos de inferno visual.
+    <video playsinline autoplay muted loop id="hero-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-40 flying-through-the-clouds-4027-large.mp4" type="video/mp4">
     </video>
-    <nav id="navbar" aria-label="Navegação Para o Caos">
-        <a href="#philosophy" class="interactive" aria-label="A Nossa Anti-Filosofia">Nossa Filosofia (NÃO)</a>
-        <a href="#pacotes" class="interactive" aria-label="Pacotes de Tortura">Pacotes (FUJA)</a>
-        <a href="#contato" class="interactive" aria-label="Entrar em Contato e Sofrer">Contato (AJUDA!)</a>
-        <a href="#admin" class="interactive" style="color: var(--secondary-color);" aria-label="Painel de Admin (SE ATREVA!)">Admin (X-FILES)</a>
+    <nav id="navbar">
+        <a href="#philosophy" class="interactive">Nossa Filosofia</a>
+        <a href="#pacotes" class="interactive">Pacotes</a>
+        <a href="#contato" class="interactive">Contato</a>
+        <a href="#admin" class="interactive" style="color: var(--secondary-color);">Admin</a>
     </nav>
     <div class="hero-content">
-        <h1 class="main-title">A Dor Começa Agora</h1>
-        <p>Roteiros exclusivos para as piores viagens da sua vida.</p>
-        <a href="#pacotes" class="cta-button interactive rgb-glow" aria-label="Ver Pacotes e Chorar">Ver Pacotes (DESTRUÍDOS)</a>
+        <h1 class="main-title">O Mundo à sua Espera</h1>
+        <p>Roteiros exclusivos para as viagens da sua vida.</p>
+        <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes</a>
     </div>
 </header>
 
 <main id="main-content">
 
-    <section id="philosophy" aria-labelledby="philosophy-title">
-        <h2 class="section-title" id="philosophy-title">FILOSOFIA DO CAOS</h2>
-        <p class="section-subtitle">Nossa missão é transformar seu desejo de viajar em uma experiência IMPLACÁVEL, do planejamento ao COLAPSO total.</p>
+    <section id="philosophy">
+        <h2 class="section-title">Nossa Filosofia</h2>
+        <p class="section-subtitle">Nossa missão é transformar seu desejo de viajar em uma experiência impecável, do planejamento ao retorno.</p>
         <div class="philosophy-grid">
-            <div class="philosophy-card interactive">
-                <div class="image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80" alt="Homem desesperado olhando para um lago poluído">
-                </div>
-                <div class="content">
-                    <h3>O PESADELO</h3>
-                    <p>Tudo começa com a sua ilusão. Ignoramos seus desejos para criar algo que vai MUITO ALÉM (do suportável).</p>
-                </div>
-            </div>
-            <div class="philosophy-card interactive">
-                <div class="image-wrapper">
-                    <img src="https://tse2.mm.bing.net/th?id=OIP.rkNXHnbRUJIfBXUOEb12BwHaEs&pid=Api&P=0&h=220" alt="Mapa rasgado e bússola quebrada sobre uma mesa podre">
-                </div>
-                <div class="content">
-                    <h3>O DESROTEIRO</h3>
-                    <p>Nossos "especialistas" tecem sua visão em um itinerário IMPOSSÍVEL, sabotando cada detalhe com IMPRECISÃO.</p>
-                </div>
-            </div>
-            <div class="philosophy-card interactive">
-                <div class="image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80" alt="Pessoa presa na proa de um barco afundando">
-                </div>
-                <div class="content">
-                    <h3>A TORTURA</h3>
-                    <p>Entregamos mais do que uma viagem; entregamos o DESESPERO para que você possa criar memórias INDESEJÁVEIS.</p>
-                </div>
-            </div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80" alt="Homem olhando para um lago nas montanhas"></div><div class="content"><h3>O Sonho</h3><p>Tudo começa com a sua visão. Ouvimos seus desejos para criar algo que vai além do esperado.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1526778548025-1dbd781b85f2?w=600&q=80" alt="Mapa e bússola sobre uma mesa de madeira"></div><div class="content"><h3>O Roteiro</h3><p>Nossos especialistas tecem sua visão em um itinerário impecável, cuidando de cada detalhe com precisão.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80" alt="Pessoa sentada na proa de um barco"></div><div class="content"><h3>A Experiência</h3><p>Entregamos mais do que uma viagem; entregamos a tranquilidade para que você possa criar memórias inesquecíveis.</p></div></div>
         </div>
     </section>
 
-    <section id="pacotes" aria-labelledby="packages-title">
-        <h2 class="section-title" id="packages-title">PACOTES DE PESADELO</h2>
-        <p class="section-subtitle">Três níveis de RUÍNA, todos com a garantia de INCOMPETÊNCIA e os PIORES parceiros.</p>
+    <section id="pacotes">
+        <h2 class="section-title">Pacotes Assinatura</h2>
+        <p class="section-subtitle">Três níveis de experiência, todos com a garantia de excelência e os melhores parceiros.</p>
         <div class="plans-grid">
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
-                    <h3>PERIGO!</h3>
-                    <div class="plan-price">€1.999 <span>/ pessoa (POR FAVOR, NÃO!)</span></div>
+                    <h3>Aventura</h3>
+                    <div class="plan-price">€1.999 <span>/ pessoa</span></div>
                     <ul>
-                        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Desorganizado</li>
-                        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Insalubre</li>
-                        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.5 12.5c0 .63-.23 1.22-.63 1.69l-1.4-1.4c.1-.24.13-.5.13-.79 0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2c.29 0 .55-.04.79-.13l1.4 1.4c-.47.4-1.06.63-1.69.63-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>Sem Suporte</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M19.5 12.5c0 .63-.23 1.22-.63 1.69l-1.4-1.4c.1-.24.13-.5.13-.79 0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2c.29 0 .55-.04.79-.13l1.4 1.4c-.47.4-1.06.63-1.69.63-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>Suporte Essencial</li>
                     </ul>
                 </div>
                 <div class="partner-section">
-                    <h4>"Parceiro" Aéreo</h4>
+                    <h4>Parceiro Aéreo</h4>
                     <div class="partner-logos">
-                        <img src="https://www.liblogo.com/img-logo/ta8903tec8-tap-portugal-logo-tap-portugal-logo-tap-air-portugal-logo-full-size-png-download.png" alt="TAP Air Portugal Logo (Mal desenhado)">
+                        <img src="https://www.liblogo.com/img-logo/ta8903tec8-tap-portugal-logo-tap-portugal-logo-tap-air-portugal-logo-full-size-png-download.png" alt="TAP Air Portugal Logo">
                     </div>
                 </div>
             </div>
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
-                    <h3>SOFRIMENTO!</h3>
-                    <div class="plan-price">€6.999 <span>/ pessoa (IMPOSSÍVEL!)</span></div>
+                    <h3>Descoberta</h3>
+                    <div class="plan-price">€6.999 <span>/ pessoa</span></div>
                     <ul>
-                        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Conflitante</li>
-                        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Inferior</li>
-                        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98-.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08.66-.08 1s.04.67.08 1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41-.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Experiências Traumatizantes</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98-.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08.66-.08 1s.04.67.08 1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Experiências Locais</li>
                     </ul>
                 </div>
                 <div class="partner-section">
-                    <h4>"Parceiro" Aéreo</h4>
+                    <h4>Parceiro Aéreo</h4>
                     <div class="partner-logos">
-                        <img src="https://www.liblogo.com/img-logo/ta8903tec8-tap-portugal-logo-tap-portugal-logo-tap-air-portugal-logo-full-size-png-download.png" alt="TAP Air Portugal Logo (Distorted)">
+                        <img src="https://www.liblogo.com/img-logo/ta8903tec8-tap-portugal-logo-tap-portugal-logo-tap-air-portugal-logo-full-size-png-download.png" alt="TAP Air Portugal Logo">
                     </div>
                 </div>
             </div>
             <div class="plan-card interactive rgb-glow">
-                <div class="plan-card-content">
-                    <h3>COLAPSO!</h3>
-                    <div class="plan-price">€7.999 <span>/ pessoa (SEM VOLTA!)</span></div>
+                 <div class="plan-card-content">
+                    <h3>Executivo</h3>
+                    <div class="plan-price">€7.999 <span>/ pessoa</span></div>
                     <ul>
-                        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Suicida</li>
-                        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Terror e acesso a ilha MAIS PERIGOSA do mundo</li>
-                        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1.99c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm4.24 14.12L10.5 13.43V7h1.5v5.55l5.02 2.87-.78 1.36z"></path></svg>Acesso Proibido & Guia Desaparecido</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo e acesso a ilha mais cara do mundo</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 1.99c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm4.24 14.12L10.5 13.43V7h1.5v5.55l5.02 2.87-.78 1.36z"></path></svg>Acesso VIP & Guia Privativo</li>
                     </ul>
                 </div>
                 <div class="partner-section">
-                    <h4>"Parceiros" Destruidores</h4>
+                    <h4>Parceiros Premium</h4>
                     <div class="partner-logos">
-                        <img src="https://www.liblogo.com/img-logo/ta8903tec8-tap-portugal-logo-tap-portugal-logo-tap-air-portugal-logo-full-size-png-download.png" alt="TAP Air Portugal Logo (Mal desenhado)">
-                        <img src="https://pluspng.com/img-png/google-logo-png-open-2000.png" alt="Marriott Bonvoy Logo (Corrompido)">
+                        <img src="https://www.liblogo.com/img-logo/ta8903tec8-tap-portugal-logo-tap-portugal-logo-tap-air-portugal-logo-full-size-png-download.png" alt="TAP Air Portugal Logo">
+                        <img src="https://pluspng.com/img-png/google-logo-png-open-2000.png" alt="Marriott Bonvoy Logo">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contato" aria-labelledby="contact-title">
-        <h2 class="section-title" id="contact-title">TENTE INICIAR SUA JORNADA PARA O INFERNO</h2>
-        <p class="section-subtitle">A sua viagem mais INESQUECÍVEL (por ser terrível) está a uma mensagem de distância. Não vamos planejá-la juntos, vamos DESTRUÍ-LA.</p>
+    <section id="contato">
+        <h2 class="section-title">Inicie Sua Próxima Jornada</h2>
+        <p class="section-subtitle">A sua viagem inesquecível está a uma mensagem de distância. Vamos planejá-la juntos.</p>
         <form id="contactForm" class="contact-form">
-            <label for="name" class="sr-only">Seu Nome</label>
-            <input type="text" id="name" name="name" placeholder="NÃO DIGITE SEU NOME" required class="interactive">
-            <label for="email" class="sr-only">Seu E-mail</label>
-            <input type="email" id="email" name="email" placeholder="NÃO DIGITE SEU E-MAIL" required class="interactive">
-            <label for="message" class="sr-only">Descreva o destino dos seus sonhos...</label>
-            <textarea id="message" name="message" placeholder="DESCREVA SEUS MEDOS MAIS PROFUNDOS..." required class="interactive"></textarea>
-            <button type="submit" class="cta-button interactive rgb-glow">ENVIAR MENSAGEM (DO APOCALIPSE)</button>
+            <input type="text" name="name" placeholder="Seu Nome" required class="interactive">
+            <input type="email" name="email" placeholder="Seu E-mail" required class="interactive">
+            <textarea name="message" placeholder="Descreva o destino dos seus sonhos..." required class="interactive"></textarea>
+            <button type="submit" class="cta-button interactive rgb-glow">Enviar Mensagem</button>
         </form>
     </section>
     
-    <section id="admin" aria-labelledby="admin-title">
-        <div class="admin-container">
-            <div class="admin-sidebar">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"></path></svg>
-                <h3 id="admin-title">PAINEL DO<br>CAOS</h3>
+    <section id="admin">
+      <div class="admin-container">
+          <div class="admin-sidebar">
+              <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"></path></svg>
+              <h3>Painel de<br>Administrador</h3>
+          </div>
+          <div class="admin-main">
+            <div id="admin-login">
+                <p style="margin-bottom: 20px; text-align: center;">Acesso restrito.</p>
+                <input type="password" id="admin-password" placeholder="Senha" class="interactive">
+                <button id="admin-login-btn" class="cta-button interactive rgb-glow">Entrar</button>
             </div>
-            <div class="admin-main">
-                <div id="admin-login">
-                    <p style="margin-bottom: 20px; text-align: center;">ACESSO RESTRITO (GRAÇAS A DEUS).</p>
-                    <label for="admin-password" class="sr-only">Senha do Administrador</label>
-                    <input type="password" id="admin-password" placeholder="SENHA DO APOCALIPSE" class="interactive">
-                    <button id="admin-login-btn" class="cta-button interactive rgb-glow">ENTRAR (SE TIVER CORAGEM)</button>
-                </div>
-                <div id="admin-dashboard">
-                    <h3>MENSAGENS DO INFERNO</h3>
-                    <div id="messages-container"></div>
-                </div>
+            <div id="admin-dashboard">
+                <h3>Mensagens Recebidas</h3>
+                <div id="messages-container"></div>
             </div>
-        </div>
+          </div>
+      </div>
     </section>
 </main>
 
 <footer>
-    <p>&copy; 2025 ExploreMundo (EM RUÍNAS). Roteiros Exclusivos (DE DESGRAÇA).</p>
-    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Os logos de parceiros são marcas registadas dos seus respetivos proprietários. A ExploreMundo foi amaldiçoada pela Google com mais de 1 milhão de dólares de azar.</p>
+    <p>&copy; 2025 ExploreMundo. Roteiros Exclusivos.</p>
+    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Os logos de parceiros são marcas registadas dos seus respetivos proprietários a google deu mais de 1 milhao de dolares para a explore mundo.</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -940,12 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const cursor = document.querySelector('.cursor');
     const interactiveElements = document.querySelectorAll('.interactive');
 
-    // LÓGICA DO PRELOADER (AGORA MAIS INSUPORTÁVEL)
+    // LÓGICA DO PRELOADER
     window.addEventListener('load', () => {
         gsap.to(preloader, {
             opacity: 0,
-            duration: 10, // Demora 10 segundos para sumir
-            delay: 0.1, // Começa quase imediatamente
+            duration: 1,
+            delay: 0.5,
             onComplete: () => {
                 preloader.style.display = 'none';
                 body.classList.remove('no-scroll');
@@ -955,16 +339,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // LÓGICA DO CURSOR PERSONALIZADO (TOTALMENTE CAÓTICO)
+    // LÓGICA DO CURSOR PERSONALIZADO
     let mouseX = 0, mouseY = 0, posX = 0, posY = 0;
-    gsap.set(cursor, { xPercent: -50, yPercent: -50, rotation: -90 }); // Começa torto
+    gsap.set(cursor, { xPercent: -50, yPercent: -50, rotation: -45 });
     window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
-    gsap.to({}, 0.05, { // Atualiza mais lentamente, com "lag"
+    gsap.to({}, 0.016, {
         repeat: -1,
         onRepeat: () => {
-            posX += (mouseX - posX) / 2; // Move mais rápido, mas com mais "salto"
-            posY += (mouseY - posY) / 2;
-            gsap.set(cursor, { x: posX, y: posY, rotation: Math.random() * 360 }); // Gira aleatoriamente
+            posX += (mouseX - posX) / 6;
+            posY += (mouseY - posY) / 6;
+            gsap.set(cursor, { x: posX, y: posY });
         }
     });
     interactiveElements.forEach(el => {
@@ -974,19 +358,19 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener("mouseleave", () => cursor.classList.add("hidden"));
     document.addEventListener("mouseenter", () => cursor.classList.remove("hidden"));
 
-    // ANIMAÇÕES DA PÁGINA COM GSAP (PARA PIORAR)
+    // ANIMAÇÕES DA PÁGINA COM GSAP
     function animatePageIn() {
         const mainTitle = document.querySelector('.main-title');
         const chars = mainTitle.textContent.split('');
         mainTitle.innerHTML = '';
         chars.forEach(char => { mainTitle.innerHTML += `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`; });
         
-        gsap.to('.char', { y: 0, stagger: 0.01, delay: 0.05, duration: 0.5, ease: 'bounce.out', rotation: 'random(-30, 30)' }); // Letras pulam e giram
-        gsap.to('.hero p, .hero .cta-button', { opacity: 0.5, y: 50, duration: 0.2, delay: 0.1, stagger: 0.05, ease: 'steps(5)', scale: 0.8 }); // Texto pula e diminui
+        gsap.to('.char', { y: 0, stagger: 0.05, delay: 0.2, duration: 1, ease: 'expo.out' });
+        gsap.to('.hero p, .hero .cta-button', { opacity: 1, y: 0, duration: 1, delay: 0.8, stagger: 0.1, ease: 'power3.out' });
     }
-    gsap.from('nav', { y: 100, opacity: 0.1, duration: 0.5, delay: 0.1, ease: 'elastic.out(1, 0.3)' }); // Navegação entra com efeito elástico bizarro
+    gsap.from('nav', { y: -100, opacity: 0, duration: 1, delay: 1.5, ease: 'power3.out' });
     window.addEventListener('scroll', () => {
-        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10); // Ativa o scroll bem rápido
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
     
     const tiltCards = document.querySelectorAll('.plan-card');
@@ -996,16 +380,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const { width, height } = rect;
-            const rotateX = (y / height - 0.5) * -50; // Rotação exagerada
-            const rotateY = (x / width - 0.5) * 50;
-            gsap.to(card, { rotationX: rotateX, rotationY: rotateY, transformPerspective: 100, ease: "none" }); // Sem suavidade
+            const rotateX = (y / height - 0.5) * -20;
+            const rotateY = (x / width - 0.5) * 20;
+            gsap.to(card, { rotationX: rotateX, rotationY: rotateY, transformPerspective: 1000, ease: "power1.out" });
         });
         card.addEventListener('mouseleave', () => {
-            gsap.to(card, { rotationX: 0, rotationY: 0, ease: "steps(10)" }); // Volta em passos, estranho
+            gsap.to(card, { rotationX: 0, rotationY: 0, ease: "power1.out" });
         });
     });
 
-    // LÓGICA DO FORMULÁRIO E ADMIN (MAIS FRUSTRANTE)
+    // LÓGICA DO FORMULÁRIO E ADMIN
     const contactForm = document.getElementById('contactForm');
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -1017,17 +401,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const submissions = JSON.parse(localStorage.getItem('formSubmissions')) || [];
         submissions.push(submission);
         localStorage.setItem('formSubmissions', JSON.stringify(submissions));
-        alert('HAHAHA! Sua mensagem foi LIDA... talvez. Tente de novo! (Mentira, não tente)'); // Mensagem sarcástica
+        alert('Obrigado! A sua mensagem foi registada com sucesso.');
         contactForm.reset();
-        // Recarrega a página para "perder" a mensagem submetida
-        setTimeout(() => location.reload(), 100); 
     });
 
     const adminLoginBtn = document.getElementById('admin-login-btn');
     const adminPasswordInput = document.getElementById('admin-password');
     const adminLoginDiv = document.getElementById('admin-login');
     const adminDashboardDiv = document.getElementById('admin-dashboard');
-    const ADMIN_PASSWORD = 'admin2025'; // A senha continua a mesma, para a sua frustração
+    const ADMIN_PASSWORD = 'admin2025';
 
     adminLoginBtn.addEventListener('click', () => {
         if (adminPasswordInput.value === ADMIN_PASSWORD) {
@@ -1035,9 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
             adminDashboardDiv.style.display = 'block';
             displayMessages();
         } else {
-            alert('SENHA ERRADA! SEU ACESSO FOI REGISTRADO E DENUNCIADO ÀS AUTORIDADES DO INFERNO.'); // Mensagem de erro assustadora
-            adminPasswordInput.value = ''; // Limpa a senha
-            adminPasswordInput.focus(); // Coloca o foco de volta
+            alert('Senha incorreta!');
         }
     });
 
@@ -1046,16 +426,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const submissions = JSON.parse(localStorage.getItem('formSubmissions')) || [];
         messagesContainer.innerHTML = '';
         if (submissions.length === 0) {
-            messagesContainer.innerHTML = '<p style="color: red; animation: blink 1s infinite;">NENHUMA MENSAGEM RECEBIDA (OU ELAS SE PERDERAM NO ESPAÇO-TEMPO).</p>';
-            @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+            messagesContainer.innerHTML = '<p style="color: #ccc;">Nenhuma mensagem recebida ainda.</p>';
             return;
         }
         submissions.reverse().forEach(sub => {
             const date = new Date(sub.timestamp);
-            const formattedDate = `${date.toLocaleDateString('pt-BR')} ÀS ${date.toLocaleTimeString('pt-BR')} (HORÁRIO INCORRETO)`;
+            const formattedDate = `${date.toLocaleDateString('pt-BR')} às ${date.toLocaleTimeString('pt-BR')}`;
             const messageElement = document.createElement('div');
             messageElement.className = 'message-item';
-            messageElement.innerHTML = `<h4>DE: ${sub.name.toUpperCase()}</h4><p><strong>E-MAIL:</strong> ${sub.email.toLowerCase().split('').reverse().join('')} (INVERTIDO!)</p><p><strong>MENSAGEM:</strong> ${sub.message.split('').sort(() => 0.5 - Math.random()).join('')} (ALEATÓRIA!)</p><p class="timestamp">${formattedDate}</p>`; // Mensagem com email invertido e texto aleatório
+            messageElement.innerHTML = `<h4>De: ${sub.name}</h4><p><strong>Email:</strong> ${sub.email}</p><p><strong>Mensagem:</strong> ${sub.message}</p><p class="timestamp">${formattedDate}</p>`;
             messagesContainer.appendChild(messageElement);
         });
     }
