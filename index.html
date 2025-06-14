@@ -1,1 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ExploreMundo - Arquitetos de Jornadas Inesquecíveis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+<style>
+  :root {
+    --primary-color: #0a192f; /* Azul noite, mais profundo */
+    --secondary-color: #ffca42; /* Dourado vibrante */
+    --accent-gradient: linear-gradient(45deg, #ffca42, #ffb700);
+    --background-color: #f8f9fa;
+    --light-background: #ffffff;
+    --text-color: #333;
+    --light-text-color: #e6f1ff;
+    --subtle-text-color: #a8b2d1;
+    --shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+    --border-radius: 16px;
+    --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+  }
+
+  /* RESET E CONFIGURAÇÕES GLOBAIS */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    cursor: none; /* Esconde o cursor padrão */
+  }
+  body.loaded { background-color: var(--background-color); }
+
+  /* ========================================
+     PRÉ-CARREGAMENTO (PRELOADER)
+     ======================================== */
+  .preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+  }
+  .preloader .logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+  }
+  
+  /* ========================================
+     CURSOR PERSONALIZADO
+     ======================================== */
+  .cursor {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: all 0.1s ease;
+    z-index: 9998;
+    mix-blend-mode: difference;
+  }
+  .cursor.grow {
+    transform: scale(1.5) translate(-33%, -33%);
+    background-color: var(--secondary-color);
+  }
+  .cursor.hidden { display: none; }
+
+  /* ========================================
+     SEÇÃO HERO COM VÍDEO
+     ======================================== */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--light-text-color);
+    text-align: center;
+    overflow: hidden;
+  }
+  #hero-video {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%; min-height: 100%;
+    width: auto; height: auto;
+    z-index: -2;
+  }
+  .hero-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(10, 25, 47, 0.7);
+    z-index: -1;
+  }
+  .hero-content { z-index: 1; }
+  .hero h1 {
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+  /* Para animação do texto */
+  .hero h1 .char {
+    display: inline-block;
+    transform: translateY(115px);
+    transition: transform .5s;
+  }
+  .hero p {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-weight: 300;
+    color: var(--subtle-text-color);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+  }
+  .hero .cta-button { opacity: 0; }
+
+  /* ========================================
+     NAVEGAÇÃO
+     ======================================== */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: var(--transition);
+  }
+  nav.scrolled {
+    background-color: rgba(10, 25, 47, 0.85);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    padding: 15px 50px;
+  }
+  nav a {
+    color: var(--light-text-color);
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: var(--transition);
+  }
+  nav a:hover { color: var(--secondary-color); }
+  
+  /* ========================================
+     ESTILOS GERAIS DE CONTEÚDO
+     ======================================== */
+  main { background-color: var(--background-color); position: relative; }
+  section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; }
+  .section-title {
+    text-align: center; font-size: 2.8rem; font-weight: 700;
+    margin-bottom: 15px; color: var(--primary-color);
+  }
+  .section-subtitle {
+    text-align: center; font-size: 1.2rem; max-width: 700px;
+    margin: 0 auto 80px auto; color: #555;
+  }
+
+  /* ========================================
+     NOVA SEÇÃO: JORNADA (SCROLL HORIZONTAL)
+     ======================================== */
+  #journey {
+    padding: 0;
+    overflow: hidden;
+  }
+  .journey-container {
+    height: 100vh; /* A seção fica "fixa" por toda a altura da tela */
+    display: flex;
+    align-items: center;
+  }
+  .journey-track {
+    display: flex;
+    width: 400%; /* 4 painéis de 100% da largura */
+    height: 70vh;
+    will-change: transform;
+  }
+  .journey-panel {
+    width: 100%;
+    height: 100%;
+    padding: 0 8vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  .journey-panel .step {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+  }
+  .journey-panel h3 {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+  }
+  .journey-panel p {
+    max-width: 500px;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  /* ========================================
+     SEÇÃO PACOTES (COM EFEITO 3D TILT)
+     ======================================== */
+  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+  .plan-card {
+    background-color: var(--light-background);
+    border-radius: var(--border-radius);
+    padding: 40px;
+    text-align: center;
+    border: 1px solid #eee;
+    transition: all 0.3s ease;
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+  .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 20px; }
+  .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
+  .plan-card ul li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+  }
+  .plan-card ul li svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--secondary-color);
+  }
+
+  /* ========================================
+     OUTRAS SEÇÕES (CONTATO, ADMIN)
+     ======================================== */
+  #contato { background: var(--light-background); }
+  .contact-form input, .contact-form textarea {
+    width: 100%; padding: 18px; border-radius: 12px;
+    border: 1px solid #ccc; font-family: 'Poppins', sans-serif; font-size: 1rem;
+  }
+  #admin {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  }
+  #admin .section-title, #admin .section-subtitle { color: var(--light-text-color); }
+  .admin-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--border-radius); padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  .message-item { background: rgba(255,255,255,0.9); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+  
+  footer {
+    background-color: var(--primary-color);
+    color: var(--subtle-text-color);
+    text-align: center;
+    padding: 50px 20px;
+  }
+
+</style>
+</head>
+<body class="no-scroll">
+
+<div class="preloader">
+    <div class="logo">ExploreMundo</div>
+</div>
+<div class="cursor"></div>
+
+<header class="hero">
+    <div class="hero-overlay"></div>
+    <video playsinline autoplay muted loop id="hero-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-ocean-22747-large.mp4" type="video/mp4">
+    </video>
+    <nav id="navbar">
+        <a href="#journey">A Jornada</a>
+        <a href="#pacotes">Pacotes</a>
+        <a href="#contato">Contato</a>
+        <a href="#admin" class="interactive">Admin</a>
+    </nav>
+    <div class="hero-content">
+        <h1 class="main-title">Destinos Inesquecíveis</h1>
+        <p>Nós não vendemos viagens. Nós criamos memórias.</p>
+        <a href="#pacotes" class="cta-button interactive">Descubra Seu Roteiro</a>
+    </div>
+</header>
+
+<main id="main-content">
+
+    <section id="journey">
+      <div class="journey-container">
+        <div class="journey-track">
+            <div class="journey-panel">
+                <div class="panel-content">
+                    <p class="step">Passo 1</p>
+                    <h3>O Sonho</h3>
+                    <p>Tudo começa com uma ideia. Uma praia distante, uma montanha majestosa, uma cidade vibrante. Você sonha, e nós ouvimos cada detalhe.</p>
+                </div>
+            </div>
+            <div class="journey-panel">
+                <div class="panel-content">
+                    <p class="step">Passo 2</p>
+                    <h3>O Roteiro</h3>
+                    <p>Nossos especialistas transformam seu sonho em um roteiro meticulosamente planejado. Voos, hotéis, experiências únicas. Tudo é pensado para você.</p>
+                </div>
+            </div>
+            <div class="journey-panel">
+                <div class="panel-content">
+                    <p class="step">Passo 3</p>
+                    <h3>A Experiência</h3>
+                    <p>O momento chegou. Você embarca na jornada com a tranquilidade de que cada detalhe está coberto. Sua única tarefa é viver intensamente cada segundo.</p>
+                </div>
+            </div>
+            <div class="journey-panel">
+                <div class="panel-content">
+                    <p class="step">Passo 4</p>
+                    <h3>A Memória</h3>
+                    <p>Você retorna transformado, com histórias para contar e memórias que durarão para sempre. E nós já estamos aqui, prontos para planejar o próximo sonho.</p>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="pacotes">
+        <h2 class="section-title">Pacotes Assinatura</h2>
+        <p class="section-subtitle">Três níveis de experiência, todos com a garantia de excelência ExploreMundo.</p>
+        <div class="plans-grid">
+            <div class="plan-card interactive">
+                <h3>Aventura</h3>
+                <ul>
+                    <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>Suporte Essencial</li>
+                </ul>
+                <a href="#contato" class="cta-button interactive">Consultar</a>
+            </div>
+            <div class="plan-card interactive">
+                <h3>Descoberta</h3>
+                <ul>
+                    <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>Experiências Locais</li>
+                </ul>
+                <a href="#contato" class="cta-button interactive">Consultar</a>
+            </div>
+            <div class="plan-card interactive">
+                <h3>Legado</h3>
+                <ul>
+                    <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo</li>
+                    <li><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>Acesso VIP e Guia Privativo</li>
+                </ul>
+                <a href="#contato" class="cta-button interactive">Consultar</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contato">
+        <h2 class="section-title">Inicie Sua Próxima Jornada</h2>
+        <p class="section-subtitle">Sua história inesquecível está a uma mensagem de distância. Vamos escrevê-la juntos.</p>
+        <form id="contactForm" class="contact-form">
+            <input type="text" name="name" placeholder="Seu Nome" required class="interactive">
+            <input type="email" name="email" placeholder="Seu E-mail" required class="interactive">
+            <textarea name="message" placeholder="Descreva o destino dos seus sonhos..." required class="interactive"></textarea>
+            <button type="submit" class="cta-button interactive">Enviar Mensagem</button>
+        </form>
+    </section>
+    <section id="admin">
+      <h2 class="section-title">Área Administrativa</h2>
+      <div class="admin-panel">
+        <div id="admin-login">
+          <p class="section-subtitle">Acesso restrito.</p>
+          <input type="password" id="admin-password" placeholder="Senha" class="interactive">
+          <button id="admin-login-btn" class="cta-button interactive">Entrar</button>
+        </div>
+        <div id="admin-dashboard" style="display: none;">
+          <h3>Mensagens Recebidas</h3>
+          <div id="messages-container"></div>
+        </div>
+      </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 ExploreMundo. Criando o extraordinário.</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const body = document.body;
+    const preloader = document.querySelector('.preloader');
+    const cursor = document.querySelector('.cursor');
+    const interactiveElements = document.querySelectorAll('.interactive');
+
+    // ===============================================
+    // 1. LÓGICA DO PRELOADER
+    // ===============================================
+    window.addEventListener('load', () => {
+        gsap.to(preloader, {
+            opacity: 0,
+            duration: 0.8,
+            onComplete: () => {
+                preloader.style.display = 'none';
+                body.classList.remove('no-scroll');
+                body.classList.add('loaded');
+                
+                // Dispara as animações de entrada da página
+                animatePageIn();
+            }
+        });
+    });
+
+    // ===============================================
+    // 2. LÓGICA DO CURSOR PERSONALIZADO
+    // ===============================================
+    let mouseX = 0, mouseY = 0, posX = 0, posY = 0;
+    
+    gsap.set(cursor, { xPercent: -50, yPercent: -50 });
+
+    window.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    gsap.to({}, 0.016, {
+        repeat: -1,
+        onRepeat: () => {
+            posX += (mouseX - posX) / 6;
+            posY += (mouseY - posY) / 6;
+            gsap.set(cursor, {
+                x: posX,
+                y: posY
+            });
+        }
+    });
+
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseover', () => cursor.classList.add('grow'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+    });
+    
+    document.addEventListener("mouseleave", () => cursor.classList.add("hidden"));
+    document.addEventListener("mouseenter", () => cursor.classList.remove("hidden"));
+
+    // ===============================================
+    // 3. ANIMAÇÕES DA PÁGINA COM GSAP
+    // ===============================================
+    function animatePageIn() {
+        // Animação do título letra por letra
+        const mainTitle = document.querySelector('.main-title');
+        const chars = mainTitle.textContent.split('');
+        mainTitle.innerHTML = '';
+        chars.forEach(char => {
+            mainTitle.innerHTML += `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`;
+        });
+        
+        gsap.to('.char', {
+            y: 0,
+            stagger: 0.05,
+            delay: 0.2,
+            duration: 1,
+            ease: 'expo.out'
+        });
+
+        // Animação do subtítulo e botão
+        gsap.to('.hero p, .hero .cta-button', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.8,
+            ease: 'power3.out'
+        });
+    }
+
+    // Configuração do ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Animação da barra de navegação
+    ScrollTrigger.create({
+        start: 'top -80',
+        end: 99999,
+        toggleClass: { className: 'scrolled', targets: 'nav' }
+    });
+
+    // Animação do Scroll Horizontal
+    const journeyTrack = document.querySelector('.journey-track');
+    const panels = gsap.utils.toArray(".journey-panel");
+
+    gsap.to(panels, {
+        xPercent: -100 * (panels.length - 1),
+        ease: "none",
+        scrollTrigger: {
+            trigger: ".journey-container",
+            pin: true,
+            scrub: 1,
+            snap: 1 / (panels.length - 1),
+            end: () => "+=" + (journeyTrack.offsetWidth)
+        }
+    });
+    
+    // Animação 3D Tilt dos Cards
+    const tiltCards = document.querySelectorAll('.plan-card');
+    tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const { width, height } = rect;
+            const rotateX = (y / height - 0.5) * -20;
+            const rotateY = (x / width - 0.5) * 20;
+
+            gsap.to(card, {
+                rotationX: rotateX,
+                rotationY: rotateY,
+                transformPerspective: 1000,
+                ease: "power1.out"
+            });
+        });
+
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+                rotationX: 0,
+                rotationY: 0,
+                ease: "power1.out"
+            });
+        });
+    });
+
+
+    // ===============================================
+    // 4. LÓGICA DO FORMULÁRIO E ADMIN (inalterada)
+    // ===============================================
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(contactForm);
+        const submission = {
+            name: formData.get('name'), email: formData.get('email'),
+            message: formData.get('message'), timestamp: new Date().toISOString()
+        };
+        const submissions = JSON.parse(localStorage.getItem('formSubmissions')) || [];
+        submissions.push(submission);
+        localStorage.setItem('formSubmissions', JSON.stringify(submissions));
+        alert('Obrigado! Sua mensagem foi registrada com sucesso.');
+        contactForm.reset();
+    });
+
+    const adminLoginBtn = document.getElementById('admin-login-btn');
+    const adminPasswordInput = document.getElementById('admin-password');
+    const adminLoginDiv = document.getElementById('admin-login');
+    const adminDashboardDiv = document.getElementById('admin-dashboard');
+    const ADMIN_PASSWORD = 'admin2025';
+
+    adminLoginBtn.addEventListener('click', () => {
+        if (adminPasswordInput.value === ADMIN_PASSWORD) {
+            adminLoginDiv.style.display = 'none';
+            adminDashboardDiv.style.display = 'block';
+            displayMessages();
+        } else {
+            alert('Senha incorreta!');
+        }
+    });
+
+    function displayMessages() {
+        const messagesContainer = document.getElementById('messages-container');
+        const submissions = JSON.parse(localStorage.getItem('formSubmissions')) || [];
+        messagesContainer.innerHTML = '';
+        if (submissions.length === 0) {
+            messagesContainer.innerHTML = '<p>Nenhuma mensagem recebida ainda.</p>';
+            return;
+        }
+        submissions.reverse().forEach(sub => {
+            const date = new Date(sub.timestamp);
+            const formattedDate = `${date.toLocaleDateString('pt-BR')} às ${date.toLocaleTimeString('pt-BR')}`;
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message-item';
+            messageElement.innerHTML = `<h4>De: ${sub.name}</h4><p><strong>Email:</strong> ${sub.email}</p><p><strong>Mensagem:</strong> ${sub.message}</p><p class="timestamp">${formattedDate}</p>`;
+            messagesContainer.appendChild(messageElement);
+        });
+    }
+});
+</script>
+
+</body>
+</html>
