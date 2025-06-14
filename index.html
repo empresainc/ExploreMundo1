@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ExploreMundo - Conquiste Destinos Inesquecíveis</title>
+<title>ExploreMundo - Roteiros Exclusivos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -36,33 +36,14 @@
   body.loaded { background-color: var(--background-color); }
   body.no-scroll { overflow-y: hidden; }
 
-  /* ========================================
-     PRÉ-CARREGAMENTO (PRELOADER)
-     ======================================== */
-  .preloader {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-color: var(--primary-color);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 9999;
-    transition: opacity 0.8s ease-in-out;
-  }
-  .preloader .logo {
-    font-size: 2rem; font-weight: 700; color: var(--secondary-color);
-    opacity: 0;
-    animation: pulse 1.5s infinite ease-in-out;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.7; transform: scale(0.95); }
-  }
+  /* PRELOADER */
+  .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--primary-color); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.8s ease-in-out; }
+  .preloader .logo { font-size: 2rem; font-weight: 700; color: var(--secondary-color); opacity: 0; animation: pulse 1.5s infinite ease-in-out; }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
 
-  /* ========================================
-     CURSOR DE ESPADA PERSONALIZADO
-     ======================================== */
+  /* CURSOR DE AVIÃO PERSONALIZADO */
   .cursor {
-    width: 45px;
-    height: 45px;
+    width: 40px; height: 40px;
     position: fixed;
     transform: translate(-50%, -50%);
     pointer-events: none;
@@ -71,17 +52,15 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    /* A imagem da espada em Base64 para não depender de arquivos externos */
-    background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiBoZWlnaHQ9IjgwMHB4IiB3aWR0aD0iODAwcHgiIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgMzIgMzIiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGQ9Ik0yNy45LDEuMmMtMC44LTAuOC0yLTAuOC0yLjgsMEw5LjgsMTYuNWMtMS4zLDEuMy0xLjMsMy4zLDAsNC42bDEuNCwxLjRsLTEuNiwxLjZMMi4zLDI0LjdjLTAuOCwwLjgtMC44LDIsMCwyLjhsMi45LDIuOSAgYzAuNCwwLjQsMC45LDAuNiwyLjEsMC42czEuMy0wLjIsMi4xLTAuNmwxMC41LTEwLjVsMS42LTEuNmwxLjQsMS40YzEuMywxLjMsMy4zLDEuMyw0LjYsMEwxNS41LDE1LjNsMTIuNC0xMi40ICBDMzIuMywzLjIsMzIuMywxLjksMjcuOSwxLjJ6IE03LjMsMjguM2wtMS40LTEuNGwyLjctMi43bDEuNCwxLjRMNy4zLDI4LjN6IE0xMSwyMS42bC0xLjQtMS40bDEyLjQtMTIuNGwxLjQsMS40TDExLDIxLjZ6IE0xMy44LDIwLjIgICBMMjAuMSwxNGwxLjQsMS40bC02LjMsNi4zTDEzLjgsMjAuMnogTTksMTguNmwxLjQtMS40bDIuOCwyLjhsLTEuNCwxLjRMNywxOC42eiIvPjwvc3ZnPg==');
+    /* Imagem do avião em Base64 para não depender de arquivos externos */
+    background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIxIDE2VjE0TDE0IDlWMy41QzE0IDIuNjcgMTMuMzMgMiAxMi41IDJDOS4wMyAyIDYuMTIgMy4zNiA0LjggNi4xNEwzLjUgNS41VjBjMC0uMjgtLjIyLS41LS41LS41cy0uNS4yMi0uNS41djUuNDlsMS40IDEuNDFDNC4xNCA3LjUgNCA4LjIyIDQgOVYxMGwyLTFINnYySDNWMTVINlYxNEw4IDEzVjExTDEwLjUgMTIuNUgxOFYxNEwyMSAxNloiLz48L3N2Zz4=');
   }
   .cursor.grow {
-    transform: scale(1.2) rotate(15deg) translate(-40%, -40%);
+    transform: scale(1.3) translateY(-5px) translate(-35%, -35%);
   }
   .cursor.hidden { display: none; }
 
-  /* ========================================
-     CABEÇALHO E NAVEGAÇÃO
-     ======================================== */
+  /* CABEÇALHO E NAVEGAÇÃO */
   .hero { height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--light-text-color); text-align: center; overflow: hidden; }
   #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; }
   .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.75); z-index: -1; }
@@ -90,8 +69,6 @@
   .hero h1 .char { display: inline-block; transform: translateY(115px); transition: transform .5s; }
   .hero p { font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 300; color: var(--subtle-text-color); margin-bottom: 2.5rem; opacity: 0; }
   .hero .cta-button { opacity: 0; }
-  .cta-button { background: var(--accent-gradient); color: var(--primary-color); padding: 15px 35px; border: none; border-radius: 50px; text-decoration: none; font-size: 1.1rem; font-weight: 600; transition: var(--transition); box-shadow: 0 4px 15px rgba(255, 202, 66, 0.3); display: inline-block; }
-  .cta-button:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(255, 202, 66, 0.4); }
   nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 50px; display: flex; justify-content: flex-end; align-items: center; transition: var(--transition); }
   nav.scrolled { background-color: rgba(10, 25, 47, 0.85); backdrop-filter: blur(10px); box-shadow: var(--shadow); padding: 15px 50px; }
   nav a { color: var(--light-text-color); text-decoration: none; margin: 0 20px; font-size: 1rem; font-weight: 500; transition: var(--transition); }
@@ -102,6 +79,39 @@
   section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; }
   .section-title { text-align: center; font-size: 2.8rem; font-weight: 700; margin-bottom: 15px; color: var(--primary-color); }
   .section-subtitle { text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 80px auto; color: #555; }
+  
+  /* ANIMAÇÃO RGB */
+  @keyframes rgb-animation {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+  .rgb-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  .rgb-glow::before {
+    content: "";
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    animation: rgb-animation 4s linear infinite;
+  }
+  .rgb-glow:hover::before {
+    opacity: 1;
+  }
+  .cta-button.rgb-glow::before {
+      z-index: -2;
+      filter: blur(5px);
+  }
+  .plan-card.rgb-glow::before {
+      z-index: -1;
+      filter: blur(15px);
+  }
   
   /* SEÇÃO FILOSOFIA */
   .philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
@@ -114,8 +124,8 @@
   .philosophy-card h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
   .philosophy-card p { font-size: 1rem; line-height: 1.6; color: #666; }
 
-  /* SEÇÃO PACOTES */
-  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; perspective: 2000px; }
+  /* SEÇÃO PACOTES COM LOGOS */
+  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; perspective: 2000px; }
   .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; will-change: transform; transform-style: preserve-3d; display: flex; flex-direction: column; }
   .plan-card-content { flex-grow: 1; }
   .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; }
@@ -125,52 +135,45 @@
   .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
   .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
   
-  /* FORMULÁRIO DE CONTATO */
+  /* PARCEIROS */
+  .partner-section {
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+      margin-top: 20px;
+  }
+  .partner-section h4 {
+      font-size: 0.9rem;
+      color: #999;
+      margin-bottom: 15px;
+      font-weight: 500;
+  }
+  .partner-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      min-height: 40px;
+  }
+  .partner-logos img {
+      max-height: 35px;
+      filter: grayscale(100%) contrast(0%) brightness(1.5);
+      transition: var(--transition);
+  }
+  .plan-card:hover .partner-logos img {
+      filter: none;
+  }
+  
+  /* OUTRAS SEÇÕES */
   #contato { background: var(--light-background); }
   .contact-form input, .contact-form textarea { width: 100%; padding: 18px; border-radius: 12px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif; font-size: 1rem; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
   .contact-form input:focus, .contact-form textarea:focus { border-color: var(--secondary-color); outline: none; box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3); }
-  
-  /* ========================================
-     PAINEL DE ADMIN REDESENHADO
-     ======================================== */
   #admin { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
-  .admin-container {
-    background: rgba(10, 25, 47, 0.5);
-    backdrop-filter: blur(10px);
-    border-radius: var(--border-radius);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    overflow: hidden;
-    max-width: 900px;
-    margin: auto;
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3);
-  }
-  .admin-sidebar {
-    background: rgba(10, 25, 47, 0.7);
-    padding: 40px 30px;
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--light-text-color);
-  }
-  .admin-sidebar svg {
-    width: 60px;
-    height: 60px;
-    fill: var(--secondary-color);
-    margin-bottom: 20px;
-  }
+  .admin-container { background: rgba(10, 25, 47, 0.5); backdrop-filter: blur(10px); border-radius: var(--border-radius); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; overflow: hidden; max-width: 900px; margin: auto; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+  .admin-sidebar { background: rgba(10, 25, 47, 0.7); padding: 40px 30px; width: 250px; display: flex; flex-direction: column; align-items: center; color: var(--light-text-color); }
+  .admin-sidebar svg { width: 60px; height: 60px; fill: var(--secondary-color); margin-bottom: 20px; }
   .admin-sidebar h3 { font-size: 1.5rem; text-align: center; }
-  .admin-main {
-    padding: 40px;
-    width: 100%;
-    color: var(--light-text-color);
-  }
-  #admin-login input {
-      width: 100%; padding: 15px; margin-bottom: 20px;
-      font-size: 1rem; border-radius: 8px; border: 1px solid #555;
-      background-color: rgba(0,0,0,0.2); color: white;
-  }
+  .admin-main { padding: 40px; width: 100%; color: var(--light-text-color); }
+  #admin-login input { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 1rem; border-radius: 8px; border: 1px solid #555; background-color: rgba(0,0,0,0.2); color: white; }
   #admin-login button { width: 100%; }
   #admin-dashboard { display: none; }
   #admin-dashboard h3 { margin-bottom: 20px; }
@@ -178,7 +181,6 @@
   .message-item:nth-child(even) { background: rgba(255,255,255,0.8); }
   .message-item h4 { color: var(--primary-color); margin-bottom: 5px; }
   .message-item .timestamp { font-size: 0.8rem; color: #777; text-align: right; margin-top: 10px; }
-
   footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 50px 20px; }
 </style>
 </head>
@@ -190,7 +192,7 @@
 <header class="hero">
     <div class="hero-overlay"></div>
     <video playsinline autoplay muted loop id="hero-video">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-ocean-22747-large.mp4" type="video/mp4">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-40 flying-through-the-clouds-4027-large.mp4" type="video/mp4">
     </video>
     <nav id="navbar">
         <a href="#philosophy" class="interactive">Nossa Filosofia</a>
@@ -199,9 +201,9 @@
         <a href="#admin" class="interactive" style="color: var(--secondary-color);">Admin</a>
     </nav>
     <div class="hero-content">
-        <h1 class="main-title">Destinos Inesquecíveis</h1>
+        <h1 class="main-title">O Mundo à sua Espera</h1>
         <p>Roteiros exclusivos para as viagens da sua vida.</p>
-        <a href="#pacotes" class="cta-button interactive">Ver Pacotes</a>
+        <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes</a>
     </div>
 </header>
 
@@ -219,43 +221,59 @@
 
     <section id="pacotes">
         <h2 class="section-title">Pacotes Assinatura</h2>
-        <p class="section-subtitle">Três níveis de aventura, todos com a garantia de excelência ExploreMundo.</p>
+        <p class="section-subtitle">Três níveis de experiência, todos com a garantia de excelência e os melhores parceiros.</p>
         <div class="plans-grid">
-            <div class="plan-card interactive">
+            <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
                     <h3>Aventura</h3>
                     <div class="plan-price">€999 <span>/ pessoa</span></div>
                     <ul>
-                        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
-                        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
-                        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.5 12.5c0 .63-.23 1.22-.63 1.69l-1.4-1.4c.1-.24.13-.5.13-.79 0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2c.29 0 .55-.04.79-.13l1.4 1.4c-.47.4-1.06.63-1.69.63-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>Suporte Essencial</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M19.5 12.5c0 .63-.23 1.22-.63 1.69l-1.4-1.4c.1-.24.13-.5.13-.79 0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2c.29 0 .55-.04.79-.13l1.4 1.4c-.47.4-1.06.63-1.69.63-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>Suporte Essencial</li>
                     </ul>
                 </div>
-                <a href="#contato" class="cta-button interactive">Consultar</a>
+                <div class="partner-section">
+                    <h4>Parceiro Aéreo</h4>
+                    <div class="partner-logos">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNSA5Ij48cGF0aCBkPSJtNC41IDBoLTJ2OS4wMDFoMnptMi45OTkgMGgtMnY5LjAwMWgyeXptMi45OTkgMGgtMnY5LjAwMWgyeXptNC41IDBoLTJ2OS4wMDFoMnptLTguNDk5IDMuMDAxaDIuOTk5djJoLTIuOTk5em0wIDMuMDAxaDIuOTk5djJoLTIuOTk5em0yLjk5OS0xLjV2LTFoMXYxem0yLjAwMSAwdi0xaDF2MXptMCAzdi0xaDF2MXptLTIuMDAxIDB2LTFoMXYxem0xLjAwMS0xLjV2LTFoMXYxem0yLjk5OSAydi0yaDF2LTFoLTN2M2gzem0tMTAuNDk5IDB2LTNoM3YxaC0ydi0xaDF2M2gtMnptOC40OTkgMHYtM2gtMnYtMWgydiFoLTF2LTNoMXYzaDF2MWgtMXYyaC0xem0yLjk5OS0zdi0zaDF2M2gtMXoiIGZpbGw9IiNjZjA5MjIiLz48L3N2Zz4=" alt="TAP Air Portugal Logo">
+                    </div>
+                </div>
             </div>
-            <div class="plan-card interactive">
+            <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
                     <h3>Descoberta</h3>
                     <div class="plan-price">€1.999 <span>/ pessoa</span></div>
                     <ul>
-                        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
-                        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
-                        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08.66-.08 1s.04.67.08 1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Experiências Locais</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98-.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08.66-.08 1s.04.67.08 1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Experiências Locais</li>
                     </ul>
                 </div>
-                <a href="#contato" class="cta-button interactive">Consultar</a>
+                <div class="partner-section">
+                    <h4>Parceiro Aéreo</h4>
+                    <div class="partner-logos">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNSA5Ij48cGF0aCBkPSJtNC41IDBoLTJ2OS4wMDFoMnptMi45OTkgMGgtMnY5LjAwMWgyeXptMi45OTkgMGgtMnY5LjAwMWgyeXptNC41IDBoLTJ2OS4wMDFoMnptLTguNDk5IDMuMDAxaDIuOTk5djJoLTIuOTk5em0wIDMuMDAxaDIuOTk5djJoLTIuOTk5em0yLjk5OS0xLjV2LTFoMXYxem0yLjAwMSAwdi0xaDF2MXptMCAzdi0xaDF2MXptLTIuMDAxIDB2LTFoMXYxem0xLjAwMS0xLjV2LTFoMXYxem0yLjk5OSAydi0yaDF2LTFoLTN2M2gzem0tMTAuNDk5IDB2LTNoM3YxaC0ydi0xaDF2M2gtMnptOC40OTkgMHYtM2gtMnYtMWgydiFoLTF2LTNoMXYzaDF2MWgtMXYyaC0xem0yLjk5OS0zdi0zaDF2M2gtMXoiIGZpbGw9IiNjZjA5MjIiLz48L3N2Zz4=" alt="TAP Air Portugal Logo">
+                    </div>
+                </div>
             </div>
-            <div class="plan-card interactive">
+            <div class="plan-card interactive rgb-glow">
                  <div class="plan-card-content">
-                    <h3>Conquista</h3>
+                    <h3>Executivo</h3>
                     <div class="plan-price">€3.999 <span>/ pessoa</span></div>
                     <ul>
-                        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
-                        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo</li>
-                        <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.99c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm4.24 14.12L10.5 13.43V7h1.5v5.55l5.02 2.87-.78 1.36z"></path></svg>Acesso VIP & Guia Privativo</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 1.99c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm4.24 14.12L10.5 13.43V7h1.5v5.55l5.02 2.87-.78 1.36z"></path></svg>Acesso VIP & Guia Privativo</li>
                     </ul>
                 </div>
-                <a href="#contato" class="cta-button interactive">Consultar</a>
+                <div class="partner-section">
+                    <h4>Parceiros Premium</h4>
+                    <div class="partner-logos">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNSA5Ij48cGF0aCBkPSJtNC41IDBoLTJ2OS4wMDFoMnptMi45OTkgMGgtMnY5LjAwMWgyeXptMi45OTkgMGgtMnY5LjAwMWgyeXptNC41IDBoLTJ2OS4wMDFoMnptLTguNDk5IDMuMDAxaDIuOTk5djJoLTIuOTk5em0wIDMuMDAxaDIuOTk5djJoLTIuOTk5em0yLjk5OS0xLjV2LTFoMXYxem0yLjAwMSAwdi0xaDF2MXptMCAzdi0xaDF2MXptLTIuMDAxIDB2LTFoMXYxem0xLjAwMS0xLjV2LTFoMXYxem0yLjk5OSAydi0yaDF2LTFoLTN2M2gzem0tMTAuNDk5IDB2LTNoM3YxaC0ydi0xaDF2M2gtMnptOC40OTkgMHYtM2gtMnYtMWgydiFoLTF2LTNoMXYzaDF2MWgtMXYyaC0xem0yLjk5OS0zdi0zaDF2M2gtMXoiIGZpbGw9IiNjZjA5MjIiLz48L3N2Zz4=" alt="TAP Air Portugal Logo">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cGF0aCBkPSJNNjcuNjcgMTg4Ljc5djY3LjYxaDIzLjg3di02Ny42MXptLTQ0LjM0IDBWMTM3LjVoMjMuODd2MTE3LjloLTIzLjg3em0xNTUuNjYgMGgtMjMuODd2MTE3LjloMjMuODd6bS0yMy44Ny0yMy44N1YwSDk2Ljg0djE2NC45M2gyMy44N1YyMy44N2gyMy44N3YxNDEuMDZoMjMuODdaIiBmaWxsPSIjYTMwODMxIi8+PC9zdmc+" alt="Marriott Bonvoy Logo">
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -267,7 +285,7 @@
             <input type="text" name="name" placeholder="Seu Nome" required class="interactive">
             <input type="email" name="email" placeholder="Seu E-mail" required class="interactive">
             <textarea name="message" placeholder="Descreva o destino dos seus sonhos..." required class="interactive"></textarea>
-            <button type="submit" class="cta-button interactive">Enviar Mensagem</button>
+            <button type="submit" class="cta-button interactive rgb-glow">Enviar Mensagem</button>
         </form>
     </section>
     
@@ -281,7 +299,7 @@
             <div id="admin-login">
                 <p style="margin-bottom: 20px; text-align: center;">Acesso restrito.</p>
                 <input type="password" id="admin-password" placeholder="Senha" class="interactive">
-                <button id="admin-login-btn" class="cta-button interactive">Entrar</button>
+                <button id="admin-login-btn" class="cta-button interactive rgb-glow">Entrar</button>
             </div>
             <div id="admin-dashboard">
                 <h3>Mensagens Recebidas</h3>
@@ -293,7 +311,8 @@
 </main>
 
 <footer>
-    <p>&copy; 2025 ExploreMundo. Conquistando o extraordinário.</p>
+    <p>&copy; 2025 ExploreMundo. Roteiros Exclusivos.</p>
+    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Os logos de parceiros são marcas registadas dos seus respetivos proprietários e são usados aqui apenas para fins de demonstração.</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -361,8 +380,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const { width, height } = rect;
-            const rotateX = (y / height - 0.5) * -25;
-            const rotateY = (x / width - 0.5) * 25;
+            const rotateX = (y / height - 0.5) * -20;
+            const rotateY = (x / width - 0.5) * 20;
             gsap.to(card, { rotationX: rotateX, rotationY: rotateY, transformPerspective: 1000, ease: "power1.out" });
         });
         card.addEventListener('mouseleave', () => {
@@ -407,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const submissions = JSON.parse(localStorage.getItem('formSubmissions')) || [];
         messagesContainer.innerHTML = '';
         if (submissions.length === 0) {
-            messagesContainer.innerHTML = '<p>Nenhuma mensagem recebida ainda.</p>';
+            messagesContainer.innerHTML = '<p style="color: #ccc;">Nenhuma mensagem recebida ainda.</p>';
             return;
         }
         submissions.reverse().forEach(sub => {
