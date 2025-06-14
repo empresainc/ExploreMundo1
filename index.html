@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ExploreMundo - Parceiro Oficial Google com Roteiros Exclusivos</title>
+<title>ExploreMundo - Roteiros Exclusivos com Parceiros de Confiança</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,15 +26,34 @@
   /* RESET E CONFIGURAÇÕES GLOBAIS */
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: 'Poppins', sans-serif; background-color: var(--primary-color); color: var(--text-color); overflow-x: hidden; cursor: none; }
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    cursor: none;
+  }
   body.loaded { background-color: var(--background-color); }
   body.no-scroll { overflow-y: hidden; }
 
-  /* PRELOADER E CURSOR */
+  /* PRELOADER */
   .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--primary-color); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.8s ease-in-out; }
   .preloader .logo { font-size: 2rem; font-weight: 700; color: var(--secondary-color); opacity: 0; animation: pulse 1.5s infinite ease-in-out; }
   @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
-  .cursor { width: 40px; height: 40px; position: fixed; transform: translate(-50%, -50%); pointer-events: none; transition: all 0.1s ease-out; z-index: 9998; background-size: contain; background-repeat: no-repeat; background-position: center; background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIxIDE2VjE0TDE0IDlWMy41QzE0IDIuNjcgMTMuMzMgMiAxMi41IDJDOS4wMyAyIDYuMTIgMy4zNiA0LjggNi4xNEwzLjUgNS41VjBjMC0uMjgtLjIyLS41LS41LS41cy0uNS4yMi0uNS41djUuNDlsMS40IDEuNDFDNC4xNCA3LjUgNCA4LjIyIDQgOVYxMGwyLTFINnYySDNWMTVINlYxNEw4IDEzVjExTDEwLjUgMTIuNUgxOFYxNEwyMSAxNloiLz48L3N2Zz4='); }
+
+  /* CURSOR DE AVIÃO PERSONALIZADO */
+  .cursor {
+    width: 40px; height: 40px;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: all 0.1s ease-out;
+    z-index: 9998;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIxIDE2VjE0TDE0IDlWMy41QzE0IDIuNjcgMTMuMzMgMiAxMi41IDJDOS4wMyAyIDYuMTIgMy4zNiA0LjggNi4xNEwzLjUgNS41VjBjMC0uMjgtLjIyLS41LS41LS41cy0uNS4yMi0uNS41djUuNDlsMS40IDEuNDFDNC4xNCA3LjUgNCA4LjIyIDQgOVYxMGwyLTFINnYySDNWMTVINlYxNEw4IDEzVjExTDEwLjUgMTIuNUgxOFYxNEwyMSAxNloiLz48L3N2Zz4=');
+  }
   .cursor.grow { transform: scale(1.3) translateY(-5px) translate(-35%, -35%); }
   .cursor.hidden { display: none; }
 
@@ -59,49 +78,32 @@
   .section-subtitle { text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 80px auto; color: #555; }
   
   /* ANIMAÇÃO RGB */
-  @keyframes rgb-border-animation { 0% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; } 33% { border-color: #00ffff; box-shadow: 0 0 15px #00ffff; } 66% { border-color: #ffff00; box-shadow: 0 0 15px #ffff00; } 100% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; } }
+  @keyframes rgb-border-animation {
+    0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+    25% { border-color: #00ff00; box-shadow: 0 0 15px #00ff00; }
+    50% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff; }
+    75% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
+    100% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+  }
   .cta-button { position: relative; z-index: 1; }
-  .rgb-glow { border: 2px solid transparent; animation: rgb-border-animation 3s linear infinite; }
-  .plan-card.rgb-glow-hover:hover { border-color: var(--secondary-color); animation: rgb-border-animation 3s linear infinite; }
-  
-  /* NOVA SEÇÃO: ANÚNCIO GOOGLE */
-  #announcement {
-      background-color: var(--primary-color);
-      color: var(--light-text-color);
-      padding: 60px 20px;
+  .rgb-glow {
+      border: 2px solid transparent;
+      animation: rgb-border-animation 4s linear infinite;
   }
-  .announcement-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 20px;
-  }
-  .announcement-content img { height: 45px; }
-  .announcement-content h2 { font-size: 2.2rem; color: var(--secondary-color); font-weight: 700; }
-  .announcement-content p { font-size: 1.2rem; color: var(--subtle-text-color); max-width: 800px; }
 
-  /* NOVA SEÇÃO: IMPACTO (NÚMEROS) */
-  #impact { background: var(--light-background); }
-  .impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; text-align: center; }
-  .impact-item .number { font-size: 3.5rem; font-weight: 700; color: var(--secondary-color); display: block; }
-  .impact-item .text { font-size: 1.2rem; color: var(--primary-color); }
+  /* SEÇÃO FILOSOFIA COM PARALLAX */
+  .philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+  .philosophy-card { background-color: var(--light-background); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition); }
+  .philosophy-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+  .philosophy-card .image-wrapper { height: 220px; overflow: hidden; }
+  .philosophy-card img { width: 100%; height: 130%; object-fit: cover; transition: transform 0.4s ease; top: -15%; position: relative; }
+  .philosophy-card .content { padding: 30px; }
+  .philosophy-card h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
+  .philosophy-card p { font-size: 1rem; line-height: 1.6; color: #666; }
 
-  /* SEÇÃO TESTEMUNHOS (FEEDBACK) */
-  .testimonial-slider { max-width: 800px; margin: auto; text-align: center; position: relative; }
-  .testimonial-track-container { overflow: hidden; }
-  .testimonial-track { display: flex; transition: transform 0.5s ease-in-out; }
-  .testimonial-card { min-width: 100%; padding: 40px; background: var(--light-background); border-radius: var(--border-radius); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-  .testimonial-card p.quote { font-size: 1.2rem; font-style: italic; color: #555; margin-bottom: 20px; }
-  .testimonial-card p.author { font-weight: 600; color: var(--primary-color); font-size: 1.1rem; }
-  .slider-nav { margin-top: 30px; }
-  .slider-nav label { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #ccc; margin: 0 8px; cursor: pointer; transition: background 0.3s ease; }
-  .slider-nav input { display: none; }
-  .slider-nav input:checked + label { background: var(--secondary-color); }
-
-  /* SEÇÃO PACOTES E PARCEIROS */
-  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; }
-  .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 2px solid #eee; transition: all 0.3s ease; display: flex; flex-direction: column; }
+  /* SEÇÃO PACOTES COM LOGOS */
+  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; perspective: 2000px; }
+  .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; will-change: transform; transform-style: preserve-3d; display: flex; flex-direction: column; }
   .plan-card-content { flex-grow: 1; }
   .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; }
   .plan-price { font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 25px; }
@@ -109,19 +111,17 @@
   .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
   .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
   .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); flex-shrink: 0; }
+  
   .partner-section { border-top: 1px solid #eee; padding-top: 20px; margin-top: auto; }
   .partner-section h4 { font-size: 0.9rem; color: #999; margin-bottom: 15px; font-weight: 500; }
   .partner-logos { display: flex; justify-content: center; align-items: center; gap: 20px; min-height: 40px; }
   .partner-logos img { max-height: 35px; filter: grayscale(100%); opacity: 0.6; transition: var(--transition); }
   .plan-card:hover .partner-logos img { filter: none; opacity: 1; }
-
-  /* RODAPÉ E ADMIN */
-  footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 60px 20px; }
-  #partners { background: var(--light-background); }
-  .footer-logos { display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; }
-  .footer-logos img { max-height: 45px; filter: grayscale(100%); opacity: 0.7; transition: var(--transition); }
-  .footer-logos img:hover { filter: none; opacity: 1; }
-  .footer-disclaimer { font-size: 0.8rem; color: #888; margin-top: 40px; }
+  
+  /* OUTRAS SEÇÕES */
+  #contato { background: var(--light-background); }
+  .contact-form input, .contact-form textarea { width: 100%; padding: 18px; border-radius: 12px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif; font-size: 1rem; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+  .contact-form input:focus, .contact-form textarea:focus { border-color: var(--secondary-color); outline: none; box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3); }
   #admin { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
   .admin-container { background: rgba(10, 25, 47, 0.5); backdrop-filter: blur(10px); border-radius: var(--border-radius); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; overflow: hidden; max-width: 900px; margin: auto; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
   .admin-sidebar { background: rgba(10, 25, 47, 0.7); padding: 40px 30px; width: 250px; display: flex; flex-direction: column; align-items: center; color: var(--light-text-color); }
@@ -132,12 +132,20 @@
   #admin-login button { width: 100%; }
   #admin-dashboard { display: none; }
   #admin-dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-  #logout-btn { background: #c9302c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: background 0.3s ease; }
+  #logout-btn { background: #c9302c; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: background 0.3s ease; }
   #logout-btn:hover { background: #a52824; }
   .message-item { background: rgba(255,255,255,0.9); color: #333; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
   .message-item:nth-child(even) { background: rgba(255,255,255,0.8); }
   .message-item h4 { color: var(--primary-color); margin-bottom: 5px; }
   .message-item .timestamp { font-size: 0.8rem; color: #777; text-align: right; margin-top: 10px; }
+  
+  /* RODAPÉ COM PARCEIROS */
+  footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 60px 20px; }
+  .footer-partners { margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .footer-partners h4 { font-size: 1rem; font-weight: 500; margin-bottom: 20px; }
+  .footer-logos { display: flex; justify-content: center; align-items: center; gap: 40px; }
+  .footer-logos img { max-height: 40px; }
+  .footer-disclaimer { font-size: 0.8rem; color: #888; margin-top: 30px; }
 </style>
 </head>
 <body class="no-scroll">
@@ -151,10 +159,8 @@
         <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-4027-large.mp4" type="video/mp4">
     </video>
     <nav id="navbar">
-        <a href="#impacto" class="interactive">Impacto</a>
+        <a href="#philosophy" class="interactive">Nossa Filosofia</a>
         <a href="#pacotes" class="interactive">Pacotes</a>
-        <a href="#testimonials" class="interactive">Feedback</a>
-        <a href="#partners" class="interactive">Parceiros</a>
         <a href="#contato" class="interactive">Contato</a>
         <a href="#admin" class="interactive" style="color: var(--secondary-color);">Admin</a>
     </nav>
@@ -167,41 +173,13 @@
 
 <main id="main-content">
 
-    <section id="announcement">
-        <div class="announcement-content">
-            <img src="data:image/jpeg;base64,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' alt="Logo da Google">
-            <h2>Parceria de Impacto com a Google</h2>
-            <p>$1 Milhão de Dólares em financiamento para expandir as nossas fronteiras e criar roteiros ainda mais extraordinários.</p>
-        </div>
-    </section>
-
-    <section id="impacto">
-        <h2 class="section-title">O Nosso Impacto</h2>
-        <p class="section-subtitle">Números que refletem a nossa paixão e dedicação em cada jornada que planejamos.</p>
-        <div class="impact-grid">
-            <div class="impact-item"><span class="number" data-target="250">0</span><span class="text">Destinos Mapeados</span></div>
-            <div class="impact-item"><span class="number" data-target="98">0</span><span class="text">Índice de Satisfação (%)</span></div>
-            <div class="impact-item"><span class="number" data-target="5000">0</span><span class="text">Viajantes Satisfeitos</span></div>
-            <div class="impact-item"><span class="number" data-target="12">0</span><span class="text">Anos de Experiência</span></div>
-        </div>
-    </section>
-
-    <section id="testimonials">
-        <h2 class="section-title">Feedback dos Nossos Viajantes</h2>
-        <p class="section-subtitle">A confiança e a satisfação de quem viaja connosco é a nossa maior recompensa.</p>
-        <div class="testimonial-slider">
-            <div class="testimonial-track-container">
-                <div class="testimonial-track">
-                    <div class="testimonial-card"><p class="quote">"A viagem para o Japão foi a melhor da minha vida! O roteiro da ExploreMundo foi impecável, cada detalhe foi perfeito. Já estou a planear a próxima!"</p><p class="author">- Sofia Lacerda</p></div>
-                    <div class="testimonial-card"><p class="quote">"Profissionalismo e cuidado excecionais. A nossa lua de mel na Costa Amalfitana foi um sonho tornado realidade graças à equipa."</p><p class="author">- Diogo e Mariana</p></div>
-                    <div class="testimonial-card"><p class="quote">"Como viajante a solo, a segurança e o suporte eram essenciais. A ExploreMundo superou todas as expectativas na minha viagem pela Tailândia."</p><p class="author">- Ricardo Alves</p></div>
-                </div>
-            </div>
-            <div class="slider-nav">
-                <input type="radio" name="slider" id="slide1" checked> <label for="slide1" class="interactive"></label>
-                <input type="radio" name="slider" id="slide2"> <label for="slide2" class="interactive"></label>
-                <input type="radio" name="slider" id="slide3"> <label for="slide3" class="interactive"></label>
-            </div>
+    <section id="philosophy">
+        <h2 class="section-title">Nossa Filosofia</h2>
+        <p class="section-subtitle">A nossa missão é transformar o seu desejo de viajar numa experiência impecável, do planeamento ao regresso.</p>
+        <div class="philosophy-grid">
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img class="parallax-img" src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80" alt="Homem olhando para um lago nas montanhas"></div><div class="content"><h3>O Sonho</h3><p>Tudo começa com a sua visão. Ouvimos os seus desejos para criar algo que vai além do esperado.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img class="parallax-img" src="https://images.unsplash.com/photo-1526778548025-1dbd781b85f2?w=600&q=80" alt="Mapa e bússola sobre uma mesa de madeira"></div><div class="content"><h3>O Roteiro</h3><p>Os nossos especialistas transformam a sua visão num itinerário impecável, cuidando de cada detalhe com precisão.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img class="parallax-img" src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80" alt="Pessoa sentada na proa de um barco"></div><div class="content"><h3>A Experiência</h3><p>Entregamos mais do que uma viagem; entregamos a tranquilidade para que possa criar memórias inesquecíveis.</p></div></div>
         </div>
     </section>
 
@@ -209,7 +187,7 @@
         <h2 class="section-title">Pacotes Assinatura</h2>
         <p class="section-subtitle">Três níveis de experiência, todos com a garantia de excelência e os melhores parceiros.</p>
         <div class="plans-grid">
-            <div class="plan-card interactive plan-card.rgb-glow-hover">
+            <div class="plan-card interactive">
                 <div class="plan-card-content">
                     <h3>Aventura</h3>
                     <div class="plan-price">€999 <span>/ pessoa</span></div>
@@ -222,11 +200,28 @@
                 <div class="partner-section">
                     <h4>Parceiro Aéreo</h4>
                     <div class="partner-logos">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAagAAAB5CAMAAADfE36PAAAAYFBMVEUAAADdqGbdrGvjrHHhqmfdqGfdqWjfqmnoqWn3tXTdqGjdqWjfrW3gqGrwsm7bqGj3tXTeplD2s2z6u331sWf////gr238xY36v4Tcsmv3uXr9x5D8wIb9zZz5vH8/Tq3gAAAEhUlEQVR42u2di5KiMBCGKxUTGcUFF1EE3v+VnsQLGVERQZnsdD/1rA7FGC8tPS0tCiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoijK//PwnDCHit4j4nQkZk13JhiHl0zYWxBaDNp2c2z42N3Bsl0A5t07D5N4x7iE2nZ/MBUw/aSxY0g7RLuNUvXbXo/GJg2D4wH2w6/d299bAG8M1+4wvwC8F24TceYbs2d3Z8A3gK2EZb/zBvjX3c2zLS/AfgYIu2/NAtx3d7eEvQtwygoSYs+zI2d3B+8WYJ1VImz5eB7d3V3gZGL/Dlj3MSRbvx/9Lq8L0D7GzV3wBwBebn8I4nZ3d4X7AejfSdsB/hng6/Y/I0V3d7/eWQCf3bfu6j63g+vyuwyw4/vQDTB+h/F6eS/A8+1u7h+Z3d3/9gBw2zYVML3/yG7u+9oBcPv6Bii/c9R+5u6+r+cD0N/7xzQ/M3d3l08A8M81ALVbAG80gLtv7Qd+s3u7y6kA2H1tP6wG2LM9wZ3d3V0eC8DUzV0wz0u/3u7yqAB+s7u7u8sl8Lu7t/GjDVi7w/sKuN3dXR7PAJ+3u3e/d3d3d3d3/ysAb2x3d3d3d3d3d3eXzwD4ne/d3d3d3d3d3W3ZAV+7u7u7u7u7u7u7+78N4B+3wE93d3d3d3d395d3gH/d3d3d3d3d3d19Dw//4+7u7u7u7u7u/u99AM/Z3d3d3d3d3d39vgM8vbu7u7u7u7u7+7sP8NHu7u7u7u7u7u7u7m8G+Lu7u7u7u7u7u7u7+7sC+Lu7u7u7u7u7u7t7KwD3s7u7u7u7u7u7e5cAr/eL+sbu7u7u7u7eZcAr3rQZ+rvd3d3d3T3PAJ+2GWBvNn92d3d3d/d2AfwGrNsBtgL4ne/d3d3d3d09C+CPsO6/LVi/u7u7u3u6AIy2/Yf1wLg9+7s9u7u7t3sB1t8uANPzG7BvN4Dxu7u7e9cAv+1uAMoE0P7u7u7u7u7ulwDYdt/aX27u7u7u7u7uXgbwz9sB4u7u7u7u7u7u+wT4b3e343d3d3d3d3f/5wHYdnd3d3d3d3d3d/frAfjV3d3d3d3d3d3d/W8D+L67u7u7u7u7u7v79w3g8e7u7u7u7u7u7u7+7wLw+u7u7u7u7u7u7u7u/u8G8MV2d3d3d3d3d3d3d3//PwD/v93d3d3d3d3d3f1wAd52d3d3d3d3d3f/9wM42t3d3d3d3d3d3Q1gfPdH85nZ/c0Ab7e7u7u7u7u7e+8BvN3u7u7u7u7u3hPgyXWn/x93d3d3d393/ysAp+u/D+B7d3d3dw/A/gD98/x/BHd39/cDeE/2GGBvNm93d39vgJ/dD4Ab2r/d3d09Bdhz+4C+e7u7u7u7u7u7u3uHAPyqA3A+v3d395cBvLz73wP86gL8/wH8+gJ8D4g/D+DXBfiE3wfw6wr8Jtwn4FdV+PfhTwR+VYXfC/+oDKhK3f5vI3BVYqiiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIrSP/0HhLg3Yl+SOToAAAAASUVORK5CYII=" alt="TAP Air Portugal Logo">
+                    </div>
+                </div>
+            </div>
+            <div class="plan-card interactive">
+                <div class="plan-card-content">
+                    <h3>Descoberta</h3>
+                    <div class="plan-price">€1.999 <span>/ pessoa</span></div>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98-.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08.66-.08 1s.04.67.08 1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Experiências Locais</li>
+                    </ul>
+                </div>
+                <div class="partner-section">
+                    <h4>Parceiro Aéreo</h4>
+                    <div class="partner-logos">
                         <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAagAAAB5CAMAAADfE36PAAAAYFBMVEUAAADdqGbdrGvjrHHhqmfdqGfdqWjfqmnoqWn3tXTdqGjdqWjfrW3gqGrwsm7bqGj3tXTeplD2s2z6u331sWf////gr238xY36v4Tcsmv3uXr9x5D8wIb9zZz5vH8/Tq3gAAAEhUlEQVR42u2di5KiMBCGKxUTGcUFF1EE3v+VnsQLGVERQZnsdD/1rA7FGC8tPS0tCiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoijK//PwnDCHit4j4nQkZk13JhiHl0zYWxBaDNp2c2z42N3Bsl0A5t07D5N4x7iE2nZ/MBUw/aSxY0g7RLuNUvXbXo/GJg2D4wH2w6/d299bAG8M1+4wvwC8F24TceYbs2d3Z8A3gK2EZb/zBvjX3c2zLS/AfgYIu2/NAtx3d7eEvQtwygoSYs+zI2d3B+8WYJ1VImz5eB7d3V3gZGL/Dlj3MSRbvx/9Lq8L0D7GzV3wBwBebn8I4nZ3d4X7AejfSdsB/hng6/Y/I0V3d7/eWQCf3bfu6j63g+vyuwyw4/vQDTB+h/F6eS/A8+1u7h+Z3d3/9gBw2zYVML3/yG7u+9oBcPv6Bii/c9R+5u6+r+cD0N/7xzQ/M3d3l08A8M81ALVbAG80gLtv7Qd+s3u7y6kA2H1tP6wG2LM9wZ3d3V0eC8DUzV0wz0u/3u7yqAB+s7u7u8sl8Lu7t/GjDVi7w/sKuN3dXR7PAJ+3u3e/d3d3d3d3/ysAb2x3d3d3d3d3d3d3d3eXzwD4ne/d3d3d3d3d3W3ZAV+7u7u7u7u7u7u7+78N4B+3wE93d3d3d3d3d/eXdwD/u7u7u7u7u7u7u+w//4+7u7u7u7u7u/u99AM/Z3d3d3d3d3d39vgM8vbu7u7u7u7u7+7sP8NHu7u7u7u7u7u7u7m8G+Lu7u7u7u7u7u7u7+7sC+Lu7u7u7u7u7u7t7KwD3s7u7u7u7u7u7e5cAr/eL+sbu7u7u7u7eZcAr3rQZ+rvd3d3d3T3PAJ+2GWBvNn92d3d3d/d2AfwGrNsBtgL4ne/d3d3d3d09C+CPsO6/LVi/u7u7u3u6AIy2/Yf1wLg9+7s9u7u7t3sB1t8uANPzG7BvN4Dxu7u7e9cAv+1uAMoE0P7u7u7u7u7uXgbwz9sB4u7u7u7u7u7u+wT4b3e343d3d3d3d3f/5wHYdnd3d3d3d3d3d/frAfjV3d3d3d3d3d3d/W8D+L67u7u7u7u7u7v79w3g8e7u7u7u7u7u7u7+7wLw+u7u7u7u7u7u7u7u/u8G8MV2d3d3d3d3d3d3d3//PwD/v93d3d3d3d3d3f1wAd52d3d3d3d3d3f/9wM42t3d3d3d3d3d3Q1gfPdH85nZ/c0Ab7e7u7u7u7u7e+8BvN3u7u7u7u7u3hPgyXWn/x93d3d3d393/ysAp+u/D+B7d3d3dw/A/gD98/x/BHd39/cDeE/2GGBvNm93d39vgJ/dD4Ab2r/d3d09Bdhz+4C+e7u7u7u7u7u7u3uHAPyqA3A+v3d395cBvLz73wP86gL8/wH8+gJ8D4g/D+DXBfiE3wfw6wr8Jtwn4FdV+PfhTwR+VYXfC/+oDKhK3f5vI3BVYqiiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIrSP/0HhLg3Yl+SOToAAAAASUVORK5CYII=" alt="TAP Air Portugal Logo">
                     </div>
                 </div>
             </div>
-            <div class="plan-card interactive plan-card.rgb-glow-hover">
+            <div class="plan-card interactive">
                  <div class="plan-card-content">
                     <h3>Executivo</h3>
                     <div class="plan-price">€3.999 <span>/ pessoa</span></div>
@@ -247,17 +242,54 @@
         </div>
     </section>
 
-    <section id="partners">
-        <h2 class="section-title">Parceiros Oficiais</h2>
-        <p class="section-subtitle">Temos orgulho de trabalhar com os líderes da indústria para garantir a melhor experiência possível.</p>
+    <section id="contato">
+        <h2 class="section-title">Inicie Sua Próxima Jornada</h2>
+        <p class="section-subtitle">A sua viagem inesquecível está a uma mensagem de distância. Vamos planejá-la juntos.</p>
+        <form id="contactForm" class="contact-form">
+            <input type="text" name="name" placeholder="Seu Nome" required class="interactive">
+            <input type="email" name="email" placeholder="Seu E-mail" required class="interactive">
+            <textarea name="message" placeholder="Descreva o destino dos seus sonhos..." required class="interactive"></textarea>
+            <button type="submit" class="cta-button interactive rgb-glow">Enviar Mensagem</button>
+        </form>
+    </section>
+    
+    <section id="admin">
+      <div class="admin-container">
+          <div class="admin-sidebar">
+              <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"></path></svg>
+              <h3>Painel de<br>Administrador</h3>
+          </div>
+          <div class="admin-main">
+            <div id="admin-login">
+                <p style="margin-bottom: 20px; text-align: center;">Acesso restrito.</p>
+                <input type="password" id="admin-password" placeholder="Senha" class="interactive">
+                <button id="admin-login-btn" class="cta-button interactive">Entrar</button>
+            </div>
+            <div id="admin-dashboard">
+                <div id="admin-dashboard-header">
+                  <h3>Mensagens Recebidas</h3>
+                  <button id="logout-btn" class="interactive">Logout</button>
+                </div>
+                <div id="messages-container"></div>
+            </div>
+          </div>
+      </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2025 ExploreMundo. Roteiros Exclusivos.</p>
+    <div class="footer-partners">
+        <h4>Parceiros de Confiança</h4>
         <div class="footer-logos">
-            <img src="data:image/jpeg;base64,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" alt="Logo da Google">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAagAAAB5CAMAAADfE36PAAAAYFBMVEUAAADdqGbdrGvjrHHhqmfdqGfdqWjfqmnoqWn3tXTdqGjdqWjfrW3gqGrwsm7bqGj3tXTeplD2s2z6u331sWf////gr238xY36v4Tcsmv3uXr9x5D8wIb9zZz5vH8/Tq3gAAAEhUlEQVR42u2di5KiMBCGKxUTGcUFF1EE3v+VnsQLGVERQZnsdD/1rA7FGC8tPS0tCiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoijK//PwnDCHit4j4nQkZk13JhiHl0zYWxBaDNp2c2z42N3Bsl0A5t07D5N4x7iE2nZ/MBUw/aSxY0g7RLuNUvXbXo/GJg2D4wH2w6/d299bAG8M1+4wvwC8F24TceYbs2d3Z8A3gK2EZb/zBvjX3c2zLS/AfgYIu2/NAtx3d7eEvQtwygoSYs+zI2d3B+8WYJ1VImz5eB7d3V3gZGL/Dlj3MSRbvx/9Lq8L0D7GzV3wBwBebn8I4nZ3d4X7AejfSdsB/hng6/Y/I0V3d7/eWQCf3bfu6j63g+vyuwyw4/vQDTB+h/F6eS/A8+1u7h+Z3d3/9gBw2zYVML3/yG7u+9oBcPv6Bii/c9R+5u6+r+cD0N/7xzQ/M3d3l08A8M81ALVbAG80gLtv7Qd+s3u7y6kA2H1tP6wG2LM9wZ3d3V0eC8DUzV0wz0u/3u7yqAB+s7u7u8sl8Lu7t/GjDVi7w/sKuN3dXR7PAJ+3u3e/d3d3d3d3/ysAb2x3d3d3d3d3d3d3d3eXzwD4ne/d3d3d3d3d3W3ZAV+7u7u7u7u7u7u7+78N4B+3wE93d3d3d3d3d/eXdwD/u7u7u7u7u7u7u+w//4+7u7u7u7u7u/u99AM/Z3d3d3d3d3d39vgM8vbu7u7u7u7u7+7sP8NHu7u7u7u7u7u7u7m8G+Lu7u7u7u7u7u7u7+7sC+Lu7u7u7u7u7u7t7KwD3s7u7u7u7u7u7e5cAr/eL+sbu7u7u7u7eZcAr3rQZ+rvd3d3d3T3PAJ+2GWBvNn92d3d3d/d2AfwGrNsBtgL4ne/d3d3d3d09C+CPsO6/LVi/u7u7u3u6AIy2/Yf1wLg9+7s9u7u7t3sB1t8uANPzG7BvN4Dxu7u7e9cAv+1uAMoE0P7u7u7u7u7uXgbwz9sB4u7u7u7u7u7u+wT4b3e343d3d3d3d3f/5wHYdnd3d3d3d3d3d/frAfjV3d3d3d3d3d3d/W8D+L67u7u7u7u7u7v79w3g8e7u7u7u7u7u7u7+7wLw+u7u7u7u7u7u7u7u/u8G8MV2d3d3d3d3d3d3d3//PwD/v93d3d3d3d3d3f1wAd52d3d3d3d3d3f/9wM42t3d3d3d3d3d3Q1gfPdH85nZ/c0Ab7e7u7u7u7u7e+8BvN3u7u7u7u7u3hPgyXWn/x93d3d3d393/ysAp+u/D+B7d3d3dw/A/gD98/x/BHd39/cDeE/2GGBvNm93d39vgJ/dD4Ab2r/d3d09Bdhz+4C+e7u7u7u7u7u7u3uHAPyqA3A+v3d395cBvLz73wP86gL8/wH8+gJ8D4g/D+DXBfiE3wfw6wr8Jtwn4FdV+PfhTwR+VYXfC/+oDKhK3f5vI3BVYqiiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIrSP/0HhLg3Yl+SOToAAAAASUVORK5CYII=" alt="TAP Air Portugal Logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMzciIGhlaWdodD0iNDUiIHZpZXdCb3g9IjAgMCAxMzcgNDUiPjxwYXRoIGZpbGw9IiM0Mjg1RjQiIGQ9Ik0zMC4yNjUgMTYuNTRjMCAuNzYzLS4wNjUgMS41MjUtLjE5NSAyLjI2aC0xNC4zOXYtNC4xMWgxMS4wNWMtLjQ4Ny0yLjA3Ny0xLjg0My0zLjU2My0zLjc2OC0zLjU2My0yLjYyIDAtNC42OCA0LjEwOC00LjY4IDQuMTA4cy0yLjA1OCA0LjM3Mi0yLjA1OCA0LjM3MmMwIDIuNjIgMi4wODQgNC43MjcgMi4wODQgNC43MjdzMi4wNTggNC42MjggNC42MjggNC42MjhjMS45MjUgMCAzLjI4LTEuNDg2IDMuNzY4LTMuNTYzSDMwLjA3Yy4xMy43MzUuMTk1IDEuNDk4LjE5NSAyLjI2IDAgMy42OTYtMi4xMTcgNi41MTgtNS4xOTIgNi41MThoLjAwMWMtMy4xMDYgMC01LjE2LTEuNjE4LTUuMTYtMS42MThzLTMuMDQzLTMuOTQ3LTMuMDQzLTQuODk4YzAtLjAxNi4wMDItLjAzLjAwMi0uMDQ3di0uMDk2YzAtMy4zMSAyLjUyNS02LjQyNiA2LjQyNi02LjQyNmguMDAyYzMuNjM0IDAgNi4yMDcgMi43NDUgNi4yMDcgNi4yNzV6Ii8+PHBhdGggZmlsbD0iI0VBNDMzNSIgZD0iTTguMTUgMTYuNTRjMCAuNzYzLS4wNjUgMS41MjUtLjE5NSAyLjI2SDguOTg2di00LjExSDIwLjA0Yy0uNDg3LTIuMDc3LTEuODQzLTMuNTYzLTMuNzY4LTMuNTYzLTIuNjIgMC00LjY4IDQuMTA4LTQuNjggNC4xMDhzLTIuMDU4IDQuMzcyLTIuMDU4IDQuMzcyYzAgMi42MiAyLjA4NCA0LjcyNyAyLjA4NCA0LjcyN3MyLjA1OCA0LjYyOCA0LjYyOCA0LjYyOGMxLjkyNSAwIDMuMjgtMS40ODYgMy43NjgtMy41NjNILjAwNWMuMTMuNzM1LjE5NSAxLjQ5OC4xOTUgMi4yNiAwIDMuNjk2LTIuMTE3IDYuNTE4LTUuMTkyIDYuNTE4aC4wMDFjLTMuMTA2IDAtNS4xNi0xLjYxOC01LjE2LTEuNjE4cy0zLjA0My0zLjk0Ny0zLjA0My00Ljg5OGMwLS4wMTYuMDAyLS4wMy4wMDItLjA0N3YtLjA5NmMwLTMuMzEgMi41MjUtNi40MjYgNi40MjYtNi40MjZILjAwMmMzLjYzNCAwIDYuMjA3IDIuNzQ1IDYuMjA3IDYuMjc1eiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQuNDU4KSIvPjxwYXRoIGZpbGw9IiMzNEE4NTMiIGQ9Ik00Ny45NzIgMjMuMDM0aDQuNDI4di0xMS44Nkg0Ny45NzJ6Ii8+PHBhdGggZmlsbD0iI0ZBQUEwMyIgZD0iTTYyLjM2MyAxMS4xNjhjLTIuNTI1IDAtNC4zNzIgMS4zMjgtNS4yMjUgMi4zMzZoLS4wNjV2LTEuOTI1aC00LjE0MXYyMi4xMTZoNC4zMDhWMjIuMDZjMC0yLjY1MiAxLjI5Ny00LjM3MiA0LjE0MS00LjM3MiAxLjI5NyAwIDIuNjg3LjUgMi42ODcgMXYtLjA2NWMuMzktMS4xOTggMS4yOTctMS45NTcgMi40NTgtMS45NTcgMi44MiAwIDQuNjYzIDIuMDgyIDQuNjYzIDUuMjU4djEwLjgyaDQuMzA4VjIwLjc2YzAtNC4zMDgtMi41NTYtNy4wMDgtNi4zOTYtNy4wMDgtMS43OCAwLTMuMjggMS4wMDItNC4wMSAyLjI5NnoiLz48cGF0aCBmaWxsPSIjNDI4NUY0IiBkPSJNNzguMjM4IDExLjE2OGMtMy4zNzMgMC02LjE0MiAyLjQ5LTEuMTQyIDYuNDI2aC4wNjVjMCAzLjk0OCA0Ljc2IDYuNDI2IDQuNzYgNi40MjZzMi41NTYgMi4yOTUgNi4wNDYgMi4yOTVoLjAwMWMzLjY2NiAwIDYuMDc4LTIuNTU2IDYuMDc4LTUuOTgxdi0uMTMxYzAtMy4zMS0yLjYyLTUuOTgxLTYuNDYtNS45ODFoLS4wNjVjLTMuNTY4LS4wMzMtNS4yMjQtMi41MjQtNS4yMjQtMi41MjRzLTEuMjk3LTIuODItNC4wMS0yLjgyek04NC4zMSAyMC4xODJjLTMuMDQzIDAtNC4xNzMtMS40MjEtNC4xNzMtMi45NzcgMC0xLjU1NiAxLjEzLTIuOTQ0IDQuMTczLTIuOTQ0aC4wNjVjMy4wNzQgMCA0LjEzIDEuMzg4IDQuMTMgMi45NDQgMCAxLjU1Ni0xLjA1NiAyLjk3Ny00LjE5NSAyLjk3N2gtLjAwM3oiLz48cGF0aCBmaWxsPSIjRkFBBDAzIiBkPSJNOTQuNjMyIDE3LjM4N2wxLjE2Mi0xLjQyMWgxMi43OXY0LjE0MWgtMTIuNjI3bC0xLjMyOCA1LjIzNGgtNC43MjdsNi44NDYtMjIuMTE2aDUuNDg0bDIuOTQ1IDkuMjM0aC4wNjVsMi45NDQtOS4yMzRoNS40ODRsNi44NDYgMjIuMTE2aC00LjcyN2wtMS4zMjgtNS4yMzRIMTA5LjE2di00LjE0MWgxMi43ODhsMS4xNjIgMS40MjEgMS43OCAyLjE4LTMuMzQyIDQuMTQxaC4wNjV6Ii8+PHBhdGggZmlsbD0iIzQyODVGNCIgZD0iTTExOC4zMjUgMTEuMTY4Yy0yLjU1NSAbC00LjM3MiAxLjMyOC01LjIyNSAyLjMzNmgtLjA2NXYtMS45MjVoLTQuMTQydjIyLjExNmg0LjMwOHYtMTEuMzM0YzAtMi42NTIgMS4yOTctNC4zNzIgNC4xNDEtNC4zNzJzMi42ODcuNSAyLjY4NyAxdi0uMDY1Yy4zOS0xLjE5OCAxLjI5Ny0xLjk1NyAyLjQ1OC0xLjk1NyAyLjgyIDAgNC42NjMgMi4wODIgNC42NjMgNS4yNTh2MTAuODJoNC4zMDhWMjAuNzZjMC00LjMwOC0yLjU1Ni03LjAwOC02LjM5Ni03LjAwOC0xLjc4IDAtMy4yOCAxLjAwMi00LjAxIDIuMjk2eiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTcuMzQxKSIvPjwvc3ZnPg==" alt="Google Partner Logo">
         </div>
-        <p class="footer-disclaimer">Os logos da Google e TAP Air Portugal são marcas registadas dos seus respetivos proprietários e são usados aqui apenas para fins de demonstração.</p>
-    </footer>
+        <p class="footer-disclaimer">Os logos da TAP Air Portugal e Google Partner são marcas registadas dos seus respetivos proprietários e são usados aqui apenas para fins de demonstração.</p>
+    </div>
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -268,15 +300,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // LÓGICA DO PRELOADER
     window.addEventListener('load', () => {
-        gsap.to(preloader, { opacity: 0, duration: 1, delay: 0.5, onComplete: () => {
-            preloader.style.display = 'none';
-            body.classList.remove('no-scroll');
-            body.classList.add('loaded');
-            animatePageIn();
-        }});
+        gsap.to(preloader, {
+            opacity: 0,
+            duration: 1,
+            delay: 0.5,
+            onComplete: () => {
+                preloader.style.display = 'none';
+                body.classList.remove('no-scroll');
+                body.classList.add('loaded');
+                animatePageIn();
+            }
+        });
     });
 
-    // LÓGICA DO CURSOR
+    // LÓGICA DO CURSOR PERSONALIZADO
     let mouseX = 0, mouseY = 0, posX = 0, posY = 0;
     gsap.set(cursor, { xPercent: -50, yPercent: -50, rotation: -45 });
     window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
@@ -296,6 +333,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener("mouseenter", () => cursor.classList.remove("hidden"));
 
     // ANIMAÇÕES DA PÁGINA COM GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
     function animatePageIn() {
         const mainTitle = document.querySelector('.main-title');
         const chars = mainTitle.textContent.split('');
@@ -310,33 +349,34 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
     
-    // ANIMAÇÃO DOS NÚMEROS
-    gsap.utils.toArray('.number').forEach(numberEl => {
-        gsap.from(numberEl, {
-            textContent: 0,
-            duration: 2,
-            ease: "power1.inOut",
-            snap: { textContent: 1 },
+    // EFEITO PARALLAX NAS IMAGENS DA FILOSOFIA
+    gsap.utils.toArray('.parallax-img').forEach(img => {
+        gsap.to(img, {
+            y: "-60px",
+            ease: "none",
             scrollTrigger: {
-                trigger: numberEl,
-                start: "top 85%",
-                toggleActions: "play none none none"
+                trigger: img.closest('.philosophy-card'),
+                scrub: true,
             }
         });
     });
-
-    // LÓGICA DO SLIDER DE TESTEMUNHOS
-    const sliderTrack = document.querySelector('.testimonial-track');
-    const slides = document.querySelectorAll('.testimonial-card');
-    const radioButtons = document.querySelectorAll('.slider-nav input');
     
-    radioButtons.forEach((radio, index) => {
-        radio.addEventListener('change', () => {
-            gsap.to(sliderTrack, {
-                x: -index * 100 + '%',
-                duration: 0.5,
-                ease: 'power2.inOut'
-            });
+    // ANIMAÇÃO 3D TILT DOS CARDS
+    const tiltCards = document.querySelectorAll('.plan-card');
+    tiltCards.forEach(card => {
+        card.addEventListener('mouseenter', () => card.classList.add('rgb-glow'));
+        card.addEventListener('mouseleave', () => card.classList.remove('rgb-glow'));
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const { width, height } = rect;
+            const rotateX = (y / height - 0.5) * -20;
+            const rotateY = (x / width - 0.5) * 20;
+            gsap.to(card, { rotationX: rotateX, rotationY: rotateY, transformPerspective: 1000, ease: "power1.out" });
+        });
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, { rotationX: 0, rotationY: 0, ease: "power1.out" });
         });
     });
 
@@ -345,7 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const formData = new FormData(contactForm);
-        const submission = { name: formData.get('name'), email: formData.get('email'), message: formData.get('message'), timestamp: new Date().toISOString() };
+        const submission = {
+            name: formData.get('name'), email: formData.get('email'),
+            message: formData.get('message'), timestamp: new Date().toISOString()
+        };
         const submissions = JSON.parse(localStorage.getItem('formSubmissions')) || [];
         submissions.push(submission);
         localStorage.setItem('formSubmissions', JSON.stringify(submissions));
@@ -370,7 +413,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    logoutBtn.addEventListener('click', () => { location.reload(); });
+    logoutBtn.addEventListener('click', () => {
+        location.reload();
+    });
 
     function displayMessages() {
         const messagesContainer = document.getElementById('messages-container');
