@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ExploreMundo - Roteiros Exclusivos</title>
+<title>ExploreMundo - Roteiros Exclusivos com Parceiros de Confiança</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -52,17 +52,14 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    /* Imagem do avião em Base64 para não depender de arquivos externos */
     background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIxIDE2VjE0TDE0IDlWMy41QzE0IDIuNjcgMTMuMzMgMiAxMi41IDJDOS4wMyAyIDYuMTIgMy4zNiA0LjggNi4xNEwzLjUgNS41VjBjMC0uMjgtLjIyLS41LS41LS41cy0uNS4yMi0uNS41djUuNDlsMS40IDEuNDFDNC4xNCA3LjUgNCA4LjIyIDQgOVYxMGwyLTFINnYySDNWMTVINlYxNEw4IDEzVjExTDEwLjUgMTIuNUgxOFYxNEwyMSAxNloiLz48L3N2Zz4=');
   }
-  .cursor.grow {
-    transform: scale(1.3) translateY(-5px) translate(-35%, -35%);
-  }
+  .cursor.grow { transform: scale(1.3) translateY(-5px) translate(-35%, -35%); }
   .cursor.hidden { display: none; }
 
   /* CABEÇALHO E NAVEGAÇÃO */
   .hero { height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--light-text-color); text-align: center; overflow: hidden; }
-  #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; }
+  #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; object-fit: cover; }
   .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.75); z-index: -1; }
   .hero-content { z-index: 1; }
   .hero h1 { font-size: clamp(3rem, 10vw, 6rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
@@ -81,45 +78,25 @@
   .section-subtitle { text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 80px auto; color: #555; }
   
   /* ANIMAÇÃO RGB */
-  @keyframes rgb-animation {
-    0% { filter: hue-rotate(0deg); }
-    100% { filter: hue-rotate(360deg); }
+  @keyframes rgb-border-animation {
+    0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
+    25% { border-color: #00ff00; box-shadow: 0 0 15px #00ff00; }
+    50% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff; }
+    75% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
+    100% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000; }
   }
+  .cta-button { position: relative; z-index: 1; }
   .rgb-glow {
-    position: relative;
-    overflow: hidden;
+      border: 2px solid transparent;
+      animation: rgb-border-animation 4s linear infinite;
   }
-  .rgb-glow::before {
-    content: "";
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 200%;
-    height: 200%;
-    background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    animation: rgb-animation 4s linear infinite;
-  }
-  .rgb-glow:hover::before {
-    opacity: 1;
-  }
-  .cta-button.rgb-glow::before {
-      z-index: -2;
-      filter: blur(5px);
-  }
-  .plan-card.rgb-glow::before {
-      z-index: -1;
-      filter: blur(15px);
-  }
-  
-  /* SEÇÃO FILOSOFIA */
+
+  /* SEÇÃO FILOSOFIA COM PARALLAX */
   .philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
   .philosophy-card { background-color: var(--light-background); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition); }
   .philosophy-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
   .philosophy-card .image-wrapper { height: 220px; overflow: hidden; }
-  .philosophy-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-  .philosophy-card:hover img { transform: scale(1.05); }
+  .philosophy-card img { width: 100%; height: 130%; object-fit: cover; transition: transform 0.4s ease; top: -15%; position: relative; }
   .philosophy-card .content { padding: 30px; }
   .philosophy-card h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
   .philosophy-card p { font-size: 1rem; line-height: 1.6; color: #666; }
@@ -133,35 +110,13 @@
   .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
   .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
   .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
-  .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
+  .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); flex-shrink: 0; }
   
-  /* PARCEIROS */
-  .partner-section {
-      border-top: 1px solid #eee;
-      padding-top: 20px;
-      margin-top: 20px;
-  }
-  .partner-section h4 {
-      font-size: 0.9rem;
-      color: #999;
-      margin-bottom: 15px;
-      font-weight: 500;
-  }
-  .partner-logos {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      min-height: 40px;
-  }
-  .partner-logos img {
-      max-height: 35px;
-      filter: grayscale(100%) contrast(0%) brightness(1.5);
-      transition: var(--transition);
-  }
-  .plan-card:hover .partner-logos img {
-      filter: none;
-  }
+  .partner-section { border-top: 1px solid #eee; padding-top: 20px; margin-top: auto; }
+  .partner-section h4 { font-size: 0.9rem; color: #999; margin-bottom: 15px; font-weight: 500; }
+  .partner-logos { display: flex; justify-content: center; align-items: center; gap: 20px; min-height: 40px; }
+  .partner-logos img { max-height: 35px; filter: grayscale(100%); opacity: 0.6; transition: var(--transition); }
+  .plan-card:hover .partner-logos img { filter: none; opacity: 1; }
   
   /* OUTRAS SEÇÕES */
   #contato { background: var(--light-background); }
@@ -176,12 +131,21 @@
   #admin-login input { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 1rem; border-radius: 8px; border: 1px solid #555; background-color: rgba(0,0,0,0.2); color: white; }
   #admin-login button { width: 100%; }
   #admin-dashboard { display: none; }
-  #admin-dashboard h3 { margin-bottom: 20px; }
+  #admin-dashboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  #logout-btn { background: #c9302c; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; transition: background 0.3s ease; }
+  #logout-btn:hover { background: #a52824; }
   .message-item { background: rgba(255,255,255,0.9); color: #333; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
   .message-item:nth-child(even) { background: rgba(255,255,255,0.8); }
   .message-item h4 { color: var(--primary-color); margin-bottom: 5px; }
   .message-item .timestamp { font-size: 0.8rem; color: #777; text-align: right; margin-top: 10px; }
-  footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 50px 20px; }
+  
+  /* RODAPÉ COM PARCEIROS */
+  footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 60px 20px; }
+  .footer-partners { margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .footer-partners h4 { font-size: 1rem; font-weight: 500; margin-bottom: 20px; }
+  .footer-logos { display: flex; justify-content: center; align-items: center; gap: 40px; }
+  .footer-logos img { max-height: 40px; }
+  .footer-disclaimer { font-size: 0.8rem; color: #888; margin-top: 30px; }
 </style>
 </head>
 <body class="no-scroll">
@@ -192,7 +156,7 @@
 <header class="hero">
     <div class="hero-overlay"></div>
     <video playsinline autoplay muted loop id="hero-video">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-40 flying-through-the-clouds-4027-large.mp4" type="video/mp4">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-4027-large.mp4" type="video/mp4">
     </video>
     <nav id="navbar">
         <a href="#philosophy" class="interactive">Nossa Filosofia</a>
@@ -202,7 +166,7 @@
     </nav>
     <div class="hero-content">
         <h1 class="main-title">O Mundo à sua Espera</h1>
-        <p>Roteiros exclusivos para as viagens da sua vida.</p>
+        <p>Criamos experiências de viagem que definem uma vida.</p>
         <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes</a>
     </div>
 </header>
@@ -211,11 +175,11 @@
 
     <section id="philosophy">
         <h2 class="section-title">Nossa Filosofia</h2>
-        <p class="section-subtitle">Nossa missão é transformar seu desejo de viajar em uma experiência impecável, do planejamento ao retorno.</p>
+        <p class="section-subtitle">A nossa missão é transformar o seu desejo de viajar numa experiência impecável, do planeamento ao regresso.</p>
         <div class="philosophy-grid">
-            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80" alt="Homem olhando para um lago nas montanhas"></div><div class="content"><h3>O Sonho</h3><p>Tudo começa com a sua visão. Ouvimos seus desejos para criar algo que vai além do esperado.</p></div></div>
-            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1526778548025-1dbd781b85f2?w=600&q=80" alt="Mapa e bússola sobre uma mesa de madeira"></div><div class="content"><h3>O Roteiro</h3><p>Nossos especialistas tecem sua visão em um itinerário impecável, cuidando de cada detalhe com precisão.</p></div></div>
-            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80" alt="Pessoa sentada na proa de um barco"></div><div class="content"><h3>A Experiência</h3><p>Entregamos mais do que uma viagem; entregamos a tranquilidade para que você possa criar memórias inesquecíveis.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img class="parallax-img" src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80" alt="Homem olhando para um lago nas montanhas"></div><div class="content"><h3>O Sonho</h3><p>Tudo começa com a sua visão. Ouvimos os seus desejos para criar algo que vai além do esperado.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img class="parallax-img" src="https://images.unsplash.com/photo-1526778548025-1dbd781b85f2?w=600&q=80" alt="Mapa e bússola sobre uma mesa de madeira"></div><div class="content"><h3>O Roteiro</h3><p>Os nossos especialistas transformam a sua visão num itinerário impecável, cuidando de cada detalhe com precisão.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img class="parallax-img" src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80" alt="Pessoa sentada na proa de um barco"></div><div class="content"><h3>A Experiência</h3><p>Entregamos mais do que uma viagem; entregamos a tranquilidade para que possa criar memórias inesquecíveis.</p></div></div>
         </div>
     </section>
 
@@ -223,7 +187,7 @@
         <h2 class="section-title">Pacotes Assinatura</h2>
         <p class="section-subtitle">Três níveis de experiência, todos com a garantia de excelência e os melhores parceiros.</p>
         <div class="plans-grid">
-            <div class="plan-card interactive rgb-glow">
+            <div class="plan-card interactive">
                 <div class="plan-card-content">
                     <h3>Aventura</h3>
                     <div class="plan-price">€999 <span>/ pessoa</span></div>
@@ -236,11 +200,11 @@
                 <div class="partner-section">
                     <h4>Parceiro Aéreo</h4>
                     <div class="partner-logos">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNSA5Ij48cGF0aCBkPSJtNC41IDBoLTJ2OS4wMDFoMnptMi45OTkgMGgtMnY5LjAwMWgyeXptMi45OTkgMGgtMnY5LjAwMWgyeXptNC41IDBoLTJ2OS4wMDFoMnptLTguNDk5IDMuMDAxaDIuOTk5djJoLTIuOTk5em0wIDMuMDAxaDIuOTk5djJoLTIuOTk5em0yLjk5OS0xLjV2LTFoMXYxem0yLjAwMSAwdi0xaDF2MXptMCAzdi0xaDF2MXptLTIuMDAxIDB2LTFoMXYxem0xLjAwMS0xLjV2LTFoMXYxem0yLjk5OSAydi0yaDF2LTFoLTN2M2gzem0tMTAuNDk5IDB2LTNoM3YxaC0ydi0xaDF2M2gtMnptOC40OTkgMHYtM2gtMnYtMWgydiFoLTF2LTNoMXYzaDF2MWgtMXYyaC0xem0yLjk5OS0zdi0zaDF2M2gtMXoiIGZpbGw9IiNjZjA5MjIiLz48L3N2Zz4=" alt="TAP Air Portugal Logo">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAagAAAB5CAMAAADfE36PAAAAYFBMVEUAAADdqGbdrGvjrHHhqmfdqGfdqWjfqmnoqWn3tXTdqGjdqWjfrW3gqGrwsm7bqGj3tXTeplD2s2z6u331sWf////gr238xY36v4Tcsmv3uXr9x5D8wIb9zZz5vH8/Tq3gAAAEhUlEQVR42u2di5KiMBCGKxUTGcUFF1EE3v+VnsQLGVERQZnsdD/1rA7FGC8tPS0tCiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoijK//PwnDCHit4j4nQkZk13JhiHl0zYWxBaDNp2c2z42N3Bsl0A5t07D5N4x7iE2nZ/MBUw/aSxY0g7RLuNUvXbXo/GJg2D4wH2w6/d299bAG8M1+4wvwC8F24TceYbs2d3Z8A3gK2EZb/zBvjX3c2zLS/AfgYIu2/NAtx3d7eEvQtwygoSYs+zI2d3B+8WYJ1VImz5eB7d3V3gZGL/Dlj3MSRbvx/9Lq8L0D7GzV3wBwBebn8I4nZ3d4X7AejfSdsB/hng6/Y/I0V3d7/eWQCf3bfu6j63g+vyuwyw4/vQDTB+h/F6eS/A8+1u7h+Z3d3/9gBw2zYVML3/yG7u+9oBcPv6Bii/c9R+5u6+r+cD0N/7xzQ/M3d3l08A8M81ALVbAG80gLtv7Qd+s3u7y6kA2H1tP6wG2LM9wZ3d3V0eC8DUzV0wz0u/3u7yqAB+s7u7u8sl8Lu7t/GjDVi7w/sKuN3dXR7PAJ+3u3e/d3d3d3d3/ysAb2x3d3d3d3d3d3eXzwD4ne/d3d3d3d3d3W3ZAV+7u7u7u7u7u7u7+78N4B+3wE93d3d3d3d395d3gH/d3d3d3d3d3d19Dw//4+7u7u7u7u7u/u99AM/Z3d3d3d3d3d39vgM8vbu7u7u7u7u7+7sP8NHu7u7u7u7u7u7u7m8G+Lu7u7u7u7u7u7u7+7sC+Lu7u7u7u7u7u7t7KwD3s7u7u7u7u7u7e5cAr/eL+sbu7u7u7u7eZcAr3rQZ+rvd3d3d3T3PAJ+2GWBvNn92d3d3d/d2AfwGrNsBtgL4ne/d3d3d3d09C+CPsO6/LVi/u7u7u3u6AIy2/Yf1wLg9+7s9u7u7t3sB1t8uANPzG7BvN4Dxu7u7e9cAv+1uAMoE0P7u7u7u7u7ulwDYdt/aX27u7u7u7u7uXgbwz9sB4u7u7u7u7u7u+wT4b3e343d3d3d3d3f/5wHYdnd3d3d3d3d3d/frAfjV3d3d3d3d3d3d/W8D+L67u7u7u7u7u7v79w3g8e7u7u7u7u7u7u7+7wLw+u7u7u7u7u7u7u7u/u8G8MV2d3d3d3d3d3d3d3//PwD/v93d3d3d3d3d3f1wAd52d3d3d3d3d3f/9wM42t3d3d3d3d3d3Q1gfPdH85nZ/c0Ab7e7u7u7u7u7e+8BvN3u7u7u7u7u3hPgyXWn/x93d3d3d393/ysAp+u/D+B7d3d3dw/A/gD98/x/BHd39/cDeE/2GGBvNm93d39vgJ/dD4Ab2r/d3d09Bdhz+4C+e7u7u7u7u7u7u3uHAPyqA3A+v3d395cBvLz73wP86gL8/wH8+gJ8D4g/D+DXBfiE3wfw6wr8Jtwn4FdV+PfhTwR+VYXfC/+oDKhK3f5vI3BVYqiiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIrSP/0HhLg3Yl+SOToAAAAASUVORK5CYII=" alt="TAP Air Portugal Logo">
                     </div>
                 </div>
             </div>
-            <div class="plan-card interactive rgb-glow">
+            <div class="plan-card interactive">
                 <div class="plan-card-content">
                     <h3>Descoberta</h3>
                     <div class="plan-price">€1.999 <span>/ pessoa</span></div>
@@ -253,11 +217,11 @@
                 <div class="partner-section">
                     <h4>Parceiro Aéreo</h4>
                     <div class="partner-logos">
-                        <img src="https://tse2.mm.bing.net/th?id=OIP._vKQczWWmd5ePUI-MYlZtQHaHa&pid=Api&P=0&h=220=" alt="TAP Air Portugal Logo">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAagAAAB5CAMAAADfE36PAAAAYFBMVEUAAADdqGbdrGvjrHHhqmfdqGfdqWjfqmnoqWn3tXTdqGjdqWjfrW3gqGrwsm7bqGj3tXTeplD2s2z6u331sWf////gr238xY36v4Tcsmv3uXr9x5D8wIb9zZz5vH8/Tq3gAAAEhUlEQVR42u2di5KiMBCGKxUTGcUFF1EE3v+VnsQLGVERQZnsdD/1rA7FGC8tPS0tCiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoijK//PwnDCHit4j4nQkZk13JhiHl0zYWxBaDNp2c2z42N3Bsl0A5t07D5N4x7iE2nZ/MBUw/aSxY0g7RLuNUvXbXo/GJg2D4wH2w6/d299bAG8M1+4wvwC8F24TceYbs2d3Z8A3gK2EZb/zBvjX3c2zLS/AfgYIu2/NAtx3d7eEvQtwygoSYs+zI2d3B+8WYJ1VImz5eB7d3V3gZGL/Dlj3MSRbvx/9Lq8L0D7GzV3wBwBebn8I4nZ3d4X7AejfSdsB/hng6/Y/I0V3d7/eWQCf3bfu6j63g+vyuwyw4/vQDTB+h/F6eS/A8+1u7h+Z3d3/9gBw2zYVML3/yG7u+9oBcPv6Bii/c9R+5u6+r+cD0N/7xzQ/M3d3l08A8M81ALVbAG80gLtv7Qd+s3u7y6kA2H1tP6wG2LM9wZ3d3V0eC8DUzV0wz0u/3u7yqAB+s7u7u8sl8Lu7t/GjDVi7w/sKuN3dXR7PAJ+3u3e/d3d3d3d3/ysAb2x3d3d3d3d3d3d3d3eXzwD4ne/d3d3d3d3d3W3ZAV+7u7u7u7u7u7u7+78N4B+3wE93d3d3d3d3d/eXdwD/u7u7u7u7u7u7u+w//4+7u7u7u7u7u/u99AM/Z3d3d3d3d3d39vgM8vbu7u7u7u7u7+7sP8NHu7u7u7u7u7u7u7m8G+Lu7u7u7u7u7u7u7+7sC+Lu7u7u7u7u7u7t7KwD3s7u7u7u7u7u7e5cAr/eL+sbu7u7u7u7eZcAr3rQZ+rvd3d3d3T3PAJ+2GWBvNn92d3d3d/d2AfwGrNsBtgL4ne/d3d3d3d09C+CPsO6/LVi/u7u7u3u6AIy2/Yf1wLg9+7s9u7u7t3sB1t8uANPzG7BvN4Dxu7u7e9cAv+1uAMoE0P7u7u7u7u7uXgbwz9sB4u7u7u7u7u7u+wT4b3e343d3d3d3d3f/5wHYdnd3d3d3d3d3d/frAfjV3d3d3d3d3d3d/W8D+L67u7u7u7u7u7v79w3g8e7u7u7u7u7u7u7+7wLw+u7u7u7u7u7u7u7u/u8G8MV2d3d3d3d3d3d3d3//PwD/v93d3d3d3d3d3f1wAd52d3d3d3d3d3f/9wM42t3d3d3d3d3d3Q1gfPdH85nZ/c0Ab7e7u7u7u7u7e+8BvN3u7u7u7u7u3hPgyXWn/x93d3d3d393/ysAp+u/D+B7d3d3dw/A/gD98/x/BHd39/cDeE/2GGBvNm93d39vgJ/dD4Ab2r/d3d09Bdhz+4C+e7u7u7u7u7u7u3uHAPyqA3A+v3d395cBvLz73wP86gL8/wH8+gJ8D4g/D+DXBfiE3wfw6wr8Jtwn4FdV+PfhTwR+VYXfC/+oDKhK3f5vI3BVYqiiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIrSP/0HhLg3Yl+SOToAAAAASUVORK5CYII=" alt="TAP Air Portugal Logo">
                     </div>
                 </div>
             </div>
-            <div class="plan-card interactive rgb-glow">
+            <div class="plan-card interactive">
                  <div class="plan-card-content">
                     <h3>Executivo</h3>
                     <div class="plan-price">€3.999 <span>/ pessoa</span></div>
@@ -270,8 +234,8 @@
                 <div class="partner-section">
                     <h4>Parceiros Premium</h4>
                     <div class="partner-logos">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNSA5Ij48cGF0aCBkPSJtNC41IDBoLTJ2OS4wMDFoMnptMi45OTkgMGgtMnY5LjAwMWgyeXptMi45OTkgMGgtMnY5LjAwMWgyeXptNC41IDBoLTJ2OS4wMDFoMnptLTguNDk5IDMuMDAxaDIuOTk5djJoLTIuOTk5em0wIDMuMDAxaDIuOTk5djJoLTIuOTk5em0yLjk5OS0xLjV2LTFoMXYxem0yLjAwMSAwdi0xaDF2MXptMCAzdi0xaDF2MXptLTIuMDAxIDB2LTFoMXYxem0xLjAwMS0xLjV2LTFoMXYxem0yLjk5OSAydi0yaDF2LTFoLTN2M2gzem0tMTAuNDk5IDB2LTNoM3YxaC0ydi0xaDF2M2gtMnptOC40OTkgMHYtM2gtMnYtMWgydiFoLTF2LTNoMXYzaDF2MWgtMXYyaC0xem0yLjk5OS0zdi0zaDF2M2gtMXoiIGZpbGw9IiNjZjA5MjIiLz48L3N2Zz4=" alt="TAP Air Portugal Logo">
-                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cGF0aCBkPSJNNjcuNjcgMTg4Ljc5djY3LjYxaDIzLjg3di02Ny42MXptLTQ0LjM0IDBWMTM3LjVoMjMuODd2MTE3LjloLTIzLjg3em0xNTUuNjYgMGgtMjMuODd2MTE3LjloMjMuODd6bS0yMy44Ny0yMy44N1YwSDk2Ljg0djE2NC45M2gyMy44N1YyMy44N2gyMy44N3YxNDEuMDZoMjMuODdaIiBmaWxsPSIjYTMwODMxIi8+PC9zdmc+" alt="Marriott Bonvoy Logo">
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAagAAAB5CAMAAADfE36PAAAAYFBMVEUAAADdqGbdrGvjrHHhqmfdqGfdqWjfqmnoqWn3tXTdqGjdqWjfrW3gqGrwsm7bqGj3tXTeplD2s2z6u331sWf////gr238xY36v4Tcsmv3uXr9x5D8wIb9zZz5vH8/Tq3gAAAEhUlEQVR42u2di5KiMBCGKxUTGcUFF1EE3v+VnsQLGVERQZnsdD/1rA7FGC8tPS0tCiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoiiKoijK//PwnDCHit4j4nQkZk13JhiHl0zYWxBaDNp2c2z42N3Bsl0A5t07D5N4x7iE2nZ/MBUw/aSxY0g7RLuNUvXbXo/GJg2D4wH2w6/d299bAG8M1+4wvwC8F24TceYbs2d3Z8A3gK2EZb/zBvjX3c2zLS/AfgYIu2/NAtx3d7eEvQtwygoSYs+zI2d3B+8WYJ1VImz5eB7d3V3gZGL/Dlj3MSRbvx/9Lq8L0D7GzV3wBwBebn8I4nZ3d4X7AejfSdsB/hng6/Y/I0V3d7/eWQCf3bfu6j63g+vyuwyw4/vQDTB+h/F6eS/A8+1u7h+Z3d3/9gBw2zYVML3/yG7u+9oBcPv6Bii/c9R+5u6+r+cD0N/7xzQ/M3d3l08A8M81ALVbAG80gLtv7Qd+s3u7y6kA2H1tP6wG2LM9wZ3d3V0eC8DUzV0wz0u/3u7yqAB+s7u7u8sl8Lu7t/GjDVi7w/sKuN3dXR7PAJ+3u3e/d3d3d3d3/ysAb2x3d3d3d3d3d3d3d3eXzwD4ne/d3d3d3d3d3W3ZAV+7u7u7u7u7u7u7+78N4B+3wE93d3d3d3d3d/eXdwD/u7u7u7u7u7u7u+w//4+7u7u7u7u7u/u99AM/Z3d3d3d3d3d39vgM8vbu7u7u7u7u7+7sP8NHu7u7u7u7u7u7u7m8G+Lu7u7u7u7u7u7u7+7sC+Lu7u7u7u7u7u7t7KwD3s7u7u7u7u7u7e5cAr/eL+sbu7u7u7u7eZcAr3rQZ+rvd3d3d3T3PAJ+2GWBvNn92d3d3d/d2AfwGrNsBtgL4ne/d3d3d3d09C+CPsO6/LVi/u7u7u3u6AIy2/Yf1wLg9+7s9u7u7t3sB1t8uANPzG7BvN4Dxu7u7e9cAv+1uAMoE0P7u7u7u7u7uXgbwz9sB4u7u7u7u7u7u+wT4b3e343d3d3d3d3f/5wHYdnd3d3d3d3d3d/frAfjV3d3d3d3d3d3d/W8D+L67u7u7u7u7u7v79w3g8e7u7u7u7u7u7u7+7wLw+u7u7u7u7u7u7u7u/u8G8MV2d3d3d3d3d3d3d3//PwD/v93d3d3d3d3d3f1wAd52d3d3d3d3d3f/9wM42t3d3d3d3d3d3Q1gfPdH85nZ/c0Ab7e7u7u7u7u7e+8BvN3u7u7u7u7u3hPgyXWn/x93d3d3d393/ysAp+u/D+B7d3d3dw/A/gD98/x/BHd39/cDeE/2GGBvNm93d39vgJ/dD4Ab2r/d3d09Bdhz+4C+e7u7u7u7u7u7u3uHAPyqA3A+v3d395cBvLz73wP86gL8/wH8+gJ8D4g/D+DXBfiE3wfw6wr8Jtwn4FdV+PfhTwR+VYXfC/+oDKhK3f5vI3BVYqiiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIqiKIrSP/0HhLg3Yl+SOToAAAAASUVORK5CYII=" alt="TAP Air Portugal Logo">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48cGF0aCBkPSJNNjcuNjcgMTg4Ljc5djY3LjYxaDIzLjg3di02Ny4xptLTQ0LjM0IDBWMTM3LjVoMjMuODd2MTE3LjloLTIzLjg3em0xNTUuNjYgMGgtMjMuODd2MTE3LjloMjMuODd6bS0yMy44Ny0yMy44N1YwSDk2Ljg0djE2NC45M2gyMy44N1YyMy44N2gyMy44N3YxNDEuMDZoMjMuODdaIiBmaWxsPSIjYTMwODMxIi8+PC9zdmc+" alt="Marriott Bonvoy Logo">
                     </div>
                 </div>
             </div>
@@ -299,10 +263,13 @@
             <div id="admin-login">
                 <p style="margin-bottom: 20px; text-align: center;">Acesso restrito.</p>
                 <input type="password" id="admin-password" placeholder="Senha" class="interactive">
-                <button id="admin-login-btn" class="cta-button interactive rgb-glow">Entrar</button>
+                <button id="admin-login-btn" class="cta-button interactive">Entrar</button>
             </div>
             <div id="admin-dashboard">
-                <h3>Mensagens Recebidas</h3>
+                <div id="admin-dashboard-header">
+                  <h3>Mensagens Recebidas</h3>
+                  <button id="logout-btn" class="interactive">Logout</button>
+                </div>
                 <div id="messages-container"></div>
             </div>
           </div>
@@ -312,10 +279,17 @@
 
 <footer>
     <p>&copy; 2025 ExploreMundo. Roteiros Exclusivos.</p>
-    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Os logos de parceiros são marcas registadas dos seus respetivos proprietários e são usados aqui apenas para fins de demonstração.</p>
+    <div class="footer-partners">
+        <h4>Parceiros de Confiança</h4>
+        <div class="footer-logos">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMzciIGhlaWdodD0iNDUiIHZpZXdCb3g9IjAgMCAxMzcgNDUiPjxwYXRoIGZpbGw9IiM0Mjg1RjQiIGQ9Ik0zMC4yNjUgMTYuNTRjMCAuNzYzLS4wNjUgMS41MjUtLjE5NSAyLjI2aC0xNC4zOXYtNC4xMWgxMS4wNWMtLjQ4Ny0yLjA3Ny0xLjg0My0zLjU2My0zLjc2OC0zLjU2My0yLjYyIDAtNC42OCA0LjEwOC00LjY4IDQuMTA4cy0yLjA1OCA0LjM3Mi0yLjA1OCA0LjM3MmMwIDIuNjIgMi4wODQgNC43MjcgMi4wODQgNC43MjdzMi4wNTggNC42MjggNC42MjggNC42MjhjMS45MjUgMCAzLjI4LTEuNDg2IDMuNzY4LTMuNTYzSDMwLjA3Yy4xMy43MzUuMTk1IDEuNDk4LjE5NSAyLjI2IDAgMy42OTYtMi4xMTcgNi41MTgtNS4xOTIgNi41MThoLjAwMWMtMy4xMDYgMC01LjE2LTEuNjE4LTUuMTYtMS42MThzLTMuMDQzLTMuOTQ3LTMuMDQzLTQuODk4YzAtLjAxNi4wMDItLjAzLjAwMi0uMDQ3di0uMDk2YzAtMy4zMSAyLjUyNS02LjQyNiA2LjQyNi02LjQyNmguMDAyYzMuNjM0IDAgNi4yMDcgMi43NDUgNi4yMDcgNi4yNzV6Ii8+PHBhdGggZmlsbD0iI0VBNDMzNSIgZD0iTTguMTUgMTYuNTRjMCAuNzYzLS4wNjUgMS41MjUtLjE5NSAyLjI2SDguOTg2di00LjExSDIwLjA0Yy0uNDg3LTIuMDc3LTEuODQzLTMuNTYzLTMuNzY4LTMuNTYzLTIuNjIgMC00LjY4IDQuMTA4LTQuNjggNC4xMDhzLTIuMDU4IDQuMzcyLTIuMDU4IDQuMzcyYzAgMi42MiAyLjA4NCA0LjcyNyAyLjA4NCA0LjcyN3MyLjA1OCA0LjYyOCA0LjYyOCA0LjYyOGMxLjkyNSAwIDMuMjgtMS40ODYgMy43NjgtMy41NjNILjAwNWMuMTMuNzM1LjE5NSAxLjQ5OC4xOTUgMi4yNiAwIDMuNjk2LTIuMTE3IDYuNTE4LTUuMTkyIDYuNTE4aC4wMDFjLTMuMTA2IDAtNS4xNi0xLjYxOC01LjE2LTEuNjE4cy0zLjA0My0zLjk0Ny0zLjA0My00Ljg5OGMwLS4wMTYuMDAyLS4wMy4wMDItLjA0N3YtLjA5NmMwLTMuMzEgMi41MjUtNi40MjYgNi40MjYtNi40MjZILjAwMmMzLjYzNCAwIDYuMjA3IDIuNzQ1IDYuMjA3IDYuMjc1eiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTQuNDU4KSIvPjxwYXRoIGZpbGw9IiMzNEE4NTMiIGQ9Ik00Ny45NzIgMjMuMDM0aDQuNDI4di0xMS44Nkg0Ny45NzJ6Ii8+PHBhdGggZmlsbD0iI0ZBQUEwMyIgZD0iTTYyLjM2MyAxMS4xNjhjLTIuNTI1IDAtNC4zNzIgMS4zMjgtNS4yMjUgMi4zMzZoLS4wNjV2LTEuOTI1aC00LjE0MXYyMi4xMTZoNC4zMDhWMjIuMDZjMC0yLjY1MiAxLjI5Ny00LjM3MiA0LjE0MS00LjM3MiAxLjI5NyAwIDIuNjg3LjUgMi42ODcgMXYtLjA2NWMuMzktMS4xOTggMS4yOTctMS45NTcgMi40NTgtMS45NTcgMi44MiAwIDQuNjYzIDIuMDgyIDQuNjYzIDUuMjU4djEwLjgyaDQuMzA4VjIwLjc2YzAtNC4zMDgtMi41NTYtNy4wMDgtNi4zOTYtNy4wMDgtMS43OCAwLTMuMjggMS4wMDItNC4wMSAyLjI5NnoiLz48cGF0aCBmaWxsPSIjNDI4NUY0IiBkPSJNNzguMjM4IDExLjE2OGMtMy4zNzMgMC02LjE0MiAyLjQ5LTEuMTQyIDYuNDI2aC4wNjVjMCAzLjk0OCA0Ljc2IDYuNDI2IDQuNzYgNi40MjZzMi41NTYgMi4yOTUgNi4wNDYgMi4yOTVoLjAwMWMzLjY2NiAwIDYuMDc4LTIuNTU2IDYuMDc4LTUuOTgxdi0uMTMxYzAtMy4zMS0yLjYyLTUuOTgxLTYuNDYtNS45ODFoLS4wNjVjLTMuNTY4LS4wMzMtNS4yMjQtMi41MjQtNS4yMjQtMi41MjRzLTEuMjk3LTIuODItNC4wMS0yLjgyek04NC4zMSAyMC4xODJjLTMuMDQzIDAtNC4xNzMtMS40MjEtNC4xNzMtMi45NzcgMC0xLjU1NiAxLjEzLTIuOTQ0IDQuMTczLTIuOTQ0aC4wNjVjMy4wNzQgMCA0LjEzIDEuMzg4IDQuMTMgMi45NDQgMCAxLjU1Ni0xLjA1NiAyLjk3Ny00LjE5NSAyLjk3N2gtLjAwM3oiLz48cGF0aCBmaWxsPSIjRkFBBDAzIiBkPSJNOTQuNjMyIDE3LjM4N2wxLjE2Mi0xLjQyMWgxMi43OXY0LjE0MWgtMTIuNjI3bC0xLjMyOCA1LjIzNGgtNC43MjdsNi44NDYtMjIuMTE2aDUuNDg0bDIuOTQ1IDkuMjM0aC4wNjVsMi45NDQtOS4yMzRoNS40ODRsNi44NDYgMjIuMTE2aC00LjcyN2wtMS4zMjgtNS4yMzRIMTA5LjE2di00LjE0MWgxMi43ODhsMS4xNjIgMS40MjEgMS43OCAyLjE4LTMuMzQyIDQuMTQxaC4wNjV6Ii8+PHBhdGggZmlsbD0iIzQyODVGNCIgZD0iTTExOC4zMjUgMTEuMTY4Yy0yLjU1NSAbC00LjM3MiAxLjMyOC01LjIyNSAyLjMzNmgtLjA2NXYtMS45MjVoLTQuMTQydjIyLjExNmg0LjMwOHYtMTEuMzM0YzAtMi42NTIgMS4yOTctNC4zNzIgNC4xNDEtNC4zNzJzMi42ODcuNSAyLjY4NyAxdi0uMDY1Yy4zOS0xLjE5OCAxLjI5Ny0xLjk1NyAyLjQ1OC0xLjk1NyAyLjgyIDAgNC42NjMgMi4wODIgNC42NjMgNS4yNTh2MTAuODJoNC4zMDhWMjAuNzZjMC00LjMwOC0yLjU1Ni03LjAwOC02LjM5Ni03LjAwOC0xLjc4IDAtMy4yOCAxLjAwMi00LjAxIDIuMjk2eiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTcuMzQxKSIvPjwvc3ZnPg==" alt="Google Partner Logo">
+        </div>
+        <p class="footer-disclaimer">Os logos da TAP Air Portugal e Google Partner são marcas registadas dos seus respetivos proprietários e são usados aqui apenas para fins de demonstração.</p>
+    </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -359,6 +333,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener("mouseenter", () => cursor.classList.remove("hidden"));
 
     // ANIMAÇÕES DA PÁGINA COM GSAP
+    gsap.registerPlugin(ScrollTrigger);
+
     function animatePageIn() {
         const mainTitle = document.querySelector('.main-title');
         const chars = mainTitle.textContent.split('');
@@ -373,8 +349,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
     
+    // EFEITO PARALLAX NAS IMAGENS DA FILOSOFIA
+    gsap.utils.toArray('.parallax-img').forEach(img => {
+        gsap.to(img, {
+            y: "-60px",
+            ease: "none",
+            scrollTrigger: {
+                trigger: img.closest('.philosophy-card'),
+                scrub: true,
+            }
+        });
+    });
+    
+    // ANIMAÇÃO 3D TILT DOS CARDS
     const tiltCards = document.querySelectorAll('.plan-card');
     tiltCards.forEach(card => {
+        card.addEventListener('mouseenter', () => card.classList.add('rgb-glow'));
+        card.addEventListener('mouseleave', () => card.classList.remove('rgb-glow'));
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -409,6 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminPasswordInput = document.getElementById('admin-password');
     const adminLoginDiv = document.getElementById('admin-login');
     const adminDashboardDiv = document.getElementById('admin-dashboard');
+    const logoutBtn = document.getElementById('logout-btn');
     const ADMIN_PASSWORD = 'admin2025';
 
     adminLoginBtn.addEventListener('click', () => {
@@ -419,6 +411,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             alert('Senha incorreta!');
         }
+    });
+    
+    logoutBtn.addEventListener('click', () => {
+        location.reload();
     });
 
     function displayMessages() {
