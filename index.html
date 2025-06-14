@@ -10,8 +10,8 @@
 
 <style>
   :root {
-    --primary-color: #0a192f; /* Azul noite, mais profundo */
-    --secondary-color: #ffca42; /* Dourado vibrante */
+    --primary-color: #0a192f;
+    --secondary-color: #ffca42;
     --accent-gradient: linear-gradient(45deg, #ffca42, #ffb700);
     --background-color: #f8f9fa;
     --light-background: #ffffff;
@@ -31,135 +31,122 @@
     background-color: var(--primary-color);
     color: var(--text-color);
     overflow-x: hidden;
-    cursor: none; /* Esconde o cursor padrão */
+    cursor: none;
   }
   body.loaded { background-color: var(--background-color); }
+  body.no-scroll { overflow-y: hidden; }
 
   /* ========================================
      PRÉ-CARREGAMENTO (PRELOADER)
      ======================================== */
   .preloader {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0; width: 100%; height: 100%;
     background-color: var(--primary-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; justify-content: center; align-items: center;
     z-index: 9999;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.8s ease-in-out;
   }
   .preloader .logo {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--secondary-color);
+    font-size: 2rem; font-weight: 700; color: var(--secondary-color);
+    opacity: 0;
+    animation: pulse 1.5s infinite ease-in-out;
   }
-  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(0.95); }
+  }
+
   /* ========================================
      CURSOR PERSONALIZADO
      ======================================== */
   .cursor {
-    width: 40px;
-    height: 40px;
+    width: 30px; height: 30px;
     border: 2px solid var(--secondary-color);
     border-radius: 50%;
     position: fixed;
     transform: translate(-50%, -50%);
     pointer-events: none;
-    transition: all 0.1s ease;
+    transition: all 0.1s ease-out;
     z-index: 9998;
     mix-blend-mode: difference;
   }
   .cursor.grow {
-    transform: scale(1.5) translate(-33%, -33%);
+    transform: scale(2) translate(-25%, -25%);
     background-color: var(--secondary-color);
+    border-color: transparent;
   }
   .cursor.hidden { display: none; }
 
   /* ========================================
-     SEÇÃO HERO COM VÍDEO
+     CABEÇALHO COM VÍDEO
      ======================================== */
   .hero {
-    height: 100vh;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: var(--light-text-color);
-    text-align: center;
-    overflow: hidden;
+    height: 100vh; position: relative;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    color: var(--light-text-color); text-align: center; overflow: hidden;
   }
   #hero-video {
-    position: absolute;
-    top: 50%; left: 50%;
+    position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     min-width: 100%; min-height: 100%;
-    width: auto; height: auto;
-    z-index: -2;
+    width: auto; height: auto; z-index: -2;
   }
   .hero-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-color: rgba(10, 25, 47, 0.7);
-    z-index: -1;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(10, 25, 47, 0.75); z-index: -1;
   }
   .hero-content { z-index: 1; }
   .hero h1 {
-    font-size: clamp(3rem, 10vw, 6rem);
-    font-weight: 800;
-    line-height: 1.1;
+    font-size: clamp(3rem, 10vw, 6rem); font-weight: 800; line-height: 1.1;
     margin-bottom: 1rem;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
-  /* Para animação do texto */
   .hero h1 .char {
-    display: inline-block;
-    transform: translateY(115px);
+    display: inline-block; transform: translateY(115px);
     transition: transform .5s;
   }
   .hero p {
-    font-size: clamp(1rem, 4vw, 1.5rem);
-    font-weight: 300;
-    color: var(--subtle-text-color);
-    margin-bottom: 2.5rem;
-    opacity: 0;
+    font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 300;
+    color: var(--subtle-text-color); margin-bottom: 2.5rem; opacity: 0;
   }
   .hero .cta-button { opacity: 0; }
+  .cta-button {
+    background: var(--accent-gradient);
+    color: var(--primary-color);
+    padding: 15px 35px; border: none; border-radius: 50px;
+    text-decoration: none; font-size: 1.1rem; font-weight: 600;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(255, 202, 66, 0.3);
+    display: inline-block;
+  }
+  .cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(255, 202, 66, 0.4);
+  }
 
   /* ========================================
      NAVEGAÇÃO
      ======================================== */
   nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    padding: 20px 50px;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    position: fixed; top: 0; left: 0; width: 100%;
+    z-index: 1000; padding: 20px 50px;
+    display: flex; justify-content: flex-end; align-items: center;
     transition: var(--transition);
   }
   nav.scrolled {
     background-color: rgba(10, 25, 47, 0.85);
     backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    box-shadow: var(--shadow);
     padding: 15px 50px;
   }
   nav a {
-    color: var(--light-text-color);
-    text-decoration: none;
-    margin: 0 20px;
-    font-size: 1rem;
-    font-weight: 500;
+    color: var(--light-text-color); text-decoration: none;
+    margin: 0 20px; font-size: 1rem; font-weight: 500;
     transition: var(--transition);
   }
   nav a:hover { color: var(--secondary-color); }
-  
+
   /* ========================================
      ESTILOS GERAIS DE CONTEÚDO
      ======================================== */
@@ -175,59 +162,62 @@
   }
 
   /* ========================================
-     NOVA SEÇÃO: JORNADA (SCROLL HORIZONTAL)
+     NOVA SEÇÃO: FILOSOFIA
      ======================================== */
-  #journey {
-    padding: 0;
+  .philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+  }
+  .philosophy-card {
+    background-color: var(--light-background);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: var(--transition);
+  }
+  .philosophy-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  }
+  .philosophy-card .image-wrapper {
+    height: 220px;
     overflow: hidden;
   }
-  .journey-container {
-    height: 100vh; /* A seção fica "fixa" por toda a altura da tela */
-    display: flex;
-    align-items: center;
+  .philosophy-card img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.4s ease;
   }
-  .journey-track {
-    display: flex;
-    width: 400%; /* 4 painéis de 100% da largura */
-    height: 70vh;
-    will-change: transform;
+  .philosophy-card:hover img {
+    transform: scale(1.05);
   }
-  .journey-panel {
-    width: 100%;
-    height: 100%;
-    padding: 0 8vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
+  .philosophy-card .content {
+    padding: 30px;
   }
-  .journey-panel .step {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: 1rem;
-  }
-  .journey-panel h3 {
-    font-size: 3rem;
+  .philosophy-card h3 {
+    font-size: 1.5rem;
     color: var(--primary-color);
-    margin-bottom: 1.5rem;
+    margin-bottom: 10px;
   }
-  .journey-panel p {
-    max-width: 500px;
-    font-size: 1.1rem;
+  .philosophy-card p {
+    font-size: 1rem;
     line-height: 1.6;
+    color: #666;
   }
-  
+
   /* ========================================
-     SEÇÃO PACOTES (COM EFEITO 3D TILT)
+     SEÇÃO PACOTES (COM 3D TILT)
      ======================================== */
-  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+    perspective: 2000px;
+  }
   .plan-card {
     background-color: var(--light-background);
     border-radius: var(--border-radius);
-    padding: 40px;
-    text-align: center;
+    padding: 40px; text-align: center;
     border: 1px solid #eee;
     transition: all 0.3s ease;
     will-change: transform;
@@ -236,37 +226,33 @@
   .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 20px; }
   .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
   .plan-card ul li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-    font-size: 1rem;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 15px; font-size: 1rem;
   }
-  .plan-card ul li svg {
-    width: 24px;
-    height: 24px;
-    fill: var(--secondary-color);
-  }
-
-  /* ========================================
-     OUTRAS SEÇÕES (CONTATO, ADMIN)
-     ======================================== */
+  .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
+  
+  /* OUTRAS SEÇÕES */
   #contato { background: var(--light-background); }
   .contact-form input, .contact-form textarea {
     width: 100%; padding: 18px; border-radius: 12px;
     border: 1px solid #ccc; font-family: 'Poppins', sans-serif; font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
-  #admin {
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  .contact-form input:focus, .contact-form textarea:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3);
   }
+  
+  #admin { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
   #admin .section-title, #admin .section-subtitle { color: var(--light-text-color); }
   .admin-panel {
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border-radius: var(--border-radius); padding: 40px;
     border: 1px solid rgba(255, 255, 255, 0.18);
   }
-  .message-item { background: rgba(255,255,255,0.9); border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+  .message-item { background: rgba(255,255,255,0.9); color: #333; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
   
   footer {
     background-color: var(--primary-color);
@@ -274,7 +260,6 @@
     text-align: center;
     padding: 50px 20px;
   }
-
 </style>
 </head>
 <body class="no-scroll">
@@ -290,10 +275,10 @@
         <source src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-ocean-22747-large.mp4" type="video/mp4">
     </video>
     <nav id="navbar">
-        <a href="#journey">A Jornada</a>
-        <a href="#pacotes">Pacotes</a>
-        <a href="#contato">Contato</a>
-        <a href="#admin" class="interactive">Admin</a>
+        <a href="#philosophy" class="interactive">Nossa Filosofia</a>
+        <a href="#pacotes" class="interactive">Pacotes</a>
+        <a href="#contato" class="interactive">Contato</a>
+        <a href="#admin" class="interactive" style="color: var(--secondary-color);">Admin</a>
     </nav>
     <div class="hero-content">
         <h1 class="main-title">Destinos Inesquecíveis</h1>
@@ -304,41 +289,40 @@
 
 <main id="main-content">
 
-    <section id="journey">
-      <div class="journey-container">
-        <div class="journey-track">
-            <div class="journey-panel">
-                <div class="panel-content">
-                    <p class="step">Passo 1</p>
+    <section id="philosophy">
+        <h2 class="section-title">Nossa Filosofia</h2>
+        <p class="section-subtitle">Acreditamos que cada viagem é uma história esperando para ser escrita. Nossa missão é fornecer a caneta.</p>
+        <div class="philosophy-grid">
+            <div class="philosophy-card interactive">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80" alt="Homem olhando para um lago nas montanhas">
+                </div>
+                <div class="content">
                     <h3>O Sonho</h3>
-                    <p>Tudo começa com uma ideia. Uma praia distante, uma montanha majestosa, uma cidade vibrante. Você sonha, e nós ouvimos cada detalhe.</p>
+                    <p>Tudo começa com uma faísca de imaginação. Ouvimos seus desejos para criar algo que vai além do esperado.</p>
                 </div>
             </div>
-            <div class="journey-panel">
-                <div class="panel-content">
-                    <p class="step">Passo 2</p>
+            <div class="philosophy-card interactive">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1526778548025-1dbd781b85f2?w=600&q=80" alt="Mapa e bússola sobre uma mesa de madeira">
+                </div>
+                <div class="content">
                     <h3>O Roteiro</h3>
-                    <p>Nossos especialistas transformam seu sonho em um roteiro meticulosamente planejado. Voos, hotéis, experiências únicas. Tudo é pensado para você.</p>
+                    <p>Nossos especialistas tecem sua visão em um itinerário impecável, cuidando de cada detalhe com precisão e carinho.</p>
                 </div>
             </div>
-            <div class="journey-panel">
-                <div class="panel-content">
-                    <p class="step">Passo 3</p>
-                    <h3>A Experiência</h3>
-                    <p>O momento chegou. Você embarca na jornada com a tranquilidade de que cada detalhe está coberto. Sua única tarefa é viver intensamente cada segundo.</p>
+            <div class="philosophy-card interactive">
+                <div class="image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80" alt="Pessoa sentada na proa de um barco">
                 </div>
-            </div>
-            <div class="journey-panel">
-                <div class="panel-content">
-                    <p class="step">Passo 4</p>
+                <div class="content">
                     <h3>A Memória</h3>
-                    <p>Você retorna transformado, com histórias para contar e memórias que durarão para sempre. E nós já estamos aqui, prontos para planejar o próximo sonho.</p>
+                    <p>Entregamos mais do que uma viagem; entregamos as memórias que você levará para o resto da vida.</p>
                 </div>
             </div>
         </div>
-      </div>
     </section>
-    
+
     <section id="pacotes">
         <h2 class="section-title">Pacotes Assinatura</h2>
         <p class="section-subtitle">Três níveis de experiência, todos com a garantia de excelência ExploreMundo.</p>
@@ -346,27 +330,27 @@
             <div class="plan-card interactive">
                 <h3>Aventura</h3>
                 <ul>
-                    <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
-                    <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
-                    <li><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>Suporte Essencial</li>
+                    <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
+                    <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
+                    <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.5 12.5c0 .63-.23 1.22-.63 1.69l-1.4-1.4c.1-.24.13-.5.13-.79 0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2c.29 0 .55-.04.79-.13l1.4 1.4c-.47.4-1.06.63-1.69.63-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>Suporte Essencial</li>
                 </ul>
                 <a href="#contato" class="cta-button interactive">Consultar</a>
             </div>
             <div class="plan-card interactive">
                 <h3>Descoberta</h3>
                 <ul>
-                    <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
-                    <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
-                    <li><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>Experiências Locais</li>
+                    <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
+                    <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
+                    <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08.66-.08 1s.04.67.08 1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Experiências Locais</li>
                 </ul>
                 <a href="#contato" class="cta-button interactive">Consultar</a>
             </div>
             <div class="plan-card interactive">
                 <h3>Legado</h3>
                 <ul>
-                    <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
-                    <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo</li>
-                    <li><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>Acesso VIP e Guia Privativo</li>
+                    <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
+                    <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo</li>
+                    <li><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.99c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm4.24 14.12L10.5 13.43V7h1.5v5.55l5.02 2.87-.78 1.36z"></path></svg>Acesso VIP & Guia Privativo</li>
                 </ul>
                 <a href="#contato" class="cta-button interactive">Consultar</a>
             </div>
@@ -383,6 +367,7 @@
             <button type="submit" class="cta-button interactive">Enviar Mensagem</button>
         </form>
     </section>
+    
     <section id="admin">
       <h2 class="section-title">Área Administrativa</h2>
       <div class="admin-panel">
@@ -404,7 +389,6 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -419,13 +403,12 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('load', () => {
         gsap.to(preloader, {
             opacity: 0,
-            duration: 0.8,
+            duration: 1,
+            delay: 0.5,
             onComplete: () => {
                 preloader.style.display = 'none';
                 body.classList.remove('no-scroll');
                 body.classList.add('loaded');
-                
-                // Dispara as animações de entrada da página
                 animatePageIn();
             }
         });
@@ -448,10 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
         onRepeat: () => {
             posX += (mouseX - posX) / 6;
             posY += (mouseY - posY) / 6;
-            gsap.set(cursor, {
-                x: posX,
-                y: posY
-            });
+            gsap.set(cursor, { x: posX, y: posY });
         }
     });
 
@@ -483,40 +463,26 @@ document.addEventListener('DOMContentLoaded', () => {
             ease: 'expo.out'
         });
 
-        // Animação do subtítulo e botão
         gsap.to('.hero p, .hero .cta-button', {
             opacity: 1,
             y: 0,
             duration: 1,
             delay: 0.8,
+            stagger: 0.1,
             ease: 'power3.out'
         });
     }
 
-    // Configuração do ScrollTrigger
-    gsap.registerPlugin(ScrollTrigger);
-    
-    // Animação da barra de navegação
-    ScrollTrigger.create({
-        start: 'top -80',
-        end: 99999,
-        toggleClass: { className: 'scrolled', targets: 'nav' }
+    gsap.from('nav', {
+        y: -100,
+        opacity: 0,
+        duration: 1,
+        delay: 1.5,
+        ease: 'power3.out'
     });
 
-    // Animação do Scroll Horizontal
-    const journeyTrack = document.querySelector('.journey-track');
-    const panels = gsap.utils.toArray(".journey-panel");
-
-    gsap.to(panels, {
-        xPercent: -100 * (panels.length - 1),
-        ease: "none",
-        scrollTrigger: {
-            trigger: ".journey-container",
-            pin: true,
-            scrub: 1,
-            snap: 1 / (panels.length - 1),
-            end: () => "+=" + (journeyTrack.offsetWidth)
-        }
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
     
     // Animação 3D Tilt dos Cards
@@ -527,8 +493,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const { width, height } = rect;
-            const rotateX = (y / height - 0.5) * -20;
-            const rotateY = (x / width - 0.5) * 20;
+            const rotateX = (y / height - 0.5) * -25;
+            const rotateY = (x / width - 0.5) * 25;
 
             gsap.to(card, {
                 rotationX: rotateX,
@@ -547,9 +513,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-
     // ===============================================
-    // 4. LÓGICA DO FORMULÁRIO E ADMIN (inalterada)
+    // 4. LÓGICA DO FORMULÁRIO E ADMIN
     // ===============================================
     const contactForm = document.getElementById('contactForm');
     contactForm.addEventListener('submit', (e) => {
