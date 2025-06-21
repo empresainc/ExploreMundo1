@@ -78,12 +78,21 @@
         overflow: hidden;
         /* Fundo festivo de São João */
         background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 40%, var(--saojoao-red) 80%, var(--saojoao-yellow) 100%);
+        background-size: 200% 200%; /* Para a animação de fundo */
         animation: saoJoaoBg 10s ease-in-out infinite alternate;
     }
     @keyframes saoJoaoBg {
         0% { background-position: 0% 50%; }
         100% { background-position: 100% 50%; }
     }
+
+    /* Animação para os balões de São João */
+    @keyframes baloonFloat {
+        0% { transform: translateY(0) rotate(-10deg); opacity: 0.8; }
+        50% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+        100% { transform: translateY(0) rotate(-10deg); opacity: 0.8; }
+    }
+
     #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; opacity: 0.3; } /* Video mais sutil */
     .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.6); z-index: -1; }
     .hero-content { z-index: 1; }
@@ -166,25 +175,31 @@
     .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; will-change: transform; transform-style: preserve-3d; display: flex; flex-direction: column; }
     .plan-card-content { flex-grow: 1; }
     .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; }
-    .plan-price { font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 25px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
-    .plan-price .original-price {
-        font-size: 1.5rem;
+    .plan-price { 
+        font-size: 2.5rem; 
+        font-weight: 700; 
+        color: var(--primary-color); /* Cor do preço original */
+        margin-bottom: 25px; 
+        display: flex; 
+        flex-direction: column; /* Para colocar a promoção abaixo */
+        align-items: center; 
+        justify-content: center; 
+    }
+    .plan-price .original-value {
+        font-size: 1.2rem; /* Tamanho menor para o original */
         font-weight: 500;
         color: #999;
         text-decoration: line-through;
-        margin-right: 15px; /* Espaço entre o preço original e o promocional */
+        margin-bottom: 5px; /* Espaço entre original e promoção */
     }
-    .plan-price .promo-label {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--saojoao-red);
-        background-color: var(--saojoao-yellow);
-        padding: 5px 10px;
-        border-radius: 5px;
-        margin-left: 10px;
-        white-space: nowrap; /* Impede quebra de linha */
+    .plan-price .promo-price {
+        font-size: 2rem; /* Tamanho para o preço promocional */
+        font-weight: 700;
+        color: var(--saojoao-red); /* Cor de destaque para promoção */
+        text-decoration: underline; /* Sublinhado para a promoção */
+        margin-top: 5px;
     }
-    .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; margin-left: 5px; }
+    .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
     .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
     .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
     .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
@@ -248,6 +263,7 @@
     <div style="position: absolute; top: 10%; left: 5%; font-size: 3rem; color: var(--saojoao-yellow); text-shadow: 2px 2px 5px rgba(0,0,0,0.5); transform: rotate(-10deg); animation: baloonFloat 5s ease-in-out infinite alternate;">&#127880;</div>
     <div style="position: absolute; bottom: 15%; right: 10%; font-size: 3rem; color: var(--saojoao-red); text-shadow: 2px 2px 5px rgba(0,0,0,0.5); transform: rotate(15deg); animation: baloonFloat 6s ease-in-out infinite alternate-reverse;">&#127880;</div>
     <div style="position: absolute; top: 20%; right: 20%; font-size: 2rem; color: var(--saojoao-green); text-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(5deg); animation: baloonFloat 4s ease-in-out infinite;">&#127880;</div>
+    
     <video playsinline autoplay muted loop id="hero-video">
         <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-40 flying-through-the-clouds-4027-large.mp4" type="video/mp4">
     </video>
@@ -258,7 +274,7 @@
         <a href="#admin" class="interactive" style="color: var(--secondary-color);">Admin</a>
     </nav>
     <div class="hero-content">
-        <h1 class="main-title">Celebre o São João<br>O Mundo à sua Espera!</h1>
+        <h1 class="main-title">Celebre o São João:<br>O Mundo à sua Espera!</h1>
         <p>Roteiros exclusivos para as viagens da sua vida, com a alegria e a magia das festas juninas.</p>
         <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes em Promoção!</a>
     </div>
@@ -278,15 +294,14 @@
 
     <section id="pacotes">
         <h2 class="section-title">Pacotes Exclusivos ExploreMundo</h2>
-        <p class="section-subtitle">Descubra nossos roteiros incríveis! Todos os pacotes com uma **promoção especial de São João por apenas €240** por pessoa!</p>
+        <p class="section-subtitle">Aproveite a nossa **promoção especial de São João**! Todos os pacotes com um **desconto imperdível por apenas €240** por pessoa!</p>
         <div class="plans-grid">
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
                     <h3>Aventura</h3>
                     <div class="plan-price">
-                        <span class="original-price">€1.999</span>
-                        €240 <span>/ pessoa</span>
-                        <span class="promo-label">PROMOÇÃO!</span>
+                        <span class="original-value">€1.999</span>
+                        <span class="promo-price">€240!</span> <span>/ pessoa</span>
                     </div>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
@@ -305,9 +320,8 @@
                 <div class="plan-card-content">
                     <h3>Descoberta</h3>
                     <div class="plan-price">
-                        <span class="original-price">€6.999</span>
-                        €240 <span>/ pessoa</span>
-                        <span class="promo-label">PROMOÇÃO!</span>
+                        <span class="original-value">€6.999</span>
+                        <span class="promo-price">€240!</span> <span>/ pessoa</span>
                     </div>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
@@ -326,9 +340,8 @@
                     <div class="plan-card-content">
                     <h3>Executivo</h3>
                     <div class="plan-price">
-                        <span class="original-price">€7.999</span>
-                        €240 <span>/ pessoa</span>
-                        <span class="promo-label">PROMOÇÃO!</span>
+                        <span class="original-value">€7.999</span>
+                        <span class="promo-price">€240!</span> <span>/ pessoa</span>
                     </div>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
