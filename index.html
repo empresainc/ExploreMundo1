@@ -26,6 +26,7 @@
         --saojoao-red: #E60000;
         --saojoao-yellow: #FCE205;
         --saojoao-green: #3D9970;
+        --saojoao-orange: #FF8C00; /* Nova cor para destaque da promoção */
     }
 
     /* RESET E CONFIGURAÇÕES GLOBAIS */
@@ -77,9 +78,9 @@
         text-align: center;
         overflow: hidden;
         /* Fundo festivo de São João */
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 40%, var(--saojoao-red) 80%, var(--saojoao-yellow) 100%);
+        background: linear-gradient(135deg, var(--saojoao-yellow) 0%, var(--saojoao-red) 50%, var(--saojoao-green) 100%);
         background-size: 200% 200%; /* Para a animação de fundo */
-        animation: saoJoaoBg 10s ease-in-out infinite alternate;
+        animation: saoJoaoBg 15s ease-in-out infinite alternate;
     }
     @keyframes saoJoaoBg {
         0% { background-position: 0% 50%; }
@@ -89,12 +90,26 @@
     /* Animação para os balões de São João */
     @keyframes baloonFloat {
         0% { transform: translateY(0) rotate(-10deg); opacity: 0.8; }
-        50% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+        50% { transform: translateY(-30px) rotate(10deg); opacity: 1; }
         100% { transform: translateY(0) rotate(-10deg); opacity: 0.8; }
     }
 
-    #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; opacity: 0.3; } /* Video mais sutil */
-    .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.6); z-index: -1; }
+    .baloon {
+        position: absolute;
+        font-size: 3rem; /* Tamanho dos emojis */
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        animation: baloonFloat 5s ease-in-out infinite alternate;
+        z-index: 0; /* Abaixo do conteúdo principal */
+    }
+    .baloon:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; transform: rotate(-10deg); }
+    .baloon:nth-child(2) { bottom: 15%; right: 10%; animation-delay: 2s; transform: rotate(15deg); }
+    .baloon:nth-child(3) { top: 20%; right: 20%; animation-delay: 4s; transform: rotate(5deg); }
+    .baloon:nth-child(4) { top: 30%; left: 15%; animation-delay: 1s; transform: rotate(20deg); font-size: 2.5rem;}
+    .baloon:nth-child(5) { bottom: 5%; left: 25%; animation-delay: 3s; transform: rotate(-5deg); font-size: 3.5rem;}
+
+
+    #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; opacity: 0.15; } /* Video ainda mais sutil */
+    .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.4); z-index: -1; } /* Overlay mais transparente */
     .hero-content { z-index: 1; }
     .hero h1 {
         font-size: clamp(3rem, 10vw, 6rem);
@@ -103,7 +118,7 @@
         margin-bottom: 1rem;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         text-shadow: 4px 4px 8px rgba(0,0,0,0.4); /* Sombra para destacar */
-        color: var(--saojoao-yellow); /* Cor do tema */
+        color: var(--light-background); /* Amarelo para destacar */
     }
     .hero h1 .char { display: inline-block; transform: translateY(115px); transition: transform .5s; }
     .hero p {
@@ -186,19 +201,30 @@
         justify-content: center; 
     }
     .plan-price .original-value {
-        font-size: 1.2rem; /* Tamanho menor para o original */
+        font-size: 1.8rem; /* Tamanho para o original */
         font-weight: 500;
         color: #999;
         text-decoration: line-through;
         margin-bottom: 5px; /* Espaço entre original e promoção */
     }
-    .plan-price .promo-price {
-        font-size: 2rem; /* Tamanho para o preço promocional */
-        font-weight: 700;
-        color: var(--saojoao-red); /* Cor de destaque para promoção */
-        text-decoration: underline; /* Sublinhado para a promoção */
-        margin-top: 5px;
+    .promo-button {
+        background-color: var(--saojoao-orange); /* Cor chamativa para o botão */
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-top: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
+    .promo-button:hover {
+        background-color: #e07b00; /* Tom mais escuro no hover */
+        transform: translateY(-2px);
+    }
+
     .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
     .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
     .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
@@ -260,9 +286,11 @@
 
 <header class="hero">
     <div class="hero-overlay"></div>
-    <div style="position: absolute; top: 10%; left: 5%; font-size: 3rem; color: var(--saojoao-yellow); text-shadow: 2px 2px 5px rgba(0,0,0,0.5); transform: rotate(-10deg); animation: baloonFloat 5s ease-in-out infinite alternate;">&#127880;</div>
-    <div style="position: absolute; bottom: 15%; right: 10%; font-size: 3rem; color: var(--saojoao-red); text-shadow: 2px 2px 5px rgba(0,0,0,0.5); transform: rotate(15deg); animation: baloonFloat 6s ease-in-out infinite alternate-reverse;">&#127880;</div>
-    <div style="position: absolute; top: 20%; right: 20%; font-size: 2rem; color: var(--saojoao-green); text-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(5deg); animation: baloonFloat 4s ease-in-out infinite;">&#127880;</div>
+    <div class="baloon" style="color: var(--saojoao-yellow);">&#127880;</div>
+    <div class="baloon" style="color: var(--saojoao-red); animation-delay: 2s;">&#127880;</div>
+    <div class="baloon" style="color: var(--saojoao-green); animation-delay: 4s;">&#127880;</div>
+    <div class="baloon" style="color: var(--saojoao-yellow); animation-delay: 1s; top: 30%; left: 15%;">&#127880;</div>
+    <div class="baloon" style="color: var(--saojoao-red); animation-delay: 3s; bottom: 5%; left: 25%;">&#127880;</div>
     
     <video playsinline autoplay muted loop id="hero-video">
         <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-40 flying-through-the-clouds-4027-large.mp4" type="video/mp4">
@@ -276,7 +304,7 @@
     <div class="hero-content">
         <h1 class="main-title">Celebre o São João:<br>O Mundo à sua Espera!</h1>
         <p>Roteiros exclusivos para as viagens da sua vida, com a alegria e a magia das festas juninas.</p>
-        <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes em Promoção!</a>
+        <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes e Promoções!</a>
     </div>
 </header>
 
@@ -294,15 +322,15 @@
 
     <section id="pacotes">
         <h2 class="section-title">Pacotes Exclusivos ExploreMundo</h2>
-        <p class="section-subtitle">Aproveite a nossa **promoção especial de São João**! Todos os pacotes com um **desconto imperdível por apenas €240** por pessoa!</p>
+        <p class="section-subtitle">Descubra nossos roteiros incríveis! Utilize o código **SAOJOAO2025** para um desconto de **€200** em qualquer pacote!</p>
         <div class="plans-grid">
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
                     <h3>Aventura</h3>
                     <div class="plan-price">
-                        <span class="original-value">€1.999</span>
-                        <span class="promo-price">€240!</span> <span>/ pessoa</span>
+                        <span class="original-value">€1.999</span> <span>/ pessoa</span>
                     </div>
+                    <button class="promo-button interactive" onclick="applyDiscount('Aventura', 1999)">Aplicar Desconto São João!</button>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
                         <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
@@ -320,9 +348,9 @@
                 <div class="plan-card-content">
                     <h3>Descoberta</h3>
                     <div class="plan-price">
-                        <span class="original-value">€6.999</span>
-                        <span class="promo-price">€240!</span> <span>/ pessoa</span>
+                        <span class="original-value">€6.999</span> <span>/ pessoa</span>
                     </div>
+                    <button class="promo-button interactive" onclick="applyDiscount('Descoberta', 6999)">Aplicar Desconto São João!</button>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
                         <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
@@ -340,9 +368,9 @@
                     <div class="plan-card-content">
                     <h3>Executivo</h3>
                     <div class="plan-price">
-                        <span class="original-value">€7.999</span>
-                        <span class="promo-price">€240!</span> <span>/ pessoa</span>
+                        <span class="original-value">€7.999</span> <span>/ pessoa</span>
                     </div>
+                    <button class="promo-button interactive" onclick="applyDiscount('Executivo', 7999)">Aplicar Desconto São João!</button>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
                         <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo e acesso a ilha mais cara do mundo</li>
@@ -473,6 +501,16 @@ document.addEventListener('DOMContentLoaded', () => {
             gsap.to(card, { rotationX: 0, rotationY: 0, ease: "power1.out" });
         });
     });
+
+    // LÓGICA DO DESCONTO
+    function applyDiscount(packageName, originalPrice) {
+        const discountAmount = 200;
+        const finalPrice = originalPrice - discountAmount;
+        alert(`Aplicaste o desconto de São João para o pacote "${packageName}"!\n\nPreço Original: €${originalPrice}\nDesconto: €${discountAmount}\nPreço Final: €${finalPrice}\n\nUsa o código SAOJOAO2025 no checkout!`);
+    }
+    // Deixar a função acessível globalmente
+    window.applyDiscount = applyDiscount;
+
 
     // LÓGICA DO FORMULÁRIO E ADMIN
     const contactForm = document.getElementById('contactForm');
