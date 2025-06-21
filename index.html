@@ -21,6 +21,11 @@
         --shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
         --border-radius: 16px;
         --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+        /* Cores temáticas de São João */
+        --saojoao-red: #E60000;
+        --saojoao-yellow: #FCE205;
+        --saojoao-green: #3D9970;
     }
 
     /* RESET E CONFIGURAÇÕES GLOBAIS */
@@ -61,13 +66,45 @@
     .cursor.hidden { display: none; }
 
     /* CABEÇALHO E NAVEGAÇÃO */
-    .hero { height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--light-text-color); text-align: center; overflow: hidden; }
-    #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; }
-    .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.75); z-index: -1; }
+    .hero {
+        height: 100vh;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: var(--light-text-color);
+        text-align: center;
+        overflow: hidden;
+        /* Fundo festivo de São João */
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 40%, var(--saojoao-red) 80%, var(--saojoao-yellow) 100%);
+        animation: saoJoaoBg 10s ease-in-out infinite alternate;
+    }
+    @keyframes saoJoaoBg {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+    }
+    #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; opacity: 0.3; } /* Video mais sutil */
+    .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.6); z-index: -1; }
     .hero-content { z-index: 1; }
-    .hero h1 { font-size: clamp(3rem, 10vw, 6rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    .hero h1 {
+        font-size: clamp(3rem, 10vw, 6rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        text-shadow: 4px 4px 8px rgba(0,0,0,0.4); /* Sombra para destacar */
+        color: var(--saojoao-yellow); /* Cor do tema */
+    }
     .hero h1 .char { display: inline-block; transform: translateY(115px); transition: transform .5s; }
-    .hero p { font-size: clamp(1rem, 4vw, 1.5rem); font-weight: 300; color: var(--subtle-text-color); margin-bottom: 2.5rem; opacity: 0; }
+    .hero p {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+        font-weight: 300;
+        color: var(--light-text-color); /* Ajustado para melhor contraste */
+        margin-bottom: 2.5rem;
+        opacity: 0;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
     .hero .cta-button { opacity: 0; }
     nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 50px; display: flex; justify-content: flex-end; align-items: center; transition: var(--transition); }
     nav.scrolled { background-color: rgba(10, 25, 47, 0.85); backdrop-filter: blur(10px); box-shadow: var(--shadow); padding: 15px 50px; }
@@ -129,8 +166,25 @@
     .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; will-change: transform; transform-style: preserve-3d; display: flex; flex-direction: column; }
     .plan-card-content { flex-grow: 1; }
     .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; }
-    .plan-price { font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 25px; }
-    .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
+    .plan-price { font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 25px; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .plan-price .original-price {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #999;
+        text-decoration: line-through;
+        margin-right: 15px; /* Espaço entre o preço original e o promocional */
+    }
+    .plan-price .promo-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--saojoao-red);
+        background-color: var(--saojoao-yellow);
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-left: 10px;
+        white-space: nowrap; /* Impede quebra de linha */
+    }
+    .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; margin-left: 5px; }
     .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
     .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
     .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
@@ -163,82 +217,6 @@
         filter: none;
     }
     
-    /* SEÇÃO SÃO JOÃO */
-    #sao-joao {
-        background-color: #fce205; /* Cor de fundo vibrante para São João */
-        color: #e60000; /* Cor de texto contrastante */
-        padding: 80px 20px;
-        text-align: center;
-    }
-    #sao-joao .section-title {
-        color: #e60000;
-        font-size: 3.5rem;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    }
-    #sao-joao .section-subtitle {
-        color: #a00000;
-        max-width: 800px;
-        margin-bottom: 50px;
-    }
-    .sao-joao-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
-    }
-    .sao-joao-image {
-        width: 100%;
-        max-width: 600px;
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow);
-        overflow: hidden;
-    }
-    .sao-joao-image img {
-        width: 100%;
-        height: auto;
-        display: block;
-        transition: transform 0.3s ease;
-    }
-    .sao-joao-image:hover img {
-        transform: scale(1.05);
-    }
-    .sao-joao-text {
-        max-width: 700px;
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: #333;
-    }
-    .sao-joao-highlights {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-        margin-top: 30px;
-    }
-    .highlight-item {
-        background-color: #ffffff;
-        border-radius: 10px;
-        padding: 20px 30px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        text-align: left;
-        width: 100%;
-        max-width: 300px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .highlight-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-    .highlight-item h5 {
-        font-size: 1.3rem;
-        color: #e60000;
-        margin-bottom: 10px;
-    }
-    .highlight-item p {
-        font-size: 0.9rem;
-        color: #555;
-    }
-
     /* OUTRAS SEÇÕES */
     #contato { background: var(--light-background); }
     .contact-form input, .contact-form textarea { width: 100%; padding: 18px; border-radius: 12px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif; font-size: 1rem; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
@@ -267,20 +245,22 @@
 
 <header class="hero">
     <div class="hero-overlay"></div>
+    <div style="position: absolute; top: 10%; left: 5%; font-size: 3rem; color: var(--saojoao-yellow); text-shadow: 2px 2px 5px rgba(0,0,0,0.5); transform: rotate(-10deg); animation: baloonFloat 5s ease-in-out infinite alternate;">&#127880;</div>
+    <div style="position: absolute; bottom: 15%; right: 10%; font-size: 3rem; color: var(--saojoao-red); text-shadow: 2px 2px 5px rgba(0,0,0,0.5); transform: rotate(15deg); animation: baloonFloat 6s ease-in-out infinite alternate-reverse;">&#127880;</div>
+    <div style="position: absolute; top: 20%; right: 20%; font-size: 2rem; color: var(--saojoao-green); text-shadow: 1px 1px 3px rgba(0,0,0,0.5); transform: rotate(5deg); animation: baloonFloat 4s ease-in-out infinite;">&#127880;</div>
     <video playsinline autoplay muted loop id="hero-video">
         <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-40 flying-through-the-clouds-4027-large.mp4" type="video/mp4">
     </video>
     <nav id="navbar">
         <a href="#philosophy" class="interactive">Nossa Filosofia</a>
         <a href="#pacotes" class="interactive">Pacotes</a>
-        <a href="#sao-joao" class="interactive">São João</a>
         <a href="#contato" class="interactive">Contato</a>
         <a href="#admin" class="interactive" style="color: var(--secondary-color);">Admin</a>
     </nav>
     <div class="hero-content">
-        <h1 class="main-title">O Mundo à sua Espera</h1>
-        <p>Roteiros exclusivos para as viagens da sua vida.</p>
-        <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes</a>
+        <h1 class="main-title">Celebre o São João<br>O Mundo à sua Espera!</h1>
+        <p>Roteiros exclusivos para as viagens da sua vida, com a alegria e a magia das festas juninas.</p>
+        <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes em Promoção!</a>
     </div>
 </header>
 
@@ -297,13 +277,17 @@
     </section>
 
     <section id="pacotes">
-        <h2 class="section-title">Pacotes Assinatura em Promoção!</h2>
-        <p class="section-subtitle">Aproveite nossos pacotes exclusivos por um preço imperdível: apenas **€240** por pessoa! Garanta já a sua aventura.</p>
+        <h2 class="section-title">Pacotes Exclusivos ExploreMundo</h2>
+        <p class="section-subtitle">Descubra nossos roteiros incríveis! Todos os pacotes com uma **promoção especial de São João por apenas €240** por pessoa!</p>
         <div class="plans-grid">
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
                     <h3>Aventura</h3>
-                    <div class="plan-price">€240 <span>/ pessoa</span></div>
+                    <div class="plan-price">
+                        <span class="original-price">€1.999</span>
+                        €240 <span>/ pessoa</span>
+                        <span class="promo-label">PROMOÇÃO!</span>
+                    </div>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
                         <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
@@ -320,7 +304,11 @@
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
                     <h3>Descoberta</h3>
-                    <div class="plan-price">€240 <span>/ pessoa</span></div>
+                    <div class="plan-price">
+                        <span class="original-price">€6.999</span>
+                        €240 <span>/ pessoa</span>
+                        <span class="promo-label">PROMOÇÃO!</span>
+                    </div>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
                         <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
@@ -337,7 +325,11 @@
             <div class="plan-card interactive rgb-glow">
                     <div class="plan-card-content">
                     <h3>Executivo</h3>
-                    <div class="plan-price">€240 <span>/ pessoa</span></div>
+                    <div class="plan-price">
+                        <span class="original-price">€7.999</span>
+                        €240 <span>/ pessoa</span>
+                        <span class="promo-label">PROMOÇÃO!</span>
+                    </div>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
                         <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo e acesso a ilha mais cara do mundo</li>
@@ -352,35 +344,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section id="sao-joao">
-        <h2 class="section-title sao-joao-anim">Viva a Magia do São João!</h2>
-        <p class="section-subtitle sao-joao-anim">Descubra a alegria, as tradições e a energia contagiante das festas juninas em Portugal. Prepare-se para uma experiência inesquecível!</p>
-        <div class="sao-joao-content">
-            <div class="sao-joao-image interactive sao-joao-anim">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Fire_at_St._John%27s_Eve%2C_Porto%2C_Portugal_-_20120623.jpg/800px-Fire_at_St._John%27s_Eve%2C_Porto%2C_Portugal_-_20120623.jpg" alt="Festa de São João no Porto">
-            </div>
-            <div class="sao-joao-text sao-joao-anim">
-                <p>O **São João** é uma das festas mais vibrantes e tradicionais de Portugal, especialmente na cidade do **Porto**. Ruas enfeitadas, balões coloridos, martelinhos de plástico e o cheiro a sardinhas assadas invadem o ar, criando uma atmosfera de pura celebração.</p>
-                <p>Junte-se à ExploreMundo e mergulhe nesta experiência cultural única, onde a música, a dança e a boa comida se encontram para celebrar a vida e as tradições populares. Não perca a oportunidade de fazer parte desta festa lendária!</p>
-            </div>
-            <div class="sao-joao-highlights">
-                <div class="highlight-item sao-joao-anim">
-                    <h5>Tradições Únicas</h5>
-                    <p>Martelinhos, alho-porro, fogueiras e os famosos balões de ar quente iluminando o céu noturno.</p>
-                </div>
-                <div class="highlight-item sao-joao-anim">
-                    <h5>Gastronomia Típica</h5>
-                    <p>Saboreie sardinhas assadas, broa de milho e caldo verde, acompanhados de um bom vinho do Porto.</p>
-                </div>
-                <div class="highlight-item sao-joao-anim">
-                    <h5>Música e Dança</h5>
-                    <p>Noites animadas com concertos, ranchos folclóricos e DJs espalhados pela cidade.</p>
-                </div>
-            </div>
-            <a href="#contato" class="cta-button interactive rgb-glow sao-joao-anim" style="background-color: #e60000; color: white;">Quero Celebrar o São João!</a>
         </div>
     </section>
 
@@ -498,20 +461,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ANIMAÇÕES DA SEÇÃO SÃO JOÃO
-    gsap.from("#sao-joao .sao-joao-anim", {
-        scrollTrigger: {
-            trigger: "#sao-joao",
-            start: "top 75%", // Quando o topo da seção São João estiver a 75% da viewport
-            toggleActions: "play none none none" // Inicia a animação ao entrar
-        },
-        opacity: 0,
-        y: 50,
-        stagger: 0.2,
-        duration: 1.2,
-        ease: "power3.out"
-    });
-
     // LÓGICA DO FORMULÁRIO E ADMIN
     const contactForm = document.getElementById('contactForm');
     contactForm.addEventListener('submit', (e) => {
@@ -532,7 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const adminPasswordInput = document.getElementById('admin-password');
     const adminLoginDiv = document.getElementById('admin-login');
     const adminDashboardDiv = document.getElementById('admin-dashboard');
-    const ADMIN_PASSWORD = 'admin2025';
+    const ADMIN_PASSWORD = 'admin2025'; // Senha de exemplo
 
     adminLoginBtn.addEventListener('click', () => {
         if (adminPasswordInput.value === ADMIN_PASSWORD) {
