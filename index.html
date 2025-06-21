@@ -298,7 +298,7 @@
 
     <section id="pacotes">
         <h2 class="section-title">Pacotes Assinatura em Promoção!</h2>
-        <p class="section-subtitle">Aproveite nossos pacotes com um preço especial de **€240** por pessoa! Oferta por tempo limitado.</p>
+        <p class="section-subtitle">Aproveite nossos pacotes exclusivos por um preço imperdível: apenas **€240** por pessoa! Garanta já a sua aventura.</p>
         <div class="plans-grid">
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
@@ -356,31 +356,31 @@
     </section>
 
     <section id="sao-joao">
-        <h2 class="section-title">Viva a Magia do São João!</h2>
-        <p class="section-subtitle">Descubra a alegria, as tradições e a energia contagiante das festas juninas em Portugal. Prepare-se para uma experiência inesquecível!</p>
+        <h2 class="section-title sao-joao-anim">Viva a Magia do São João!</h2>
+        <p class="section-subtitle sao-joao-anim">Descubra a alegria, as tradições e a energia contagiante das festas juninas em Portugal. Prepare-se para uma experiência inesquecível!</p>
         <div class="sao-joao-content">
-            <div class="sao-joao-image interactive">
+            <div class="sao-joao-image interactive sao-joao-anim">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Fire_at_St._John%27s_Eve%2C_Porto%2C_Portugal_-_20120623.jpg/800px-Fire_at_St._John%27s_Eve%2C_Porto%2C_Portugal_-_20120623.jpg" alt="Festa de São João no Porto">
             </div>
-            <div class="sao-joao-text">
+            <div class="sao-joao-text sao-joao-anim">
                 <p>O **São João** é uma das festas mais vibrantes e tradicionais de Portugal, especialmente na cidade do **Porto**. Ruas enfeitadas, balões coloridos, martelinhos de plástico e o cheiro a sardinhas assadas invadem o ar, criando uma atmosfera de pura celebração.</p>
                 <p>Junte-se à ExploreMundo e mergulhe nesta experiência cultural única, onde a música, a dança e a boa comida se encontram para celebrar a vida e as tradições populares. Não perca a oportunidade de fazer parte desta festa lendária!</p>
             </div>
             <div class="sao-joao-highlights">
-                <div class="highlight-item">
+                <div class="highlight-item sao-joao-anim">
                     <h5>Tradições Únicas</h5>
                     <p>Martelinhos, alho-porro, fogueiras e os famosos balões de ar quente iluminando o céu noturno.</p>
                 </div>
-                <div class="highlight-item">
+                <div class="highlight-item sao-joao-anim">
                     <h5>Gastronomia Típica</h5>
                     <p>Saboreie sardinhas assadas, broa de milho e caldo verde, acompanhados de um bom vinho do Porto.</p>
                 </div>
-                <div class="highlight-item">
+                <div class="highlight-item sao-joao-anim">
                     <h5>Música e Dança</h5>
                     <p>Noites animadas com concertos, ranchos folclóricos e DJs espalhados pela cidade.</p>
                 </div>
             </div>
-            <a href="#contato" class="cta-button interactive rgb-glow" style="background-color: #e60000; color: white;">Quero Celebrar o São João!</a>
+            <a href="#contato" class="cta-button interactive rgb-glow sao-joao-anim" style="background-color: #e60000; color: white;">Quero Celebrar o São João!</a>
         </div>
     </section>
 
@@ -422,6 +422,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -429,6 +430,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const preloader = document.querySelector('.preloader');
     const cursor = document.querySelector('.cursor');
     const interactiveElements = document.querySelectorAll('.interactive');
+
+    gsap.registerPlugin(ScrollTrigger);
 
     // LÓGICA DO PRELOADER
     window.addEventListener('load', () => {
@@ -493,6 +496,20 @@ document.addEventListener('DOMContentLoaded', () => {
         card.addEventListener('mouseleave', () => {
             gsap.to(card, { rotationX: 0, rotationY: 0, ease: "power1.out" });
         });
+    });
+
+    // ANIMAÇÕES DA SEÇÃO SÃO JOÃO
+    gsap.from("#sao-joao .sao-joao-anim", {
+        scrollTrigger: {
+            trigger: "#sao-joao",
+            start: "top 75%", // Quando o topo da seção São João estiver a 75% da viewport
+            toggleActions: "play none none none" // Inicia a animação ao entrar
+        },
+        opacity: 0,
+        y: 50,
+        stagger: 0.2,
+        duration: 1.2,
+        ease: "power3.out"
     });
 
     // LÓGICA DO FORMULÁRIO E ADMIN
