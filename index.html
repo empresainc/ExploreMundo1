@@ -1,3 +1,8 @@
+Para que o Google AdSense possa verificar e exibir anúncios no seu site, o código que eles fornecem deve ser inserido na seção `<head>` do seu HTML.
+
+Aqui está o seu código HTML completo com o script do Google AdSense adicionado no local recomendado (dentro da tag `<head>`, preferencialmente antes de outras tags de script ou CSS):
+
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,6 +12,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1216547502773589"
+       crossorigin="anonymous"></script>
 
 <style>
     :root {
@@ -59,7 +67,7 @@
         background-repeat: no-repeat;
         background-position: center;
         /* Imagem do avião em Base64 para não depender de arquivos externos */
-        background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZzIvMjAwMC9zdmciPjxwYXRoIGQ9Ik0yMSAxNlYxNEwxNCA5VjMuNUMxNCAyLjY3IDEzLjMzIDIgMTIuNSAyQzkuMDMgMiA2LjEyIDMuMzYgNC44IDYuMTRMMy41IDUuNVYwYzAtLjI4LS4yMi0uNS0uNS0uNXMtLjUuMjItLjUuNXY1LjQ5bDEuNCAxLjQxQzQuMTQgNy41IDQgOC4yMiA0IDlWMTBsMi0xSDZ2MkgzVjE1SDZWMTROMEAxM1YxMUwxMC41IDEyLjVIMThWMTRMMjEgMTZaIi8+PC9zdmc+');
+        background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIxIDE2VjE0TDE0IDlWMy41QzE0IDIuNjcgMTMuMzMgMiAxMi41IDJDOS4wMyAyIDYuMTIgMy4zNiA0LjggNi4xNEwzLjUgNS41VjBjMC0uMjgtLjIyLS41LS41LS41cy0uNS4yMi0uNS41djUuNDlsMS40IDEuNDFDMi4xNCA3LjUgNCA4LjIyIDQgOVYxMGwyLTFINnYySDNWMTVIMlYxNEwxMC41IDEyLjVIMThWMTRMMjEgMTZaIi8+PC9zdmc+');
     }
     .cursor.grow {
         transform: scale(1.3) translateY(-5px) translate(-35%, -35%);
@@ -566,3 +574,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+```
