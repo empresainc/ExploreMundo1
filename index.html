@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ExploreMundo - Roteiros de Sonho</title>
+<title>ExploreMundo - Roteiros Exclusivos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
     :root {
-        /* Tema Padrão (Corporativo) */
         --primary-color: #0a192f;
-        --secondary-color: #64ffda;
-        --background-color: #f0f2f5;
+        --secondary-color: #ffca42;
+        --accent-gradient: linear-gradient(45deg, #ffca42, #ffb700);
+        --background-color: #f8f9fa;
         --light-background: #ffffff;
         --text-color: #333;
         --light-text-color: #e6f1ff;
@@ -21,15 +21,12 @@
         --shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
         --border-radius: 16px;
         --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-    }
-    
-    /* Tema de São João */
-    body.theme-sao-joao {
-        --secondary-color: #ffca42;
+
+        /* Cores temáticas de São João */
         --saojoao-red: #E60000;
         --saojoao-yellow: #FCE205;
         --saojoao-green: #3D9970;
-        --saojoao-orange: #FF8C00;
+        --saojoao-orange: #FF8C00; /* Nova cor para destaque da promoção */
     }
 
     /* RESET E CONFIGURAÇÕES GLOBAIS */
@@ -40,8 +37,7 @@
         background-color: var(--primary-color);
         color: var(--text-color);
         overflow-x: hidden;
-        /* <-- CORRIGIDO: Cursor padrão sempre visível --> */
-        cursor: default; 
+        cursor: none;
     }
     body.loaded { background-color: var(--background-color); }
     body.no-scroll { overflow-y: hidden; }
@@ -52,359 +48,521 @@
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
 
     /* CURSOR DE AVIÃO PERSONALIZADO */
-    .custom-cursor { 
-        width: 40px; height: 40px; 
-        position: fixed; 
-        transform: translate(-50%, -50%); 
-        pointer-events: none; /* <-- Essencial para não bloquear cliques */
-        transition: transform 0.2s ease-out; 
-        z-index: 9998; 
+    .cursor {
+        width: 40px; height: 40px;
+        position: fixed;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        transition: all 0.1s ease-out;
+        z-index: 9998;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        /* Imagem do avião em Base64 para não depender de arquivos externos */
+        background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZzIvMjAwMC9zdmciPjxwYXRoIGQ9Ik0yMSAxNlYxNEwxNCA5VjMuNUMxNCAyLjY3IDEzLjMzIDIgMTIuNSAyQzkuMDMgMiA2LjEyIDMuMzYgNC44IDYuMTRMMy41IDUuNVYwYzAtLjI4LS4yMi0uNS0uNS0uNXMtLjUuMjItLjUuNXY1LjQ5bDEuNCAxLjQxQzQuMTQgNy41IDQgOC4yMiA0IDlWMTBsMi0xSDZ2MkgzVjE1SDZWMTROMEAxM1YxMUwxMC41IDEyLjVIMThWMTRMMjEgMTZaIi8+PC9zdmc+');
     }
-    .cursor-plane { width: 100%; height: 100%; background-size: contain; background-repeat: no-repeat; background-position: center; transition: opacity 0.3s ease; }
-    .cursor-plane.corporate { background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjNjRmZmRhIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZzIvMjAwMC9zdmciPjxwYXRoIGQ9Ik0yMSAxNlYxNEwxNCA5VjMuNUMxNCAyLjY3IDEzLjMzIDIgMTIuNSAyQzkuMDMgMiA2LjEyIDMyYjYgNC44IDYuMTRMMy41IDUuNVYwYzAtLjI4LS4yMi0uNS0uNS0uNXMtLjUuMjItLjUuNXY1LjQ5bDEuNCAxLjQxQzQuMTQgNy41IDQgOC4yMiA0IDlWMTBsMi0xSDZ2MkgzVjE1SDZWMTROMEAxM1YxMUwxMC41IDEyLjVIMThWMTRMMjEgMTZaIi8+PC9zdmc+'); }
-    .cursor-plane.sao-joao { background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZzIvMjAwMC9zdmciPjxwYXRoIGQ9Ik0yMSAxNlYxNEwxNCA5VjMuNUMxNCAyLjY3IDEzLjMzIDIgMTIuNSAyQzkuMDMgMiA2LjEyIDMyYjYgNC44IDYuMTRMMy41IDUuNVYwYzAtLjI4LS4yMi0uNS0uNS0uNXMtLjUuMjItLjUuNXY1LjQ5bDEuNCAxLjQxQzQuMTQgNy41IDQgOC4yMiA0IDlWMTBsMi0xSDZ2MkgzVjE1SDZWMTROMEAxM1YxMUwxMC41IDEyLjVIMThWMTRMMjEgMTZaIi8+PC9zdmc+'); }
-    body.theme-sao-joao .cursor-plane.corporate, body:not(.theme-sao-joao) .cursor-plane.sao-joao { opacity: 0; }
-    body:not(.theme-sao-joao) .cursor-plane.corporate, body.theme-sao-joao .cursor-plane.sao-joao { opacity: 1; }
-    a:hover, button:hover { cursor: pointer; } /* Garante que o cursor mude para ponteiro */
+    .cursor.grow {
+        transform: scale(1.3) translateY(-5px) translate(-35%, -35%);
+    }
+    .cursor.hidden { display: none; }
 
     /* CABEÇALHO E NAVEGAÇÃO */
-    .hero { height: 100vh; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--light-text-color); text-align: center; overflow: hidden; background-color: var(--primary-color); }
-    .hero-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; transition: opacity 0.5s ease-in-out; }
-    .hero-background.sao-joao { background: linear-gradient(135deg, var(--saojoao-yellow) 0%, var(--saojoao-red) 50%, var(--saojoao-green) 100%); background-size: 200% 200%; animation: saoJoaoBg 15s ease-in-out infinite alternate; }
-    .hero-background.corporate { background: rgba(10, 25, 47, 0.5); }
-    body.theme-sao-joao .hero-background.corporate, body:not(.theme-sao-joao) .hero-background.sao-joao { opacity: 0; }
-    @keyframes saoJoaoBg { 0% { background-position: 0% 50%; } 100% { background-position: 100% 50%; } }
-    #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; opacity: 0.1; }
+    .hero {
+        height: 100vh;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: var(--light-text-color);
+        text-align: center;
+        overflow: hidden;
+        /* Fundo festivo de São João */
+        background: linear-gradient(135deg, var(--saojoao-yellow) 0%, var(--saojoao-red) 50%, var(--saojoao-green) 100%);
+        background-size: 200% 200%; /* Para a animação de fundo */
+        animation: saoJoaoBg 15s ease-in-out infinite alternate;
+    }
+    @keyframes saoJoaoBg {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 100% 50%; }
+    }
+
+    /* Animação para os balões de São João */
+    @keyframes baloonFloat {
+        0% { transform: translateY(0) rotate(-10deg); opacity: 0.8; }
+        50% { transform: translateY(-30px) rotate(10deg); opacity: 1; }
+        100% { transform: translateY(0) rotate(-10deg); opacity: 0.8; }
+    }
+
+    .baloon {
+        position: absolute;
+        font-size: 3rem; /* Tamanho dos emojis */
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+        animation: baloonFloat 5s ease-in-out infinite alternate;
+        z-index: 0; /* Abaixo do conteúdo principal */
+    }
+    .baloon:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; transform: rotate(-10deg); }
+    .baloon:nth-child(2) { bottom: 15%; right: 10%; animation-delay: 2s; transform: rotate(15deg); }
+    .baloon:nth-child(3) { top: 20%; right: 20%; animation-delay: 4s; transform: rotate(5deg); }
+    .baloon:nth-child(4) { top: 30%; left: 15%; animation-delay: 1s; transform: rotate(20deg); font-size: 2.5rem;}
+    .baloon:nth-child(5) { bottom: 5%; left: 25%; animation-delay: 3s; transform: rotate(-5deg); font-size: 3.5rem;}
+
+
+    #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; opacity: 0.15; } /* Video ainda mais sutil */
+    .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.4); z-index: -1; } /* Overlay mais transparente */
     .hero-content { z-index: 1; }
-    .hero h1 { font-size: clamp(3rem, 10vw, 6rem); font-weight: 800; line-height: 1.1; margin-bottom: 1rem; text-shadow: 4px 4px 8px rgba(0,0,0,0.4); color: var(--light-background); }
+    .hero h1 {
+        font-size: clamp(3rem, 10vw, 6rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        text-shadow: 4px 4px 8px rgba(0,0,0,0.4); /* Sombra para destacar */
+        color: var(--light-background); /* Amarelo para destacar */
+    }
     .hero h1 .char { display: inline-block; transform: translateY(115px); transition: transform .5s; }
-    .hero .subtitle { font-family: 'Caveat', cursive; font-size: clamp(1.5rem, 5vw, 2.5rem); color: var(--secondary-color); margin-bottom: 2.5rem; text-shadow: 2px 2px 5px rgba(0,0,0,0.3); opacity: 0; }
-    
-    nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 50px; display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
+    .hero p {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+        font-weight: 300;
+        color: var(--light-text-color); /* Ajustado para melhor contraste */
+        margin-bottom: 2.5rem;
+        opacity: 0;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+    .hero .cta-button { opacity: 0; }
+    nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 50px; display: flex; justify-content: flex-end; align-items: center; transition: var(--transition); }
     nav.scrolled { background-color: rgba(10, 25, 47, 0.85); backdrop-filter: blur(10px); box-shadow: var(--shadow); padding: 15px 50px; }
-    nav .logo { font-weight: 700; color: var(--light-text-color); font-size: 1.5rem; text-decoration: none; }
+    nav a { color: var(--light-text-color); text-decoration: none; margin: 0 20px; font-size: 1rem; font-weight: 500; transition: var(--transition); }
     nav a:hover { color: var(--secondary-color); }
-    #theme-toggle { background: none; border: 1px solid var(--secondary-color); color: var(--secondary-color); padding: 8px 15px; border-radius: 20px; transition: var(--transition); }
-    #theme-toggle:hover { background: var(--secondary-color); color: var(--primary-color); }
-
-    /* ANIMAÇÕES SÃO JOÃO */
-    .sao-joao-decorations { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0; transition: opacity 0.5s ease; }
-    body.theme-sao-joao .sao-joao-decorations { opacity: 1; }
-    .baloon { position: absolute; font-size: 2.5rem; animation: floatUp 20s linear infinite; }
-    @keyframes floatUp { 0% { transform: translateY(100vh) rotate(0deg); opacity: 0.8; } 100% { transform: translateY(-100px) rotate(720deg); opacity: 0; } }
-
+    
     /* ESTILOS GERAIS */
     main { background-color: var(--background-color); position: relative; }
     section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; }
     .section-title { text-align: center; font-size: 2.8rem; font-weight: 700; margin-bottom: 15px; color: var(--primary-color); }
     .section-subtitle { text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 80px auto; color: #555; }
-    .cta-button { background: var(--secondary-color); color: var(--primary-color); text-decoration: none; padding: 18px 40px; border-radius: 50px; font-weight: 700; display: inline-block; transition: var(--transition); box-shadow: 0 4px 15px rgba(0,0,0,0.2); border: none; font-size: 1rem; }
-    .cta-button:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+    
+    /* ANIMAÇÃO RGB */
+    @keyframes rgb-animation {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+    .rgb-glow {
+        position: relative;
+        overflow: hidden;
+    }
+    .rgb-glow::before {
+        content: "";
+        position: absolute;
+        top: 50%; left: 50%;
+        width: 200%;
+        height: 200%;
+        background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        animation: rgb-animation 4s linear infinite;
+    }
+    .rgb-glow:hover::before {
+        opacity: 1;
+    }
+    .cta-button.rgb-glow::before {
+        z-index: -2;
+        filter: blur(5px);
+    }
+    .plan-card.rgb-glow::before {
+        z-index: -1;
+        filter: blur(15px);
+    }
+    
+    /* SEÇÃO FILOSOFIA */
+    .philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+    .philosophy-card { background-color: var(--light-background); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition); }
+    .philosophy-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+    .philosophy-card .image-wrapper { height: 220px; overflow: hidden; }
+    .philosophy-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .philosophy-card:hover img { transform: scale(1.05); }
+    .philosophy-card .content { padding: 30px; }
+    .philosophy-card h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
+    .philosophy-card p { font-size: 1rem; line-height: 1.6; color: #666; }
 
-    /* SEÇÃO PACOTES com brilho RGB */
-    @keyframes rotate-hue { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
-    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; }
-    .plan-card { position: relative; background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; display: flex; flex-direction: column; overflow: hidden; }
-    .plan-card::before, .plan-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(from 180deg at 50% 50%, #e60073, #33ccff, #ffcc00, #00ff66, #e60073); z-index: 0; animation: rotate-hue 6s linear infinite; opacity: 0; transition: opacity 0.3s ease; }
-    .plan-card::after { filter: blur(25px); }
-    .plan-card:hover::before, .plan-card:hover::after { opacity: 1; }
-    .plan-card .plan-content-wrapper { position: relative; z-index: 1; background: var(--light-background); border-radius: calc(var(--border-radius) - 2px); height: 100%; display: flex; flex-direction: column; padding: 38px; margin: -38px; }
-    .plan-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); }
-    .plan-card ul li svg { fill: var(--secondary-color); }
-    /* Conteúdo dos cards (preço, botões, parceiros etc.) */
+    /* SEÇÃO PACOTES COM LOGOS */
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; perspective: 2000px; }
+    .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; will-change: transform; transform-style: preserve-3d; display: flex; flex-direction: column; }
     .plan-card-content { flex-grow: 1; }
-    .plan-price { font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 25px; }
-    .promo-button { background-color: var(--secondary-color); color: var(--primary-color); padding: 12px 25px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 15px; }
-    body.theme-sao-joao .promo-button { background: var(--saojoao-orange); color: white; }
-    .partner-section { border-top: 1px solid #eee; padding-top: 20px; margin-top: auto; }
-    .partner-logos { display: flex; justify-content: center; align-items: center; gap: 20px; min-height: 40px; }
-    .partner-logos img { max-height: 35px; filter: grayscale(100%); transition: var(--transition); }
-    .plan-card:hover .partner-logos img { filter: none; }
-    
-    /* NOVA SEÇÃO: FEEDBACK e FAQ */
-    #feedback-section { background-color: var(--light-background); }
-    .feedback-container { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: flex-start; }
-    .faq-item { margin-bottom: 15px; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; }
-    .faq-question { width: 100%; background: none; border: none; text-align: left; padding: 20px; font-size: 1.1rem; font-weight: 600; color: var(--primary-color); display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
-    .faq-question::after { content: '+'; font-size: 1.5rem; transition: transform 0.3s ease; }
-    .faq-question.active::after { transform: rotate(45deg); }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
-    .faq-answer p { padding: 0 20px 20px; line-height: 1.6; }
-    
-    /* MODAL */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); z-index: 1001; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
-    .modal-overlay.active { opacity: 1; pointer-events: all; }
-    .modal-content { background: var(--light-background); color: var(--text-color); border-radius: var(--border-radius); padding: 40px; width: 90%; max-width: 500px; text-align: center; transform: scale(0.9); transition: transform 0.3s ease; position: relative; }
-    .modal-overlay.active .modal-content { transform: scale(1); }
-    .modal-close { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #aaa; }
+    .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; }
+    .plan-price { 
+        font-size: 2.5rem; 
+        font-weight: 700; 
+        color: var(--primary-color); /* Cor do preço original */
+        margin-bottom: 25px; 
+        display: flex; 
+        flex-direction: column; /* Para colocar a promoção abaixo */
+        align-items: center; 
+        justify-content: center; 
+    }
+    .plan-price .original-value {
+        font-size: 1.8rem; /* Tamanho para o original */
+        font-weight: 500;
+        color: #999;
+        text-decoration: line-through;
+        margin-bottom: 5px; /* Espaço entre original e promoção */
+    }
+    .promo-button {
+        background-color: var(--saojoao-orange); /* Cor chamativa para o botão */
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-top: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .promo-button:hover {
+        background-color: #e07b00; /* Tom mais escuro no hover */
+        transform: translateY(-2px);
+    }
 
-    footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 50px 20px; position: relative; overflow: hidden; }
+    .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
+    .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
+    .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
+    .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
+    
+    /* PARCEIROS */
+    .partner-section {
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+        margin-top: 20px;
+    }
+    .partner-section h4 {
+        font-size: 0.9rem;
+        color: #999;
+        margin-bottom: 15px;
+        font-weight: 500;
+    }
+    .partner-logos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        min-height: 40px;
+    }
+    .partner-logos img {
+        max-height: 35px;
+        filter: grayscale(100%) contrast(0%) brightness(1.5);
+        transition: var(--transition);
+    }
+    .plan-card:hover .partner-logos img {
+        filter: none;
+    }
+    
+    /* OUTRAS SEÇÕES */
+    #contato { background: var(--light-background); }
+    .contact-form input, .contact-form textarea { width: 100%; padding: 18px; border-radius: 12px; border: 1px solid #ccc; font-family: 'Poppins', sans-serif; font-size: 1rem; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--secondary-color); outline: none; box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3); }
+    #admin { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
+    .admin-container { background: rgba(10, 25, 47, 0.5); backdrop-filter: blur(10px); border-radius: var(--border-radius); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; overflow: hidden; max-width: 900px; margin: auto; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+    .admin-sidebar { background: rgba(10, 25, 47, 0.7); padding: 40px 30px; width: 250px; display: flex; flex-direction: column; align-items: center; color: var(--light-text-color); }
+    .admin-sidebar svg { width: 60px; height: 60px; fill: var(--secondary-color); margin-bottom: 20px; }
+    .admin-sidebar h3 { font-size: 1.5rem; text-align: center; }
+    .admin-main { padding: 40px; width: 100%; color: var(--light-text-color); }
+    #admin-login input { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 1rem; border-radius: 8px; border: 1px solid #555; background-color: rgba(0,0,0,0.2); color: white; }
+    #admin-login button { width: 100%; }
+    #admin-dashboard { display: none; }
+    #admin-dashboard h3 { margin-bottom: 20px; }
+    .message-item { background: rgba(255,255,255,0.9); color: #333; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+    .message-item:nth-child(even) { background: rgba(255,255,255,0.8); }
+    .message-item h4 { color: var(--primary-color); margin-bottom: 5px; }
+    .message-item .timestamp { font-size: 0.8rem; color: #777; text-align: right; margin-top: 10px; }
+    footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 50px 20px; }
 </style>
 </head>
 <body class="no-scroll">
 
 <div class="preloader"><div class="logo">ExploreMundo</div></div>
-<div class="custom-cursor">
-    <div class="cursor-plane corporate"></div>
-    <div class="cursor-plane sao-joao"></div>
-</div>
-
-<div class="sao-joao-decorations">
-    <!-- Balões serão criados via JS -->
-</div>
-
-<div id="promo-modal" class="modal-overlay">
-    <div class="modal-content"><button class="modal-close" onclick="closeModal()">×</button><div id="modal-body"></div></div>
-</div>
+<div class="cursor"></div>
 
 <header class="hero">
-    <div class="hero-background corporate"></div>
-    <div class="hero-background sao-joao"></div>
-    <video playsinline autoplay muted loop id="hero-video"><source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-4027-large.mp4" type="video/mp4"></video>
+    <div class="hero-overlay"></div>
+    <div class="baloon" style="color: var(--saojoao-yellow);">&#127880;</div>
+    <div class="baloon" style="color: var(--saojoao-red); animation-delay: 2s;">&#127880;</div>
+    <div class="baloon" style="color: var(--saojoao-green); animation-delay: 4s;">&#127880;</div>
+    <div class="baloon" style="color: var(--saojoao-yellow); animation-delay: 1s; top: 30%; left: 15%;">&#127880;</div>
+    <div class="baloon" style="color: var(--saojoao-red); animation-delay: 3s; bottom: 5%; left: 25%;">&#127880;</div>
     
+    <video playsinline autoplay muted loop id="hero-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-40 flying-through-the-clouds-4027-large.mp4" type="video/mp4">
+    </video>
     <nav id="navbar">
-        <a href="#" class="logo">ExploreMundo</a>
-        <div class="nav-links">
-            <a href="#pacotes">Pacotes</a>
-            <a href="#feedback-section">Feedback</a>
-            <a href="#admin">Admin</a>
-        </div>
-        <div class="theme-switcher">
-            <button id="theme-toggle">Mudar Tema</button>
-        </div>
+        <a href="#philosophy" class="interactive">Nossa Filosofia</a>
+        <a href="#pacotes" class="interactive">Pacotes</a>
+        <a href="#contato" class="interactive">Contato</a>
+        <a href="#admin" class="interactive" style="color: var(--secondary-color);">Admin</a>
     </nav>
     <div class="hero-content">
-        <h1 class="main-title">O Mundo à sua Espera!</h1>
-        <p class="subtitle">Roteiros exclusivos para as viagens da sua vida.</p>
-        <a href="#pacotes" class="cta-button">Ver Pacotes</a>
+        <h1 class="main-title">Celebre o São João:<br>O Mundo à sua Espera!</h1>
+        <p>Roteiros exclusivos para as viagens da sua vida, com a alegria e a magia das festas juninas.</p>
+        <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes e Promoções!</a>
     </div>
 </header>
 
 <main id="main-content">
+
+    <section id="philosophy">
+        <h2 class="section-title">Nossa Filosofia</h2>
+        <p class="section-subtitle">Nossa missão é transformar seu desejo de viajar em uma experiência impecável, do planejamento ao retorno.</p>
+        <div class="philosophy-grid">
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80" alt="Homem olhando para um lago nas montanhas"></div><div class="content"><h3>O Sonho</h3><p>Tudo começa com a sua visão. Ouvimos seus desejos para criar algo que vai além do esperado.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://st3.idealista.pt/news/arquivos/styles/fullwidth_xl/public/2011-07/islasanjose13_0.jpg?VersionId=eIDntk.o3lbkY8_B.vrB9b7r_Cwy87n4&itok=eYEf_vlU" alt="Mapa e bússola sobre uma mesa de madeira"></div><div class="content"><h3>O Roteiro</h3><p>Nossos especialistas tecem sua visão em um itinerário impecável, cuidando de cada detalhe com precisão.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80" alt="Pessoa sentada na proa de um barco"></div><div class="content"><h3>A Experiência</h3><p>Entregamos mais do que uma viagem; entregamos a tranquilidade para que você possa criar memórias inesquecíveis.</p></div></div>
+        </div>
+    </section>
+
     <section id="pacotes">
-        <h2 class="section-title">Pacotes Exclusivos</h2>
-        <p class="section-subtitle">Descubra nossos roteiros incríveis! Celebre o São João com um desconto especial.</p>
+        <h2 class="section-title">Pacotes Exclusivos ExploreMundo</h2>
+        <p class="section-subtitle">Descubra nossos roteiros incríveis! Utilize o código **SAOJOAO2025** para um desconto de **€200** em qualquer pacote!</p>
         <div class="plans-grid">
-            <div class="plan-card">
-                <div class="plan-content-wrapper">
-                    <div class="plan-card-content">
-                        <h3>Aventura</h3>
-                        <div class="plan-price">€1.999 <span>/ pessoa</span></div>
-                        <button class="promo-button" onclick="applyDiscount('Aventura', 1999)">Ver Desconto São João!</button>
-                        <ul><li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Roteiro Otimizado</li><li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Hospedagem Confortável</li></ul>
+            <div class="plan-card interactive rgb-glow">
+                <div class="plan-card-content">
+                    <h3>Aventura</h3>
+                    <div class="plan-price">
+                        <span class="original-value">€1.999</span> <span>/ pessoa</span>
                     </div>
-                    <div class="partner-section">
-                        <h4>Parceiro Aéreo</h4>
-                        <div class="partner-logos"><img src="https://logodownload.org/wp-content/uploads/2019/12/tap-air-portugal-logo-1.png" alt="TAP Logo"></div>
+                    <button class="promo-button interactive" onclick="applyDiscount('Aventura', 1999)">Aplicar Desconto São João!</button>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M19.5 12.5c0 .63-.23 1.22-.63 1.69l-1.4-1.4c.1-.24.13-.5.13-.79 0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2c.29 0 .55-.04.79-.13l1.4 1.4c-.47.4-1.06.63-1.69.63-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>Suporte Essencial</li>
+                    </ul>
+                </div>
+                <div class="partner-section">
+                    <h4>Parceiro Aéreo</h4>
+                    <div class="partner-logos">
+                        <img src="https://www.liblogo.com/img-logo/ta8903tec8-tap-portugal-logo-tap-portugal-logo-tap-air-portugal-logo-full-size-png-download.png" alt="TAP Air Portugal Logo">
                     </div>
                 </div>
             </div>
-            <div class="plan-card">
-                <div class="plan-content-wrapper">
-                    <div class="plan-card-content">
-                        <h3>Descoberta</h3>
-                        <div class="plan-price">€6.999 <span>/ pessoa</span></div>
-                        <button class="promo-button" onclick="applyDiscount('Descoberta', 6999)">Ver Desconto São João!</button>
-                        <ul><li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Roteiro Personalizado</li><li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Hospedagem Superior</li></ul>
+            <div class="plan-card interactive rgb-glow">
+                <div class="plan-card-content">
+                    <h3>Descoberta</h3>
+                    <div class="plan-price">
+                        <span class="original-value">€6.999</span> <span>/ pessoa</span>
                     </div>
-                    <div class="partner-section">
-                        <h4>Parceiro Aéreo</h4>
-                        <div class="partner-logos"><img src="https://logodownload.org/wp-content/uploads/2019/12/tap-air-portugal-logo-1.png" alt="TAP Logo"></div>
+                    <button class="promo-button interactive" onclick="applyDiscount('Descoberta', 6999)">Aplicar Desconto São João!</button>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98-.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08-.66-.08-1s.04-.67.08-1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Experiências Locais</li>
+                    </ul>
+                </div>
+                <div class="partner-section">
+                    <h4>Parceiro Aéreo</h4>
+                    <div class="partner-logos">
+                        <img src="https://www.liblogo.com/img-logo/ta8903tec8-tap-portugal-logo-tap-portugal-logo-tap-air-portugal-logo-full-size-png-download.png" alt="TAP Air Portugal Logo">
                     </div>
                 </div>
             </div>
-            <div class="plan-card">
-                 <div class="plan-content-wrapper">
+            <div class="plan-card interactive rgb-glow">
                     <div class="plan-card-content">
-                        <h3>Executivo</h3>
-                        <div class="plan-price">€7.999 <span>/ pessoa</span></div>
-                        <button class="promo-button" onclick="applyDiscount('Executivo', 7999)">Ver Desconto São João!</button>
-                        <ul><li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Roteiro Exclusivo</li><li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Hospedagem de Luxo</li></ul>
+                    <h3>Executivo</h3>
+                    <div class="plan-price">
+                        <span class="original-value">€7.999</span> <span>/ pessoa</span>
                     </div>
-                    <div class="partner-section">
-                        <h4>Parceiros Premium</h4>
-                        <div class="partner-logos"><img src="https://logodownload.org/wp-content/uploads/2019/12/tap-air-portugal-logo-1.png" alt="TAP Logo"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Logo_de_Marriott_International.svg/2560px-Logo_de_Marriott_International.svg.png" alt="Marriott Logo"></div>
+                    <button class="promo-button interactive" onclick="applyDiscount('Executivo', 7999)">Aplicar Desconto São João!</button>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo e acesso a ilha mais cara do mundo</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 1.99c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10-4.48-10-10-10zm4.24 14.12L10.5 13.43V7h1.5v5.55l5.02 2.87-.78 1.36z"></path></svg>Acesso VIP & Guia Privativo</li>
+                    </ul>
+                </div>
+                <div class="partner-section">
+                    <h4>Parceiros Premium</h4>
+                    <div class="partner-logos">
+                        <img src="https://www.liblogo.com/img-logo/ta8903tec8-tap-portugal-logo-tap-portugal-logo-tap-air-portugal-logo-full-size-png-download.png" alt="TAP Air Portugal Logo">
+                        <img src="https://pluspng.com/img-png/google-logo-png-open-2000.png" alt="Marriott Bonvoy Logo">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="feedback-section">
-        <h2 class="section-title">Feedback e Perguntas</h2>
-        <p class="section-subtitle">Sua opinião é valiosa. Deixe sua mensagem ou consulte nossas perguntas frequentes.</p>
-        <div class="feedback-container">
-            <div class="form-container">
-                <h3>Deixe sua Mensagem</h3>
-                <form id="contactForm" style="display: grid; gap: 20px;">
-                    <input type="text" name="name" placeholder="Seu Nome" required>
-                    <input type="email" name="email" placeholder="Seu E-mail" required>
-                    <textarea name="message" rows="5" placeholder="Sua mensagem, dúvida ou sugestão..." required></textarea>
-                    <button type="submit" class="cta-button" style="justify-self: start;">Enviar Feedback</button>
-                </form>
+    <section id="contato">
+        <h2 class="section-title">Inicie Sua Próxima Jornada</h2>
+        <p class="section-subtitle">A sua viagem inesquecível está a uma mensagem de distância. Vamos planejá-la juntos.</p>
+        <form id="contactForm" class="contact-form">
+            <input type="text" name="name" placeholder="Seu Nome" required class="interactive">
+            <input type="email" name="email" placeholder="Seu E-mail" required class="interactive">
+            <textarea name="message" placeholder="Descreva o destino dos seus sonhos..." required class="interactive"></textarea>
+            <button type="submit" class="cta-button interactive rgb-glow">Enviar Mensagem</button>
+        </form>
+    </section>
+    
+    <section id="admin">
+        <div class="admin-container">
+            <div class="admin-sidebar">
+                <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"></path></svg>
+                <h3>Painel de<br>Administrador</h3>
             </div>
-            <div class="faq-container">
-                <h3>Perguntas Frequentes</h3>
-                <div class="faq-item">
-                    <button class="faq-question">Como funciona o desconto de São João?</button>
-                    <div class="faq-answer"><p>Basta clicar no botão "Ver Desconto São João" em qualquer um dos nossos pacotes. Um código promocional será revelado para ser usado na finalização da sua compra, garantindo um desconto de €200.</p></div>
+            <div class="admin-main">
+                <div id="admin-login">
+                    <p style="margin-bottom: 20px; text-align: center;">Acesso restrito.</p>
+                    <input type="password" id="admin-password" placeholder="Senha" class="interactive">
+                    <button id="admin-login-btn" class="cta-button interactive rgb-glow">Entrar</button>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question">Os roteiros são personalizáveis?</button>
-                    <div class="faq-answer"><p>Sim! Os pacotes "Descoberta" e "Executivo" incluem personalização completa do roteiro. O pacote "Aventura" é otimizado, mas podemos ajustar detalhes mediante consulta.</p></div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">Quais são as formas de pagamento?</button>
-                    <div class="faq-answer"><p>Aceitamos as principais bandeiras de cartão de crédito, transferência bancária e soluções de pagamento online como PayPal. Entre em contato para opções de parcelamento.</p></div>
+                <div id="admin-dashboard">
+                    <h3>Mensagens Recebidas</h3>
+                    <div id="messages-container"></div>
                 </div>
             </div>
         </div>
     </section>
-
 </main>
+
 <footer>
-    <p>© 2025 ExploreMundo. Roteiros Exclusivos.</p>
+    <p>&copy; 2025 ExploreMundo. Roteiros Exclusivos.</p>
+    <p style="font-size: 0.8rem; color: #888; margin-top: 10px;">Os logos de parceiros são marcas registadas dos seus respetivos proprietários a google deu mais de 1 milhao de dolares para a explore mundo.</p>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
+
     const body = document.body;
     const preloader = document.querySelector('.preloader');
-    const cursor = document.querySelector('.custom-cursor');
-    const themeToggle = document.getElementById('theme-toggle');
+    const cursor = document.querySelector('.cursor');
+    const interactiveElements = document.querySelectorAll('.interactive');
 
     gsap.registerPlugin(ScrollTrigger);
-
-    // Lógica de Temas
-    const savedTheme = localStorage.getItem('theme') || 'theme-sao-joao';
-    body.classList.add(savedTheme);
-    themeToggle.addEventListener('click', () => {
-        const isSaoJoao = body.classList.toggle('theme-sao-joao');
-        localStorage.setItem('theme', isSaoJoao ? 'theme-sao-joao' : 'theme-corporate');
-        createBalloons(); // Recria balões para o tema correto
-    });
 
     // LÓGICA DO PRELOADER
     window.addEventListener('load', () => {
         gsap.to(preloader, {
-            opacity: 0, duration: 1, delay: 0.5,
+            opacity: 0,
+            duration: 1,
+            delay: 0.5,
             onComplete: () => {
                 preloader.style.display = 'none';
                 body.classList.remove('no-scroll');
                 body.classList.add('loaded');
                 animatePageIn();
-                createBalloons();
             }
         });
     });
 
-    // LÓGICA DO CURSOR
+    // LÓGICA DO CURSOR PERSONALIZADO
     let mouseX = 0, mouseY = 0, posX = 0, posY = 0;
     gsap.set(cursor, { xPercent: -50, yPercent: -50, rotation: -45 });
     window.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
     gsap.to({}, 0.016, {
         repeat: -1,
         onRepeat: () => {
-            posX += (mouseX - posX) / 6; posY += (mouseY - posY) / 6;
+            posX += (mouseX - posX) / 6;
+            posY += (mouseY - posY) / 6;
             gsap.set(cursor, { x: posX, y: posY });
         }
     });
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseover', () => cursor.classList.add('grow'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
+    });
+    document.addEventListener("mouseleave", () => cursor.classList.add("hidden"));
+    document.addEventListener("mouseenter", () => cursor.classList.remove("hidden"));
 
-    // ANIMAÇÕES
+    // ANIMAÇÕES DA PÁGINA COM GSAP
     function animatePageIn() {
         const mainTitle = document.querySelector('.main-title');
         const chars = mainTitle.textContent.split('');
         mainTitle.innerHTML = '';
-        chars.forEach(char => { mainTitle.innerHTML += `<span class="char">${char === ' ' ? ' ' : char}</span>`; });
+        chars.forEach(char => { mainTitle.innerHTML += `<span class="char">${char === ' ' ? '&nbsp;' : char}</span>`; });
         
-        gsap.timeline()
-            .to('.char', { y: 0, stagger: 0.05, delay: 0.2, duration: 1, ease: 'expo.out' })
-            .to('.hero .subtitle, .hero .cta-button', { opacity: 1, y: 0, duration: 1, stagger: 0.1, ease: 'power3.out' }, "-=0.8");
+        gsap.to('.char', { y: 0, stagger: 0.05, delay: 0.2, duration: 1, ease: 'expo.out' });
+        gsap.to('.hero p, .hero .cta-button', { opacity: 1, y: 0, duration: 1, delay: 0.8, stagger: 0.1, ease: 'power3.out' });
     }
     gsap.from('nav', { y: -100, opacity: 0, duration: 1, delay: 1.5, ease: 'power3.out' });
-    window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50));
-    
-    gsap.utils.toArray('section').forEach(section => {
-      gsap.from(section.children, {
-        y: 50, opacity: 0, stagger: 0.1, duration: 0.8, ease: 'power3.out',
-        scrollTrigger: { trigger: section, start: 'top 80%' }
-      });
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
     });
     
-    // ANIMAÇÃO DE BALÕES DE SÃO JOÃO
-    function createBalloons() {
-        const container = document.querySelector('.sao-joao-decorations');
-        container.innerHTML = ''; // Limpa balões existentes
-        if (!body.classList.contains('theme-sao-joao')) return;
-        
-        for (let i = 0; i < 10; i++) {
-            const baloon = document.createElement('div');
-            baloon.className = 'baloon';
-            baloon.innerHTML = ''; // Emoji de balão
-            baloon.style.left = `${Math.random() * 100}vw`;
-            baloon.style.animationDuration = `${Math.random() * 10 + 15}s`;
-            baloon.style.animationDelay = `${Math.random() * 5}s`;
-            baloon.style.color = ['#E60000', '#FCE205', '#3D9970', '#007bff'][Math.floor(Math.random() * 4)];
-            container.appendChild(baloon);
-        }
-    }
-
-    // Lógica do FAQ
-    document.querySelectorAll('.faq-question').forEach(button => {
-        button.addEventListener('click', () => {
-            const answer = button.nextElementSibling;
-            button.classList.toggle('active');
-            if(button.classList.contains('active')){
-                answer.style.maxHeight = answer.scrollHeight + "px";
-            } else {
-                answer.style.maxHeight = 0;
-            }
+    const tiltCards = document.querySelectorAll('.plan-card');
+    tiltCards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const { width, height } = rect;
+            const rotateX = (y / height - 0.5) * -20;
+            const rotateY = (x / width - 0.5) * 20;
+            gsap.to(card, { rotationX: rotateX, rotationY: rotateY, transformPerspective: 1000, ease: "power1.out" });
+        });
+        card.addEventListener('mouseleave', () => {
+            gsap.to(card, { rotationX: 0, rotationY: 0, ease: "power1.out" });
         });
     });
 
-    // Lógica do Modal e Confete
-    const modal = document.getElementById('promo-modal');
-    window.closeModal = () => modal.classList.remove('active');
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-    window.applyDiscount = (packageName, originalPrice) => {
+    // LÓGICA DO DESCONTO
+    function applyDiscount(packageName, originalPrice) {
         const discountAmount = 200;
         const finalPrice = originalPrice - discountAmount;
-        document.getElementById('modal-body').innerHTML = `
-            <h3>Desconto de São João!</h3>
-            <p>Você ativou a oferta para o pacote <strong>${packageName}</strong>!</p>
-            <div style="margin: 20px 0; font-size: 1.2rem;">
-                <span style="text-decoration: line-through; color: #999;">Preço Original: €${originalPrice.toLocaleString()}</span><br>
-                <span style="font-weight: 700; color: var(--primary-color); font-size: 1.5rem;">Preço Final: €${finalPrice.toLocaleString()}</span>
-            </div>
-            <p>Use o código no checkout:</p>
-            <div style="background: #e9ecef; border: 1px dashed #ccc; padding: 10px 20px; border-radius: 8px; margin: 20px auto; display: inline-block; font-weight: 600;">SAOJOAO2025</div>`;
-        modal.classList.add('active');
-        createConfetti();
-    };
+        alert(`Aplicaste o desconto de São João para o pacote "${packageName}"!\n\nPreço Original: €${originalPrice}\nDesconto: €${discountAmount}\nPreço Final: €${finalPrice}\n\nUsa o código SAOJOAO2025 no checkout!`);
+    }
+    // Deixar a função acessível globalmente
+    window.applyDiscount = applyDiscount;
 
-    function createConfetti() {
-        const confettiContainer = document.body;
-        for (let i = 0; i < 100; i++) {
-            const confetti = document.createElement('div');
-            confetti.style.position = 'fixed';
-            confetti.style.width = `${Math.random() * 10 + 5}px`;
-            confetti.style.height = `${Math.random() * 10 + 5}px`;
-            confetti.style.left = `${Math.random() * 100}vw`;
-            confetti.style.top = `${-20}px`;
-            confetti.style.backgroundColor = ['#E60000', '#FCE205', '#3D9970', '#007bff'][Math.floor(Math.random() * 4)];
-            confetti.style.zIndex = '1002';
-            confettiContainer.appendChild(confetti);
 
-            gsap.to(confetti, {
-                y: '110vh', x: `random(-100, 100)`, rotation: `random(360, 720)`,
-                duration: `random(3, 6)`, ease: 'power1.out', onComplete: () => confetti.remove()
-            });
+    // LÓGICA DO FORMULÁRIO E ADMIN
+    const contactForm = document.getElementById('contactForm');
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(contactForm);
+        const submission = {
+            name: formData.get('name'), email: formData.get('email'),
+            message: formData.get('message'), timestamp: new Date().toISOString()
+        };
+        const submissions = JSON.parse(localStorage.getItem('formSubmissions')) || [];
+        submissions.push(submission);
+        localStorage.setItem('formSubmissions', JSON.stringify(submissions));
+        alert('Obrigado! A sua mensagem foi registada com sucesso.');
+        contactForm.reset();
+    });
+
+    const adminLoginBtn = document.getElementById('admin-login-btn');
+    const adminPasswordInput = document.getElementById('admin-password');
+    const adminLoginDiv = document.getElementById('admin-login');
+    const adminDashboardDiv = document.getElementById('admin-dashboard');
+    const ADMIN_PASSWORD = 'admin2025'; // Senha de exemplo
+
+    adminLoginBtn.addEventListener('click', () => {
+        if (adminPasswordInput.value === ADMIN_PASSWORD) {
+            adminLoginDiv.style.display = 'none';
+            adminDashboardDiv.style.display = 'block';
+            displayMessages();
+        } else {
+            alert('Senha incorreta!');
         }
+    });
+
+    function displayMessages() {
+        const messagesContainer = document.getElementById('messages-container');
+        const submissions = JSON.parse(localStorage.getItem('formSubmissions')) || [];
+        messagesContainer.innerHTML = '';
+        if (submissions.length === 0) {
+            messagesContainer.innerHTML = '<p style="color: #ccc;">Nenhuma mensagem recebida ainda.</p>';
+            return;
+        }
+        submissions.reverse().forEach(sub => {
+            const date = new Date(sub.timestamp);
+            const formattedDate = `${date.toLocaleDateString('pt-BR')} às ${date.toLocaleTimeString('pt-BR')}`;
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message-item';
+            messageElement.innerHTML = `<h4>De: ${sub.name}</h4><p><strong>Email:</strong> ${sub.email}</p><p><strong>Mensagem:</strong> ${sub.message}</p><p class="timestamp">${formattedDate}</p>`;
+            messagesContainer.appendChild(messageElement);
+        });
     }
 });
 </script>
+
 </body>
 </html>
