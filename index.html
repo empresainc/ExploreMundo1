@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ExploreMundo - Encontre Sua Viagem Perfeita</title>
+<title>ExploreMundo - Sua Plataforma de Comparação de Viagens</title>
 <meta name="google-site-verification" content="4DKMveGXGN64v-yuT5v4C4gLQuZuT5yDD2whbvpUbHI" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,7 +35,7 @@
         background-color: var(--primary-color);
         color: var(--text-color);
         overflow-x: hidden;
-        cursor: none;
+        cursor: none; /* Esconde o cursor padrão */
     }
     body.loaded { background-color: var(--background-color); }
     body.no-scroll { overflow-y: hidden; }
@@ -47,7 +47,8 @@
 
     /* CURSOR DE AVIÃO PERSONALIZADO */
     .cursor {
-        width: 40px; height: 40px;
+        width: 30px; /* Tamanho um pouco menor para ser discreto */
+        height: 30px;
         position: fixed;
         transform: translate(-50%, -50%);
         pointer-events: none;
@@ -56,8 +57,8 @@
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
-        /* Imagem do avião em Base64 para não depender de arquivos externos */
-        background-image: url('data:image/svg+xml;base64,PHN2ZyBmaWxsPSIjZmZjYTQyIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0yMSAxNlYxNEwxNCA5VjMuNUMxNCAyLjY3IDEzLjMzIDIgMTIuNSAyQzkuMDMgMiA2LjEyIDMuMzYgNC44IDYuMTRMMy41IDUuNVYwYzAtLjI4LS4yMi0uNS0uNS0uNXMtLjUuMjItLjUuNXY1LjQ5TDEuNCAxLjQxQzIuMTQgNy41IDQgOC4yMiA0IDlWMTBsMi0xSDZWbTJWNUgyVjE0TDEwLjUgMTIuNUgxOFYxNEwyMSAxNlYxNFoiLz48L3N2Zz4=');
+        /* NOVA IMAGEM DO AVIÃO EM BASE64 - SIMPLIFICADA PARA MAIOR COMPATIBILIDADE */
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmY2E0MiI+PHBhdGggZD0iTTIyLDExLjgzYy0wLjIyLTAuMTYtMC40Ny0wLjI3LTAuNzUtMC4yN2wxLjgtNC41YzAuMDgtMC4yLTAuMDYtMC40NC0wLjI3LTAuNDljLTAuMjItMC4wNi0wLjQ0LDAuMDgtMC40OSwwLjI3TDIwLjc0LDYuNDVMMTUuMywyLjA1Yy0wLjA4LTAuMDgtMC4xOC0wLjE2LTAuMjktMC4xOGMtMC4yMi0wLjA2LTAuNDIsMC4wMS0wLjU3LDAuMTlMOC40NCw1LjQ0TDUsNS40NUwyLjExLDUuMDdjLTAuMTEtMC4wMy0wLjIzLTAuMDMtMC4zNSwwYy0wLjExLDAuMDItMC4yMiwwLjA4LTAuMzEsMC4xN0wxLjE5LDYuMzRjLTAuMjgsMC4yNy0wLjQ4LDAuNjgtMC41NCwxLjExYy0wLjA1LDAuNDQsMC4xLTAuODYsMC4zNy0wLjY1TDIuOTMsNy4zYy0wLjE5LDAuNDgtMC4zMSwxLjAyLTAuMzEsMS41NmwtMC40NywwLjEzYy0wLjA1LDAuMDItMC4wOSwwLjA2LTAuMTMsMC4xMUMxLjM3LDkuMzYsMS4yNSw5LjU2LDEuMjUsOS44NGMwLjA0LDAuMjcsMC4yLDAuNTEsMC40MSwwLjcxTDUuOTUsMTQuODZsLTUuNTQsMC4wMmwtNC42NywxLjM0Yy0wLjA4LDAuMDItMC4xMywwLjE1LTAuMDcsMC4yMyMwLjA2LDAuMDgsMC4yLDAuMTMsMC4yOCwwLjA3TDIuNzQsMTYuNTZMNC4xLDE2LjczTDIuMDksMTYuODljLTAuMTcsMC4wNi0wLjI4LDAuMTYtMC4yOCwwLjM3QzEuNjYsMTcuNSwxLjc4LDE3LjY2LDIuMDgsMTcuNzRsNS41NywyLjQ4YzAuNzQsMC4zMywxLjQ1LDAuMjYsMi4xNSwwLjA2bDUuNzMtMi45NGw3LjgxLTUuNTJjMC4wNi0wLjA2LDAuMTItMC4xMywwLjE2LTAuMiJodHRwczovL21hdGVyaWFsLmNvbS9pY29ucy8=');
     }
     .cursor.grow {
         transform: scale(1.3) translateY(-5px) translate(-35%, -35%);
@@ -75,39 +76,38 @@
         color: var(--light-text-color);
         text-align: center;
         overflow: hidden;
-        /* Fundo genérico e profissional */
-        background: linear-gradient(135deg, var(--primary-color) 0%, #1a2a4b 100%);
-        background-size: 200% 200%;
-        animation: gradientShift 10s ease-in-out infinite alternate;
+        /* NOVO FUNDO ANIMADO E COLORIDO */
+        background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #45B6FE, #FFB74D, #E8A87C);
+        background-size: 400% 400%;
+        animation: gradientAnimation 15s ease infinite alternate;
     }
-    @keyframes gradientShift {
+    @keyframes gradientAnimation {
         0% { background-position: 0% 50%; }
-        100% { background-position: 100% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
     }
 
-    /* Balões de São João removidos */
-    .baloon { display: none; }
-
-    #hero-video { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -2; opacity: 0.15; }
-    .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(10, 25, 47, 0.4); z-index: -1; }
+    #hero-video { display: none; } /* Vídeo removido para um fundo mais leve */
+    .hero-overlay { background-color: rgba(0, 0, 0, 0.4); z-index: -1; } /* Overlay escuro para contraste */
     .hero-content { z-index: 1; }
     .hero h1 {
-        font-size: clamp(3rem, 10vw, 6rem);
+        font-size: clamp(3rem, 9vw, 5rem); /* Ligeiramente menor */
         font-weight: 800;
         line-height: 1.1;
-        margin-bottom: 1rem;
+        margin-bottom: 0.7rem; /* Espaçamento ajustado */
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
         text-shadow: 4px 4px 8px rgba(0,0,0,0.4);
-        color: var(--light-background);
+        color: #FFFFFF; /* Branco puro para maior contraste */
     }
     .hero h1 .char { display: inline-block; transform: translateY(115px); transition: transform .5s; }
     .hero p {
-        font-size: clamp(1rem, 4vw, 1.5rem);
-        font-weight: 300;
-        color: var(--light-text-color);
-        margin-bottom: 2.5rem;
+        font-size: clamp(1rem, 3.5vw, 1.25rem); /* Ligeiramente menor */
+        font-weight: 400; /* Mais espesso que 300 */
+        color: #F0F0F0; /* Cor mais clara para o parágrafo */
+        margin-bottom: 2rem; /* Espaçamento ajustado */
         opacity: 0;
         text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+        max-width: 600px; /* Limite a largura para melhor leitura */
     }
     .hero .cta-button { opacity: 0; }
     nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 50px; display: flex; justify-content: flex-end; align-items: center; transition: var(--transition); }
@@ -288,8 +288,7 @@
     <div class="hero-overlay"></div>
     
     <video playsinline autoplay muted loop id="hero-video">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-the-clouds-40 flying-through-the-clouds-4027-large.mp4" type="video/mp4">
-    </video>
+        </video>
     <nav id="navbar">
         <a href="#philosophy" class="interactive">Nossa Filosofia</a>
         <a href="#how-it-works" class="interactive">Como Funciona</a>
@@ -298,9 +297,9 @@
         <a href="#admin" class="interactive" style="color: var(--secondary-color);">Admin</a>
     </nav>
     <div class="hero-content">
-        <h1 class="main-title">Sua Jornada Começa Aqui: <br>Explore o Mundo Sem Limites.</h1>
-        <p>Descubra, compare e conecte-se com as melhores ofertas de viagens das agências mais conceituadas do mercado. Sua aventura aguarda!</p>
-        <a href="#pacotes" class="cta-button interactive rgb-glow">Ver Pacotes de Viagem</a>
+        <h1 class="main-title">Encontre Sua Viagem Perfeita.<br>Compare Ofertas Reais.</h1>
+        <p>Explore as melhores opções de agências de viagens em um só lugar. Sua próxima aventura começa com a pesquisa certa.</p>
+        <a href="#pacotes" class="cta-button interactive rgb-glow">Começar a Explorar</a>
     </div>
 </header>
 
@@ -389,7 +388,7 @@
             </div>
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
-                    <h3>Relaxamento Exótico no Caribe</h3>
+                    <h3>Estadia e Pacotes no Caribe</h3>
                     <div class="plan-price">
                         €2.900 <span>/ pessoa</span>
                     </div>
