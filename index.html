@@ -75,7 +75,7 @@
         color: var(--light-text-color);
         text-align: center;
         overflow: hidden;
-        /* Fundo genérico e profissional, sem São João */
+        /* Fundo genérico e profissional */
         background: linear-gradient(135deg, var(--primary-color) 0%, #1a2a4b 100%);
         background-size: 200% 200%;
         animation: gradientShift 10s ease-in-out infinite alternate;
@@ -199,7 +199,6 @@
         align-items: center; 
         justify-content: center; 
     }
-    /* Removido .plan-price .original-value pois não há mais descontos fixos */
     .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
     
     .view-offer-button {
@@ -334,16 +333,16 @@
     <section id="pacotes">
         <h2 class="section-title">Pacotes de Viagem das Nossas Agências Parceiras</h2>
         <p class="section-subtitle">
-            Descubra roteiros incríveis com **preços reais** diretamente das agências. Clique para ver os detalhes e fazer sua reserva!
+            Descubra roteiros incríveis com **preços referenciais** diretamente das agências parceiras. Clique para ver os detalhes e o valor final no site da agência!
         </p>
         <div class="plans-grid">
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
                     <h3>Aventura no Sudeste Asiático</h3>
                     <div class="plan-price">
-                        €2.500 <span>/ pessoa</span>
+                        €1.850 <span>/ pessoa</span>
                     </div>
-                    <a href="https://www.logitravel.pt/?source=bing&campaignId=506207214&AdGroupID=1262241009241378&MatchType=p&Keyword=agencia%20de%20viagens&Device=c&TargetId=kwd-78890570493193:loc-152&utm_campaign=S-LG-PT-HOM-AGENCIAS-DE-VIAJES&utm_content=Agencia%20de%20Viagens&utm_term=agencia%20de%20viagens&utm_id=8&iclid=1-22c806dd-9ef6-3abb-80bb-9af69edd06c8-a153&utm_medium=389098%7C%7CBing+-+UID+389098&utm_source=Afiliado&gclsrc=" target="_blank" class="view-offer-button interactive">Ver na Agência Parceira</a>
+                    <a href="https://www.logitravel.pt/" target="_blank" class="view-offer-button interactive">Ver na Logitravel</a>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
                         <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
@@ -359,19 +358,19 @@
             </div>
             <div class="plan-card interactive rgb-glow">
                 <div class="plan-card-content">
-                    <h3>Descoberta Cultural na Europa</h3>
+                    <h3>Descoberta de Voos Baratos Europa</h3>
                     <div class="plan-price">
-                        €4.800 <span>/ pessoa</span>
+                        €380 <span>/ pessoa (voo)</span>
                     </div>
-                    <a href="https://www.ryanair.com/gb/en" target="_blank" class="view-offer-button interactive">Ver na Agência Parceira</a>
+                    <a href="https://www.ryanair.com/gb/en" target="_blank" class="view-offer-button interactive">Ver na Ryanair</a>
                     <ul>
-                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Personalizado</li>
-                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Superior</li>
-                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98-.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08-.66-.08-1s.04-.67.08-1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Experiências Locais</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Voo Direto</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Bagagem de Mão Incluída</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98-.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08-.66-.08-1s.04-.67.08-1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Flexibilidade de Datas</li>
                     </ul>
                 </div>
                 <div class="partner-section">
-                    <h4>Agência Parceira</h4>
+                    <h4>Companhia Aérea</h4>
                     <div class="partner-logos">
                         <img src="https://assets.ryanair.com/resources/images/logos/ryanair_logo.svg" alt="Logo Ryanair">
                     </div>
@@ -381,9 +380,9 @@
                 <div class="plan-card-content">
                     <h3>Relaxamento no Caribe Exótico</h3>
                     <div class="plan-price">
-                        €3.999 <span>/ pessoa</span>
+                        €2.900 <span>/ pessoa</span>
                     </div>
-                    <a href="https://www.exemploagencia3.com/pacote-caribe" target="_blank" class="view-offer-button interactive">Ver na Agência Parceira</a>
+                    <a href="https://www.booking.com/" target="_blank" class="view-offer-button interactive">Ver no Booking.com</a>
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Exclusivo</li>
                         <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem de Luxo</li>
@@ -391,9 +390,9 @@
                     </ul>
                 </div>
                 <div class="partner-section">
-                    <h4>Agência Parceira</h4>
+                    <h4>Plataforma Parceira</h4>
                     <div class="partner-logos">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/British_Airways_logo_2012.svg/1200px-British_Airways_logo_2012.svg.png" alt="Logo Agência de Viagens Parceira 3">
+                        <img src="https://logowik.com/pf/img/p25464.png" alt="Logo Booking.com">
                     </div>
                 </div>
             </div>
