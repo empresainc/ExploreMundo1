@@ -14,13 +14,13 @@
 
 <style>
     :root {
-        --primary-color: #0a192f;
-        --secondary-color: #ffca42;
+        --primary-color: #0a192f; /* Azul escuro principal */
+        --secondary-color: #ffca42; /* Amarelo vibrante */
         --accent-gradient: linear-gradient(45deg, #ffca42, #ffb700);
-        --background-color: #f8f9fa;
-        --light-background: #ffffff;
-        --text-color: #333;
-        --light-text-color: #e6f1ff;
+        --background-color: #f8f9fa; /* Cinza claro para o fundo das seções */
+        --light-background: #ffffff; /* Branco para cards e popups */
+        --text-color: #333; /* Cor padrão do texto */
+        --light-text-color: #e6f1ff; /* Cinzento claro, para texto em fundos escuros */
         --subtle-text-color: #a8b2d1;
         --shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
         --border-radius: 16px;
@@ -32,21 +32,40 @@
     html { scroll-behavior: smooth; }
     body {
         font-family: 'Poppins', sans-serif;
-        background-color: var(--primary-color);
+        background-color: var(--primary-color); /* Fundo inicial escuro para o preloader */
         color: var(--text-color);
         overflow-x: hidden;
-        /* Cursor normal - REMOVIDO: cursor: none; */
     }
-    body.loaded { background-color: var(--background-color); }
+    body.loaded { background-color: var(--background-color); } /* Fundo claro para o restante do site */
     body.no-scroll { overflow-y: hidden; }
 
     /* PRELOADER */
-    .preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: var(--primary-color); display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.8s ease-in-out; }
-    .preloader .logo { font-size: 2rem; font-weight: 700; color: var(--secondary-color); opacity: 0; animation: pulse 1.5s infinite ease-in-out; }
+    .preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--primary-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    }
+    .preloader.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+    .preloader .logo { 
+        font-size: clamp(2.5rem, 8vw, 4rem); 
+        font-weight: 700; 
+        color: var(--secondary-color); /* Amarelo vibrante */
+        animation: pulse 1.5s infinite ease-in-out; 
+    }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
-
-    /* Cursor personalizado REMOVIDO completamente */
-    .cursor { display: none; } 
 
     /* CABEÇALHO E NAVEGAÇÃO */
     .hero {
@@ -56,57 +75,104 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        color: var(--light-text-color);
         text-align: center;
         overflow: hidden;
-        /* NOVO FUNDO - SIMPLES, COLORIDO E ANIMAÇÃO SUAVE */
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* Um gradiente azul/roxo */
-        background-size: 200% 200%; /* Para a animação */
-        animation: heroGradientShift 15s ease infinite alternate; /* Animação mais suave */
-    }
-    @keyframes heroGradientShift {
-        0% { background-position: 0% 50%; }
-        100% { background-position: 100% 50%; }
+        /* Fundo de imagem para a hero */
+        background-image: url('https://tse4.mm.bing.net/th/id/OIP.mo-319Lf35facIz4DuqiyAHaEo?pid=Api&P=0&h=220');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        color: var(--light-text-color); /* Cor de texto padrão para o hero */
     }
 
-    #hero-video { display: none; } /* Vídeo removido */
-    .hero-overlay { background-color: rgba(0, 0, 0, 0.4); z-index: -1; } /* Overlay escuro para contraste */
+    .hero-overlay { /* Overlay escuro para melhorar o contraste do texto sobre a imagem */
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4); /* Escurece a imagem */
+        z-index: 0; /* Abaixo do conteúdo principal */
+    }
     .hero-content { 
-        z-index: 1; 
-        padding: 20px; /* Padding para evitar texto colado nas bordas em ecrãs pequenos */
-        max-width: 900px; /* Limite a largura do conteúdo principal */
-        margin: 0 auto; /* Centraliza o conteúdo */
+        z-index: 1; /* Acima do overlay */
+        padding: 20px;
+        max-width: 900px;
+        margin: 0 auto;
     }
     .hero h1 {
-        font-size: clamp(3rem, 8vw, 5rem); /* Tamanho responsivo */
+        font-size: clamp(4rem, 10vw, 6rem); 
         font-weight: 800;
         line-height: 1.1;
         margin-bottom: 0.7rem;
-        color: #FFFFFF; /* Branco puro */
+        color: var(--secondary-color); /* Amarelo vibrante para o título */
         text-shadow: 2px 2px 8px rgba(0,0,0,0.5); /* Sombra para pop-out */
-        opacity: 0; /* Começa invisível para animação */
-        transform: translateY(20px); /* Posição inicial para animação */
+        opacity: 0;
+        transform: translateY(20px);
     }
     .hero p {
-        font-size: clamp(1rem, 3.5vw, 1.3rem);
+        font-size: clamp(1.2rem, 4vw, 1.6rem); 
         font-weight: 400;
-        color: #E0E0E0; /* Cinzento claro */
+        color: var(--light-text-color); /* Cinzento claro para o subtítulo */
         margin-bottom: 2rem;
-        opacity: 0; /* Começa invisível para animação */
-        transform: translateY(20px); /* Posição inicial para animação */
+        opacity: 0;
+        transform: translateY(20px);
     }
     .hero .cta-button { 
-        opacity: 0; /* Começa invisível para animação */
-        transform: translateY(20px); /* Posição inicial para animação */
+        opacity: 0;
+        transform: translateY(20px);
     }
-    nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: 20px 50px; display: flex; justify-content: flex-end; align-items: center; transition: var(--transition); }
-    nav.scrolled { background-color: rgba(10, 25, 47, 0.85); backdrop-filter: blur(10px); box-shadow: var(--shadow); padding: 15px 50px; }
-    nav a { color: var(--light-text-color); text-decoration: none; margin: 0 20px; font-size: 1rem; font-weight: 500; transition: var(--transition); }
-    nav a:hover { color: var(--secondary-color); }
+    nav { 
+        position: fixed; 
+        top: 0; 
+        left: 0; 
+        width: 100%; 
+        z-index: 1000; 
+        padding: 20px 50px; 
+        display: flex; 
+        justify-content: flex-end; 
+        align-items: center; 
+        transition: var(--transition); 
+        background-color: transparent; /* Transparente por padrão */
+    }
+    nav.scrolled { 
+        background-color: rgba(10, 25, 47, 0.85); /* Fundo escuro ao rolar */
+        backdrop-filter: blur(10px); 
+        box-shadow: var(--shadow); 
+        padding: 15px 50px; 
+    }
+    nav a { 
+        color: var(--light-text-color); /* Cinzento claro para os links na hero (fundo de imagem com overlay) */
+        text-decoration: none; 
+        margin: 0 20px; 
+        font-size: 1rem; 
+        font-weight: 500; 
+        transition: var(--transition); 
+    }
+    nav.scrolled a {
+        color: var(--light-text-color); /* Mantém cinzento claro para os links quando a navbar está escura */
+    }
+    nav a:hover { 
+        color: var(--secondary-color); /* Amarelo no hover */
+    }
     
     /* ESTILOS GERAIS */
     main { background-color: var(--background-color); position: relative; }
-    section { padding: 120px 20px; max-width: 1200px; margin: 0 auto; }
+    /* Esconder seções por padrão, exceto a hero (que é header.hero) */
+    section {
+        display: none; /* Inicia oculto */
+        opacity: 0; /* Para transição de fade-in */
+        transition: opacity 0.6s ease-in-out;
+        padding: 120px 20px; 
+        max-width: 1200px; 
+        margin: 0 auto;
+    }
+    header.hero.active,
+    section.active {
+        display: block; /* Mostra a seção ativa */
+        opacity: 1; /* Fade-in */
+    }
+
     .section-title { text-align: center; font-size: 2.8rem; font-weight: 700; margin-bottom: 15px; color: var(--primary-color); }
     .section-subtitle { text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 80px auto; color: #555; }
     
@@ -202,8 +268,8 @@
         transition: background-color 0.3s ease, transform 0.2s ease;
         margin-top: 15px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        text-decoration: none; /* Para ser um link */
-        display: inline-block; /* Para o padding e o box-shadow */
+        text-decoration: none;
+        display: inline-block;
     }
     .view-offer-button:hover {
         background-color: #e0b000;
@@ -223,13 +289,13 @@
     .partner-section h4 {
         font-size: 0.9rem;
         color: #999;
-        margin-bottom: 10px; /* Reduzido para estar mais próximo do texto abaixo */
+        margin-bottom: 10px;
         font-weight: 500;
     }
     .partner-section .disclaimer-text {
         font-size: 0.75rem;
         color: #777;
-        margin-bottom: 15px; /* Espaço antes do logo */
+        margin-bottom: 15px;
     }
     .partner-logos {
         display: flex;
@@ -481,7 +547,9 @@
 </head>
 <body class="no-scroll">
 
-<div class="preloader"><div class="logo">ExploreMundo</div></div>
+<div class="preloader">
+    <div class="logo">ExploreMundo</div>
+</div>
 
 <div class="popup-overlay" id="candidacy-popup-info">
     <div class="popup-content">
@@ -498,6 +566,8 @@
         <span class="popup-close">&times;</span>
         <h3>Candidatar à Vaga</h3>
         <form id="candidacy-form">
+            <input type="hidden" id="job-title-hidden" name="jobTitle">
+
             <label for="full-name">Nome Completo:</label>
             <input type="text" id="full-name" name="fullName" required>
 
@@ -520,9 +590,412 @@
 </div>
 
 
-<header class="hero">
-    <div class="hero-overlay"></div>
+<header class="hero" id="hero"> <div class="hero-overlay"></div>
     
     <nav id="navbar">
-        <a href="#philosophy" class="interactive">Nossa Filosofia</a>
-        <a href="#how-it-works" class="interactive">Como Funciona</a>
+        <a href="#hero" class="nav-link interactive">Início</a> <a href="#philosophy" class="nav-link interactive">Nossa Filosofia</a>
+        <a href="#how-it-works" class="nav-link interactive">Como Funciona</a>
+        <a href="#pacotes" class="nav-link interactive">Pacotes</a>
+        <a href="#ofertas" class="nav-link interactive">Ofertas</a>
+        <a href="#contato" class="nav-link interactive">Contato</a>
+        <a href="#admin" class="nav-link interactive">Admin</a>
+    </nav>
+    <div class="hero-content">
+        <h1 class="main-title">ExploreMundo</h1> <p>Encontre Sua Viagem Perfeita.<br>Compare Ofertas Reais.</p>
+        <a href="#pacotes" class="cta-button interactive rgb-glow">Começar a Explorar</a>
+    </div>
+</header>
+
+<main id="main-content">
+
+    <section id="philosophy">
+        <h2 class="section-title">Nossa Filosofia</h2>
+        <p class="section-subtitle">Nossa missão é transformar seu desejo de viajar em uma experiência impecável, do planejamento ao retorno.</p>
+        <div class="philosophy-grid">
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80" alt="Homem olhando para um lago nas montanhas"></div><div class="content"><h3>O Sonho</h3><p>Tudo começa com a sua visão. Ouvimos seus desejos para criar algo que vai além do esperado.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://st3.idealista.pt/news/arquivos/styles/fullwidth_xl/public/2011-07/islasanjose13_0.jpg?VersionId=eIDntk.o3lbkY8_B.vrB9b7r_Cwy87n4&itok=eYEf_vlU" alt="Mapa e bússola sobre uma mesa de madeira"></div><div class="content"><h3>O Roteiro</h3><p>Nossos especialistas tecem sua visão em um itinerário impecável, cuidando de cada detalhe com precisão.</p></div></div>
+            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80" alt="Pessoa sentada na proa de um barco"></div><div class="content"><h3>A Experiência</h3><p>Entregamos mais do que uma viagem; entregamos a tranquilidade para que você possa criar memórias inesquecíveis.</p></div></div>
+        </div>
+    </section>
+
+    ---
+
+    <section id="how-it-works">
+        <h2 class="section-title">Como o ExploreMundo Funciona?</h2>
+        <p class="section-subtitle">
+            O **ExploreMundo** não é uma agência de viagens. Somos a sua plataforma de confiança para **descobrir e comparar pacotes de viagens** de <span class="highlight">agências de viagens reais e renomadas</span>.
+            Nossa missão é simplificar sua busca, apresentando as melhores ofertas do mercado para que você encontre a viagem perfeita.
+        </p>
+        <div class="about-us-content">
+            <p>
+                Nós pesquisamos, filtramos e organizamos pacotes de diversas agências, garantindo que você tenha acesso a **preços autênticos** e possa escolher a opção que melhor se encaixa no seu sonho e no seu orçamento.
+                Quando você clica em um pacote, nós o **redirecionamos diretamente para o site da agência ou companhia aérea**, onde você poderá finalizar sua compra com total segurança e transparência.
+            </p>
+            <p>
+                Comece a explorar e deixe o **ExploreMundo** ser o seu guia para a próxima aventura!
+            </p>
+        </div>
+    </section>
+
+    ---
+
+    <section id="pacotes">
+        <h2 class="section-title">Pacotes de Viagem Selecionados para Você</h2>
+        <p class="section-subtitle">
+            Descubra roteiros incríveis com **preços referenciais** encontrados nas principais agências e companhias aéreas. Clique para ver os detalhes e o valor final no site do provedor!
+            <br>
+            <em style="font-size:0.9em; color:#777;">Os preços são meramente indicativos e podem variar. Verifique no site da agência a disponibilidade e o valor atual.</em>
+        </p>
+        <div class="plans-grid">
+            <div class="plan-card interactive rgb-glow">
+                <div class="plan-card-content">
+                    <h3>Aventura no Sudeste Asiático</h3>
+                    <div class="plan-price">
+                        €1.850 <span>/ pessoa</span>
+                    </div>
+                    <a href="https://www.logitravel.pt/" target="_blank" class="view-offer-button interactive">Ver na Logitravel</a>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M19.5 12.5c0 .63-.23 1.22-.63 1.69l-1.4-1.4c.1-.24.13-.5.13-.79 0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2c.29 0 .55-.04.79-.13l1.4 1.4c-.47.4-1.06.63-1.69.63-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>Suporte Essencial</li>
+                    </ul>
+                </div>
+                <div class="partner-section">
+                    <h4>Disponível em:</h4>
+                    <p class="disclaimer-text">Oferta encontrada na agência de viagens</p>
+                    <div class="partner-logos">
+                        <img src="https://triplover.com.br/wp-content/uploads/2019/05/logo-logitravel.jpg" alt="Logo Logitravel">
+                    </div>
+                </div>
+            </div>
+            <div class="plan-card interactive rgb-glow">
+                <div class="plan-card-content">
+                    <h3>Voos Económicos para a Europa</h3>
+                    <div class="plan-price">
+                        €380 <span>/ pessoa (ida e volta)</span>
+                    </div>
+                    <a href="https://www.ryanair.com/gb/en" target="_blank" class="view-offer-button interactive">Ver na Ryanair</a>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Voo Direto</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Bagagem de Mão Incluída</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98-.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08-.66-.08-1s.04-.67.08-1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Conexões Flexíveis</li>
+                    </ul>
+                </div>
+                <div class="partner-section">
+                    <h4>Disponível em:</h4>
+                    <p class="disclaimer-text">Oferta encontrada na companhia aérea</p>
+                    <div class="partner-logos">
+                        <img src="https://triplover.com.br/wp-content/uploads/2019/05/logo-ryanair.jpg" alt="Logo Ryanair">
+                    </div>
+                </div>
+            </div>
+            </div>
+    </section>
+
+    ---
+
+    <section id="ofertas">
+        <h2 class="section-title">Oportunidades de Emprego</h2>
+        <p class="section-subtitle">
+            Junte-se à nossa equipa e faça parte da nossa missão de revolucionar a experiência de viagem!
+            <br>
+            <em style="font-size:0.9em; color:#777;">Candidaturas abertas até dia 3 de Julho!</em>
+        </p>
+        <div class="job-offer-grid">
+            <div class="job-card interactive">
+                <h3>Técnico Sénior de Sistemas Informáticos</h3>
+                <div class="requirements">
+                    <h4>Requisitos:</h4>
+                    <ul>
+                        <li>12º ano completo</li>
+                        <li>Experiência profissional anterior na área (mínimo 1 ano)</li>
+                        <li>Conhecimentos avançados em redes e segurança informática</li>
+                        <li>Capacidade de resolução de problemas e proatividade</li>
+                    </ul>
+                </div>
+                <div class="salary">Salário: <span>980 euros/mês brutos</span></div>
+                <div class="vacancies">Vagas: <span>4</span></div>
+                <button class="apply-button" data-job="Técnico Sénior de Sistemas Informáticos">Candidatar</button>
+            </div>
+
+            <div class="job-card interactive">
+                <h3>Assistente de Suporte ao Cliente</h3>
+                <div class="requirements">
+                    <h4>Requisitos:</h4>
+                    <ul>
+                        <li>9º ano escolaridade ou 12º ano</li>
+                        <li>Experiência anterior em suporte ao cliente (mínimo 4 meses)</li>
+                        <li>Boa comunicação e capacidade de relacionamento interpessoal</li>
+                        <li>Conhecimentos básicos de informática</li>
+                    </ul>
+                </div>
+                <div class="salary">Salário: <span>570 euros/mês brutos</span></div>
+                <div class="vacancies">Vagas: <span>10</span></div>
+                <button class="apply-button" data-job="Assistente de Suporte ao Cliente">Candidatar</button>
+            </div>
+        </div>
+    </section>
+
+    ---
+
+    <section id="contato">
+        <h2 class="section-title">Fale Conosco</h2>
+        <p class="section-subtitle">Tem alguma dúvida ou sugestão? Envie-nos uma mensagem!</p>
+        <form class="contact-form" action="#" method="POST">
+            <div style="margin-bottom: 20px;">
+                <label for="name" style="display: block; margin-bottom: 8px; color: var(--primary-color); font-weight: 500;">Seu Nome</label>
+                <input type="text" id="name" name="name" required placeholder="Nome Completo">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="email-contact" style="display: block; margin-bottom: 8px; color: var(--primary-color); font-weight: 500;">Seu Email</label>
+                <input type="email" id="email-contact" name="email" required placeholder="seu.email@example.com">
+            </div>
+            <div style="margin-bottom: 20px;">
+                <label for="message-contact" style="display: block; margin-bottom: 8px; color: var(--primary-color); font-weight: 500;">Sua Mensagem</label>
+                <textarea id="message-contact" name="message" rows="6" required placeholder="Escreva sua mensagem aqui..."></textarea>
+            </div>
+            <button type="submit" class="cta-button rgb-glow" style="width: auto; padding: 15px 30px; display: block; margin: 0 auto;">Enviar Mensagem</button>
+        </form>
+    </section>
+
+    ---
+
+    <section id="admin">
+        <h2 class="section-title" style="color: var(--light-text-color);">Área Administrativa</h2>
+        <p class="section-subtitle" style="color: var(--subtle-text-color);">Acesso restrito para administração do site e visualização de mensagens.</p>
+        <div class="admin-container">
+            <div class="admin-sidebar">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>
+                <h3>Login do Administrador</h3>
+            </div>
+            <div class="admin-main">
+                <div id="admin-login">
+                    <input type="text" id="admin-username" placeholder="Usuário">
+                    <input type="password" id="admin-password" placeholder="Senha">
+                    <button class="cta-button" onclick="loginAdmin()">Entrar</button>
+                    <p id="login-message" style="color: red; margin-top: 10px; display: none;">Usuário ou senha inválidos.</p>
+                </div>
+                <div id="admin-dashboard">
+                    <h3 style="color: var(--secondary-color);">Mensagens Recebidas</h3>
+                    <div id="message-list">
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <p>&copy; 2025 ExploreMundo. Todos os direitos reservados.</p>
+    <p>Criado com paixão por viagens e tecnologia.</p>
+</footer>
+
+<script>
+    // PRELOADER
+    window.addEventListener('load', () => {
+        const preloader = document.querySelector('.preloader');
+        // Remove a classe no-scroll do body para permitir o scroll da página
+        document.body.classList.remove('no-scroll');
+        
+        preloader.classList.add('hidden'); // Inicia a transição de opacidade
+        setTimeout(() => {
+            preloader.style.display = 'none'; // Esconde o preloader após a transição
+            document.body.classList.add('loaded'); // Adiciona classe para estilos pós-carregamento
+
+            // Animação dos elementos do hero após o carregamento
+            // (Assumindo que você tem uma biblioteca como GSAP para estas animações, caso contrário, estas linhas podem ser ignoradas ou substituídas por CSS animations)
+            // Se não tiver GSAP, estas linhas podem causar erro. Remova-as se não estiver a usar.
+            // gsap.from(".main-title", { duration: 1, y: 20, opacity: 0, ease: "power3.out", delay: 0.5 });
+            // gsap.from(".hero p", { duration: 1, y: 20, opacity: 0, ease: "power3.out", delay: 0.7 });
+            // gsap.from(".cta-button", { duration: 1, y: 20, opacity: 0, ease: "power3.out", delay: 0.9 });
+            
+            // Exibir o popup de candidaturas
+            const candidacyPopupInfo = document.getElementById('candidacy-popup-info');
+            candidacyPopupInfo.classList.add('active');
+
+            // Mostrar a seção hero por padrão
+            document.getElementById('hero').classList.add('active');
+
+        }, 800); // Tempo para a transição de opacidade do preloader
+    });
+
+    // Animação da Navbar ao Scroll
+    window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        // Adiciona ou remove a classe 'scrolled' da navbar
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // POPUP LOGIC for Candidaturas Abertas
+    const candidacyPopupInfo = document.getElementById('candidacy-popup-info');
+    const popupCloseButtons = document.querySelectorAll('#candidacy-popup-info .popup-close, .popup-close-button');
+
+    popupCloseButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            candidacyPopupInfo.classList.remove('active');
+        });
+    });
+
+    // FORMULÁRIO DE CANDIDATURA POPUP LOGIC
+    const candidacyFormOverlay = document.getElementById('candidacy-form-overlay');
+    const applyButtons = document.querySelectorAll('.apply-button');
+    const candidacyFormCloseButtons = candidacyFormOverlay.querySelectorAll('.popup-close');
+    const candidacyForm = document.getElementById('candidacy-form');
+    const formSubmissionMessage = document.getElementById('form-submission-message');
+    const jobTitleHiddenInput = document.getElementById('job-title-hidden');
+
+    applyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const jobTitle = button.getAttribute('data-job');
+            jobTitleHiddenInput.value = jobTitle; // Define o título da vaga no campo escondido
+            candidacyFormOverlay.classList.add('active');
+            document.body.classList.add('no-scroll'); // Previne scroll quando o form está aberto
+        });
+    });
+
+    candidacyFormCloseButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            candidacyFormOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll'); // Permite scroll novamente
+            formSubmissionMessage.style.display = 'none'; // Esconde a mensagem
+            candidacyForm.reset(); // Limpa o formulário
+        });
+    });
+
+    candidacyForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Previne o envio padrão do formulário
+
+        // Aqui você faria o envio real dos dados para um servidor (ex: via fetch API)
+        // Por agora, vamos simular o envio
+        console.log("Candidatura para:", jobTitleHiddenInput.value);
+        console.log("Nome:", document.getElementById('full-name').value);
+        console.log("Email:", document.getElementById('email').value);
+        console.log("Telefone:", document.getElementById('phone').value);
+        console.log("CV:", document.getElementById('cv').files[0] ? document.getElementById('cv').files[0].name : 'Nenhum CV anexado');
+        console.log("Mensagem:", document.getElementById('message').value);
+
+        // Simula o envio
+        setTimeout(() => {
+            formSubmissionMessage.classList.remove('error', 'success');
+            formSubmissionMessage.style.display = 'block';
+
+            // Simula sucesso
+            formSubmissionMessage.classList.add('success');
+            formSubmissionMessage.textContent = 'Candidatura enviada com sucesso! No máximo em até 3 horas receberá uma resposta.';
+            
+            // Limpa o formulário após o envio
+            candidacyForm.reset();
+
+            // Opcional: esconde o formulário após alguns segundos
+            setTimeout(() => {
+                candidacyFormOverlay.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+                formSubmissionMessage.style.display = 'none';
+            }, 5000); // Esconde após 5 segundos
+            
+        }, 1000); // Simula atraso da rede
+    });
+
+    // ADMIN LOGIN
+    function loginAdmin() {
+        const usernameInput = document.getElementById('admin-username').value;
+        const passwordInput = document.getElementById('admin-password').value;
+        const loginMessage = document.getElementById('login-message');
+        const adminLoginDiv = document.getElementById('admin-login');
+        const adminDashboardDiv = document.getElementById('admin-dashboard');
+        const messageList = document.getElementById('message-list');
+
+        // Credenciais simples para demonstração
+        if (usernameInput === 'admin' && passwordInput === 'admin123') {
+            loginMessage.style.display = 'none';
+            adminLoginDiv.style.display = 'none';
+            adminDashboardDiv.style.display = 'block';
+
+            // Simula o carregamento de mensagens (substituir por chamada real à API numa aplicação real)
+            const messages = [
+                { name: "João Silva", email: "joao.silva@example.com", message: "Gostaria de saber mais sobre o pacote para o Sudeste Asiático.", timestamp: "2025-06-25 10:30:00" },
+                { name: "Maria Oliveira", email: "maria.ol@example.com", message: "Os preços dos voos são realmente finais ou existem taxas ocultas?", timestamp: "2025-06-24 15:00:00" },
+                { name: "Carlos Pereira", email: "carlos.p@example.com", message: "Interessado em parcerias para divulgação de pacotes.", timestamp: "2025-06-23 09:00:00" }
+            ];
+
+            messageList.innerHTML = ''; // Limpa mensagens anteriores
+            messages.forEach(msg => {
+                const messageItem = document.createElement('div');
+                messageItem.classList.add('message-item');
+                messageItem.innerHTML = `
+                    <h4>De: ${msg.name} (${msg.email})</h4>
+                    <p>${msg.message}</p>
+                    <div class="timestamp">${msg.timestamp}</div>
+                `;
+                messageList.appendChild(messageItem);
+            });
+
+        } else {
+            loginMessage.style.display = 'block';
+        }
+    }
+
+    // Gerenciamento de Seções Dinâmicas (SPA-like)
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('main section, header.hero'); // Inclui a hero aqui para gerenciamento
+
+    function showSection(targetId) {
+        sections.forEach(section => {
+            // Remove o '#' do targetId para comparar com o ID da seção
+            const sectionId = section.id;
+            const targetIdClean = targetId.startsWith('#') ? targetId.substring(1) : targetId;
+
+            if (sectionId === targetIdClean) { 
+                section.classList.add('active');
+            } else {
+                section.classList.remove('active');
+            }
+        });
+    }
+
+    // Ajuste para que os links de navegação controlem a exibição das seções
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Previne o comportamento padrão de âncora
+            const targetId = link.getAttribute('href');
+            showSection(targetId);
+
+            // Rola suavemente para a seção
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+
+    // Ação do CTA button da hero para pacotes
+    document.querySelector('.hero .cta-button').addEventListener('click', (e) => {
+        e.preventDefault();
+        showSection('#pacotes'); // Passa o ID com #
+        document.querySelector('#pacotes').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Ajuste para o pop-up de candidaturas, que também direciona para #ofertas
+    document.querySelector('#candidacy-popup-info .popup-close-button').addEventListener('click', (e) => {
+        e.preventDefault();
+        candidacyPopupInfo.classList.remove('active');
+        showSection('#ofertas'); // Passa o ID com #
+        document.querySelector('#ofertas').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Ativa a primeira seção (hero) no carregamento, caso o JS seja muito rápido
+    // (já é feito no window.onload, mas é uma redundância para garantir)
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!document.getElementById('hero').classList.contains('active')) {
+            showSection('#hero');
+        }
+    });
+
+</script>
+</body>
+</html>
