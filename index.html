@@ -1,1349 +1,206 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ExploreMundo - Sua Plataforma de Comparação de Viagens</title>
-    <meta name="google-site-verification" content="4DKMveGXGN64v-yuT5v4C4gLQuZuT5yDD2whbvpUbHI" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1216547502773589" crossorigin="anonymous"></script>
-    <style>
-        :root {
-            --primary-color: #0a192f; /* Azul escuro principal */
-            --secondary-color: #ffca42; /* Amarelo vibrante */
-            --accent-gradient: linear-gradient(45deg, #ffca42, #ffb700);
-            --background-color: #f8f9fa; /* Cinza claro para o fundo das seções */
-            --light-background: #ffffff; /* Branco para cards e popups */
-            --text-color: #333; /* Cor padrão do texto */
-            --light-text-color: #e6f1ff; /* Cinzento claro, para texto em fundos escuros */
-            --subtle-text-color: #a8b2d1;
-            --shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
-            --border-radius: 16px;
-            --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Site de Anúncios Profissionais</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* RESET E CONFIGURAÇÕES GLOBAIS */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--primary-color); /* Fundo inicial escuro para o preloader */
-            color: var(--text-color);
-            overflow-x: hidden;
-        }
-        body.loaded { background-color: var(--background-color); } /* Fundo claro para o restante do site */
-        body.no-scroll { overflow-y: hidden; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fafafa;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-        /* PRELOADER */
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--primary-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            opacity: 1;
-            visibility: visible;
-            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
-        }
-        .preloader.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .preloader .logo {
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            font-weight: 700;
-            color: var(--secondary-color); /* Amarelo vibrante */
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
+    header {
+      background-color: #20232a;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-        /* CABEÇALHO E NAVEGAÇÃO */
-        .hero {
-            height: 100vh;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow: hidden;
-            /* Fundo de imagem para a hero */
-            background-image: url('https://tse4.mm.bing.net/th/id/OIP.mo-319Lf35facIz4DuqiyAHaEo?pid=Api&P=0&h=220');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: var(--light-text-color); /* Cor de texto padrão para o hero */
-        }
+    header h1 {
+      font-size: 28px;
+    }
 
-        .hero-overlay { /* Overlay escuro para melhorar o contraste do texto sobre a imagem */
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4); /* Escurece a imagem */
-            z-index: 0; /* Abaixo do conteúdo principal */
-        }
-        .hero-content {
-            z-index: 1; /* Acima do overlay */
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .hero h1 {
-            font-size: clamp(4rem, 10vw, 6rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 0.7rem;
-            color: var(--secondary-color); /* Amarelo vibrante para o título */
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.5); /* Sombra para pop-out */
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        .hero p {
-            font-size: clamp(1.2rem, 4vw, 1.6rem);
-            font-weight: 400;
-            color: var(--light-text-color); /* Cinzento claro para o subtítulo */
-            margin-bottom: 2rem;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        .hero .cta-button {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 20px 50px;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            transition: var(--transition);
-            background-color: transparent; /* Transparente por padrão */
-        }
-        nav.scrolled {
-            background-color: rgba(10, 25, 47, 0.85); /* Fundo escuro ao rolar */
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
-            padding: 15px 50px;
-        }
-        nav a {
-            color: var(--light-text-color); /* Cinzento claro para os links na hero (fundo de imagem com overlay) */
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-        nav.scrolled a {
-            color: var(--light-text-color); /* Mantém cinzento claro para os links quando a navbar está escura */
-        }
-        nav a:hover {
-            color: var(--secondary-color); /* Amarelo no hover */
-        }
+    nav {
+      margin-top: 10px;
+    }
 
-        /* ESTILOS GERAIS */
-        main { background-color: var(--background-color); position: relative; }
-        /* Esconder seções por padrão, exceto a hero (que é header.hero) */
-        section {
-            display: none; /* Inicia oculto */
-            opacity: 0; /* Para transição de fade-in */
-            transition: opacity 0.6s ease-in-out;
-            padding: 120px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        header.hero.active,
-        section.active {
-            display: block; /* Mostra a seção ativa */
-            opacity: 1; /* Fade-in */
-        }
+    nav a {
+      color: #61dafb;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
 
-        .section-title { text-align: center; font-size: 2.8rem; font-weight: 700; margin-bottom: 15px; color: var(--primary-color); }
-        .section-subtitle { text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 80px auto; color: #555; }
+    main {
+      padding: 40px 20px;
+      flex-grow: 1;
+      max-width: 1000px;
+      margin: auto;
+    }
 
-        /* ANIMAÇÃO RGB E BOTÃO PRINCIPAL */
-        .cta-button {
-            display: inline-block;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            background: var(--accent-gradient);
-            padding: 16px 35px;
-            border: none;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(255, 202, 66, 0.4);
-            cursor: pointer;
-        }
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 202, 66, 0.6);
-        }
-        @keyframes rgb-animation {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-        .cta-button.rgb-glow, .plan-card.rgb-glow {
-            position: relative;
-            overflow: hidden;
-            z-index: 0; /* Garante que o conteúdo fique por cima do pseudo-elemento */
-        }
-        .cta-button.rgb-glow::before, .plan-card.rgb-glow::before {
-            content: "";
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            animation: rgb-animation 4s linear infinite;
-            z-index: -1; /* Abaixo do conteúdo do botão/card */
-        }
-        .cta-button.rgb-glow:hover::before, .plan-card.rgb-glow:hover::before {
-            opacity: 1;
-        }
-        .plan-card.rgb-glow::before {
-            filter: blur(15px); /* Efeito de brilho mais suave para o card */
-        }
+    section {
+      margin-bottom: 40px;
+    }
 
-        /* SEÇÃO FILOSOFIA */
-        .philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .philosophy-card { background-color: var(--light-background); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition); }
-        .philosophy-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .philosophy-card .image-wrapper { height: 220px; overflow: hidden; }
-        .philosophy-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-        .philosophy-card:hover img { transform: scale(1.05); }
-        .philosophy-card .content { padding: 30px; }
-        .philosophy-card h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
-        .philosophy-card p { font-size: 1rem; line-height: 1.6; color: #666; }
+    .sobre {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
 
-        /* SEÇÃO COMO FUNCIONA (AGREGADOR) */
-        .about-us-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .about-us-content p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 25px;
-            max-width: 800px;
-        }
-        .about-us-content .highlight {
-            font-weight: 600;
-            color: var(--primary-color);
-        }
+    #formulario-anuncio {
+      background-color: #fff8e1;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
 
-        /* SEÇÃO PACOTES COM LOGOS */
-        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; perspective: 2000px; }
-        .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; will-change: transform; transform-style: preserve-3d; display: flex; flex-direction: column; }
-        .plan-card-content { flex-grow: 1; }
-        .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; }
-        .plan-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
+    #formulario-anuncio h2 {
+      margin-bottom: 20px;
+      color: #444;
+    }
 
-        .view-offer-button {
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            text-decoration: none;
-            display: inline-block;
-        }
-        .view-offer-button:hover {
-            background-color: #e0b000;
-            transform: translateY(-2px);
-        }
+    #formulario-anuncio input,
+    #formulario-anuncio textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
 
-        .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
-        .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
-        .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
+    #formulario-anuncio button {
+      background-color: #ff5722;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-        /* PARCEIROS */
-        .partner-section {
-            border-top: 1px solid #eee;
-            padding-top: 20px;
-            margin-top: 20px;
-        }
-        .partner-section h4 {
-            font-size: 0.9rem;
-            color: #999;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-        .partner-section .disclaimer-text {
-            font-size: 0.75rem;
-            color: #777;
-            margin-bottom: 15px;
-        }
-        .partner-logos {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-            min-height: 40px;
-        }
-        .partner-logos img {
-            max-height: 35px;
-            filter: grayscale(100%) contrast(0%) brightness(1.5);
-            transition: var(--transition);
-        }
-        .plan-card:hover .partner-logos img {
-            filter: none;
-        }
+    #formulario-anuncio button:hover {
+      background-color: #e64a19;
+    }
 
-        /* OUTRAS SEÇÕES */
-        #contato { background: var(--light-background); }
-        .contact-form label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--primary-color);
-            font-weight: 500;
-        }
-        .contact-form input, .contact-form textarea {
-            width: 100%;
-            padding: 18px;
-            border-radius: 12px;
-            border: 1px solid #ccc;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .contact-form input:focus, .contact-form textarea:focus {
-            border-color: var(--secondary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3);
-        }
-        #admin { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
-        .admin-container { background: rgba(10, 25, 47, 0.5); backdrop-filter: blur(10px); border-radius: var(--border-radius); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; overflow: hidden; max-width: 900px; margin: auto; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
-        .admin-sidebar { background: rgba(10, 25, 47, 0.7); padding: 40px 30px; width: 250px; display: flex; flex-direction: column; align-items: center; color: var(--light-text-color); }
-        .admin-sidebar svg { width: 60px; height: 60px; fill: var(--secondary-color); margin-bottom: 20px; }
-        .admin-sidebar h3 { font-size: 1.5rem; text-align: center; }
-        .admin-main { padding: 40px; width: 100%; color: var(--light-text-color); }
-        #admin-login input { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 1rem; border-radius: 8px; border: 1px solid #555; background-color: rgba(0,0,0,0.2); color: white; }
-        #admin-login button { width: 100%; }
-        #admin-dashboard { display: none; }
-        #admin-dashboard h3 { margin-bottom: 20px; }
-        .message-item { background: rgba(255,255,255,0.9); color: #333; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
-        .message-item:nth-child(even) { background: rgba(255,255,255,0.8); }
-        .message-item h4 { color: var(--primary-color); margin-bottom: 5px; }
-        .message-item .timestamp { font-size: 0.8rem; color: #777; text-align: right; margin-top: 10px; }
-        footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 50px 20px; }
+    footer {
+      background-color: #f0f0f0;
+      padding: 30px 0 10px 0;
+      text-align: center;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    }
 
-        /* POPUP STYLES */
-        .popup-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s, opacity 0.3s ease;
-        }
-        .popup-overlay.active {
-            visibility: visible;
-            opacity: 1;
-        }
-        .popup-content {
-            background-color: var(--light-background);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-            position: relative;
-        }
-        .popup-content h3 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 1.8rem;
-        }
-        .popup-content p {
-            color: #555;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-        }
-        .popup-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-            transition: color 0.2s ease;
-        }
-        .popup-close:hover {
-            color: var(--primary-color);
-        }
+    .anuncios-rodape {
+      display: flex;
+      animation: scrollAnuncios 20s linear infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      justify-content: flex-start;
+    }
 
-        /* OFERTAS DE EMPREGO */
-        #ofertas { background: var(--background-color); }
-        .job-offer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-        }
-        .job-card {
-            background-color: var(--light-background);
-            border-radius: var(--border-radius);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .job-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .job-card h3 {
-            font-size: 1.6rem;
-            color: var(--primary-color);
-            margin-bottom: 15px;
-        }
-        .job-card .requirements ul {
-            list-style: none;
-            padding-left: 0;
-            margin-bottom: 20px;
-        }
-        .job-card .requirements ul li {
-            margin-bottom: 8px;
-            color: #666;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: flex-start;
-        }
-        .job-card .requirements ul li::before {
-            content: '✓';
-            color: var(--secondary-color);
-            font-weight: bold;
-            margin-right: 8px;
-        }
-        .job-card .salary, .job-card .vacancies {
-            font-size: 1.05rem;
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        .job-card .salary span, .job-card .vacancies span {
-            font-weight: 400;
-            color: #555;
-        }
-        .job-card .vacancies.closed span {
-            font-weight: 600;
-            color: #dc3545; /* Cor vermelha para indicar que está fechado */
-        }
-        .job-card .apply-button {
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: auto; /* Push button to the bottom */
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            text-decoration: none;
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-        }
-        .job-card .apply-button:hover {
-            background-color: #e0b000;
-            transform: translateY(-2px);
-        }
-        .job-card .apply-button:disabled {
-            background-color: #ccc;
-            color: #888;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
+    .anuncio-item {
+      flex-shrink: 0;
+      width: 250px;
+      height: 140px;
+      object-fit: cover;
+      margin: 0 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      border: 1px solid #ddd;
+    }
 
+    @keyframes scrollAnuncios {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
-        /* CANDIDACY FORM POPUP */
-        .candidacy-form-popup {
-            background-color: var(--light-background);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-        }
-        .candidacy-form-popup h3 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-            text-align: center;
-        }
-        .candidacy-form-popup form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .candidacy-form-popup label {
-            font-size: 0.9rem;
-            color: #555;
-            font-weight: 500;
-        }
-        .candidacy-form-popup input[type="text"],
-        .candidacy-form-popup input[type="email"],
-        .candidacy-form-popup input[type="tel"],
-        .candidacy-form-popup input[type="file"],
-        .candidacy-form-popup textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-        .candidacy-form-popup input[type="text"]:focus,
-        .candidacy-form-popup input[type="email"]:focus,
-        .candidacy-form-popup input[type="tel"]:focus,
-        .candidacy-form-popup textarea:focus {
-            border-color: var(--secondary-color);
-            outline: none;
-        }
-        .candidacy-form-popup input[type="file"] {
-            padding: 5px;
-            border: none;
-        }
-        .candidacy-form-popup button[type="submit"] {
-            background-color: var(--primary-color);
-            color: var(--light-text-color);
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-        .candidacy-form-popup button[type="submit"]:hover {
-            background-color: #061120;
-            transform: translateY(-2px);
-        }
-        .candidacy-form-popup .form-message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 500;
-            text-align: center;
-            display: none;
-        }
-        .candidacy-form-popup .form-message.success {
-            background-color: #e6ffe6;
-            color: #28a745;
-        }
-        .candidacy-form-popup .form-message.error {
-            background-color: #ffe6e6;
-            color: #dc3545;
-        }
+    @media (max-width: 600px) {
+      .anuncio-item {
+        width: 200px;
+        height: 110px;
+      }
 
-        /* NEW ADVERTISEMENTS SECTION */
-        #advertisements {
-            background-color: var(--primary-color);
-            padding: 60px 0; /* Adjust padding for banner */
-            overflow: hidden; /* Hide overflowing images */
-            position: relative;
-            z-index: 1;
-            box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);
-            margin-top: 50px; /* Space from previous section */
-        }
+      header h1 {
+        font-size: 20px;
+      }
 
-        #advertisements .section-title {
-            color: var(--light-text-color);
-            margin-bottom: 40px;
-            font-size: 2.5rem;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
-        }
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
 
-        .ad-carousel-container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            overflow: hidden;
-            position: relative; /* For the absolute positioning of track */
-        }
-
-        .ad-carousel-track {
-            display: flex;
-            width: fit-content; /* Allow content to dictate width */
-            animation: scroll-ads 30s linear infinite; /* Adjust duration as needed */
-            padding-bottom: 20px; /* Space below ads */
-        }
-
-        .ad-carousel-item {
-            flex-shrink: 0; /* Prevent items from shrinking */
-            width: 300px; /* Fixed width for each ad item */
-            height: 180px; /* Fixed height for ads */
-            margin: 0 15px; /* Spacing between ads */
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease;
-            background-color: var(--light-background); /* Background for ads */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--secondary-color); /* Professional border */
-            box-sizing: border-box; /* Include padding and border in width/height */
-        }
-
-        .ad-carousel-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            border-radius: var(--border-radius);
-        }
-
-        .ad-carousel-track:hover {
-            animation-play-state: paused; /* Pause animation on hover */
-        }
-
-        /* Duplicate the track content for seamless loop */
-        /* This is handled by JS for more robust duplication, but CSS can assist if needed */
-        @keyframes scroll-ads {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); } /* Scroll exactly half the track length */
-        }
-
-        /* NEW ADVERTISE FORM SECTION */
-        #advertise-form {
-            background-color: var(--light-background);
-            padding: 100px 20px;
-            text-align: center;
-        }
-
-        #advertise-form .section-title {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        #advertise-form .section-subtitle {
-            color: #666;
-            margin-bottom: 50px;
-            max-width: 600px;
-        }
-
-        #advertise-form .advertise-form-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background-color: var(--light-background);
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            text-align: left;
-        }
-
-        #advertise-form .form-group {
-            margin-bottom: 20px;
-        }
-
-        #advertise-form label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        #advertise-form input[type="text"],
-        #advertise-form input[type="email"],
-        #advertise-form input[type="tel"],
-        #advertise-form textarea {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        #advertise-form input[type="text"]:focus,
-        #advertise-form input[type="email"]:focus,
-        #advertise-form input[type="tel"]:focus,
-        #advertise-form textarea:focus {
-            border-color: var(--secondary-color);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3);
-        }
-
-        #advertise-form textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        #advertise-form button {
-            display: block;
-            width: 100%;
-            padding: 15px;
-            background-color: var(--primary-color);
-            color: var(--light-text-color);
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        #advertise-form button:hover {
-            background-color: #061120;
-            transform: translateY(-2px);
-        }
-
-        .form-status-message {
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 500;
-            text-align: center;
-            display: none; /* Hidden by default */
-        }
-
-        .form-status-message.success {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .form-status-message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
-
-
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 768px) {
-            nav {
-                padding: 15px 20px;
-                justify-content: center; /* Centraliza links no mobile */
-                flex-wrap: wrap;
-            }
-            nav a {
-                margin: 5px 10px; /* Ajusta margem para mobile */
-                font-size: 0.9rem;
-            }
-            nav.scrolled {
-                padding: 10px 20px; /* Adjust padding for scrolled nav on mobile */
-            }
-            .hero h1 {
-                font-size: clamp(3rem, 9vw, 5rem);
-            }
-            .hero p {
-                font-size: clamp(1rem, 3.5vw, 1.4rem);
-            }
-            .section-title {
-                font-size: 2.2rem;
-            }
-            .section-subtitle {
-                font-size: 1rem;
-                margin-bottom: 50px;
-            }
-            .philosophy-grid, .plans-grid, .job-offer-grid {
-                grid-template-columns: 1fr; /* Coluna única para mobile */
-            }
-            .philosophy-card, .plan-card, .job-card {
-                margin-bottom: 20px; /* Espaçamento entre cards no mobile */
-            }
-            .admin-container {
-                flex-direction: column; /* Coloca sidebar acima do main no mobile */
-            }
-            .admin-sidebar {
-                width: 100%;
-                padding: 20px;
-            }
-            .admin-main {
-                padding: 20px;
-            }
-            .ad-carousel-item {
-                width: 250px; /* Smaller width for mobile ads */
-                height: 150px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            nav {
-                flex-direction: column; /* Links em coluna */
-                align-items: stretch;
-                padding: 10px;
-            }
-            nav a {
-                margin: 5px 0;
-                text-align: center;
-                border-bottom: 1px solid rgba(255,255,255,0.1); /* Separador entre links */
-                padding-bottom: 5px;
-            }
-            nav a:last-child {
-                border-bottom: none;
-            }
-            section {
-                padding: 80px 15px; /* Reduz padding das seções */
-            }
-            .contact-form input, .contact-form textarea {
-                padding: 12px;
-            }
-            #advertisements {
-                padding: 40px 0;
-            }
-            #advertisements .section-title {
-                font-size: 2rem;
-            }
-            #advertise-form .advertise-form-container {
-                padding: 30px;
-            }
-        }
-    </style>
+      main {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
-<body class="no-scroll">
+<body>
 
-<div class="preloader">
-    <div class="logo">ExploreMundo</div>
-</div>
+  <header>
+    <h1>Portal de Anúncios Profissionais</h1>
+    <nav>
+      <a href="#sobre">Sobre</a>
+      <a href="#anunciar">Quer Anunciar?</a>
+    </nav>
+  </header>
 
-<div class="popup-overlay" id="candidacy-popup-info">
-    <div class="popup-content">
-        <span class="popup-close">×</span>
-        <h3>Candidaturas Abertas!</h3>
-        <p>Temos novas ofertas de emprego disponíveis. Não perca esta oportunidade!</p>
-        <p><strong>Candidaturas abertas até dia 3 de Julho!</strong></p>
-        <a href="#ofertas" class="cta-button interactive rgb-glow popup-close-button">Ver Ofertas</a>
-    </div>
-</div>
+  <main>
+    <section class="bem-vindo">
+      <h2>Bem-vindo ao nosso portal!</h2>
+      <p>Espaço dedicado à divulgação de grandes marcas, eventos e campanhas.</p>
+    </section>
 
-<div class="popup-overlay" id="candidacy-form-overlay">
-    <div class="candidacy-form-popup">
-        <span class="popup-close">×</span>
-        <h3>Candidatar à Vaga</h3>
-        <form id="candidacy-form">
-            <input type="hidden" id="job-title-hidden" name="jobTitle">
+    <section id="sobre" class="sobre">
+      <h2>Sobre Nós</h2>
+      <p>Somos uma plataforma de publicidade online com espaço para banners, anúncios animados e formulários de contato para empresas que desejam promover seus produtos e serviços.</p>
+    </section>
 
-            <label for="full-name">Nome Completo:</label>
-            <input type="text" id="full-name" name="fullName" required>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="phone">Telefone:</label>
-            <input type="tel" id="phone" name="phone">
-
-            <label for="cv">Anexar CV (PDF, DOCX):</label>
-            <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
-
-            <label for="message">Mensagem (opcional):</label>
-            <textarea id="message" name="message" rows="4"></textarea>
-
-            <button type="submit">Enviar Candidatura</button>
+    <section id="anunciar">
+      <div id="formulario-anuncio">
+        <h2>Quer anunciar?</h2>
+        <form>
+          <input type="text" placeholder="Seu nome ou empresa" required />
+          <input type="email" placeholder="Seu e-mail" required />
+          <textarea rows="4" placeholder="Descreva seu anúncio..." required></textarea>
+          <button type="submit">Enviar Pedido</button>
         </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="anuncios-rodape">
+      <img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" class="anuncio-item" alt="Anúncio Festival Comida Continente">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" class="anuncio-item" alt="Anúncio Profissional">
+      <img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" class="anuncio-item" alt="Peugeot Campanha">
+      <img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" class="anuncio-item" alt="Amazon Prime Day 2025">
     </div>
-</div>
+    <p style="margin-top: 20px; color: #555;">&copy; 2025 Seu Site. Todos os direitos reservados.</p>
+  </footer>
 
-<nav>
-    <a href="#hero">Home</a>
-    <a href="#about">Como Funciona</a>
-    <a href="#plans">Pacotes</a>
-    <a href="#ofertas">Ofertas de Emprego</a>
-    <a href="#contato">Contato</a>
-    <a href="#advertise-form">Quer Anunciar?</a> </nav>
-
-<header class="hero active" id="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <h1>Explore o Mundo, Compare e Viaje Mais Barato!</h1>
-        <p>Sua plataforma inteligente para encontrar as melhores ofertas de viagens, voos e hotéis.</p>
-        <a href="#about" class="cta-button rgb-glow">Começar a Explorar</a>
-    </div>
-</header>
-
-<section id="about">
-    <h2 class="section-title">Como Funciona?</h2>
-    <p class="section-subtitle">
-        O ExploreMundo atua como um agregador de viagens, conectando você às melhores ofertas de diversas fontes.
-        Simplificamos sua busca para que você encontre a viagem ideal em segundos.
-    </p>
-    <div class="about-us-content">
-        <p>Nossa plataforma reúne milhares de opções de voos, hotéis e pacotes de viagem de **centenas de parceiros confiáveis** ao redor do mundo. Com uma interface intuitiva, você pesquisa, compara e reserva tudo em um só lugar. Nossa missão é **poupar seu tempo e dinheiro**, oferecendo transparência e as melhores escolhas para a sua próxima aventura. </p>
-        <p>Simples assim: <span class="highlight">você busca, nós encontramos as melhores opções para você comparar e escolher!</span></p>
-    </div>
-</section>
-
-<section id="philosophy">
-    <h2 class="section-title">Nossa Filosofia</h2>
-    <p class="section-subtitle">Acreditamos que viajar deve ser acessível e inspirador para todos. Guiamos nossa plataforma por princípios que garantem a melhor experiência ao usuário.</p>
-    <div class="philosophy-grid">
-        <div class="philosophy-card">
-            <div class="image-wrapper">
-                <img src="https://images.unsplash.com/photo-1517400508595-d72b535d8e75?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Transparência">
-            </div>
-            <div class="content">
-                <h3>Transparência Total</h3>
-                <p>Mostramos todos os custos e condições de forma clara, sem surpresas ocultas, para que você tome a melhor decisão.</p>
-            </div>
-        </div>
-        <div class="philosophy-card">
-            <div class="image-wrapper">
-                <img src="https://images.unsplash.com/photo-1542840981-e6834015024e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Facilidade">
-            </div>
-            <div class="content">
-                <h3>Facilidade de Uso</h3>
-                <p>Nossa interface é intuitiva e descomplicada, projetada para você encontrar o que precisa rapidamente.</p>
-            </div>
-        </div>
-        <div class="philosophy-card">
-            <div class="image-wrapper">
-                <img src="https://images.unsplash.com/photo-1522071820081-00ffb57b9e28?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Variedade">
-            </div>
-            <div class="content">
-                <h3>Variedade de Escolhas</h3>
-                <p>Oferecemos uma vasta gama de opções para todos os orçamentos e estilos de viagem.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="plans">
-    <h2 class="section-title">Nossos Pacotes em Destaque</h2>
-    <p class="section-subtitle">Confira algumas das ofertas exclusivas que você pode encontrar ao usar nossa plataforma. Preços dinâmicos sujeitos a alterações.</p>
-
-    <div class="plans-grid">
-        <div class="plan-card">
-            <div class="plan-card-content">
-                <h3>Aventura na Patagônia</h3>
-                <p class="plan-price">€ 1.200<span>/pessoa</span></p>
-                <ul>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Voos de ida e volta</li>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> 7 noites em hotel 4 estrelas</li>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Tour guiado ao Perito Moreno</li>
-                </ul>
-            </div>
-            <a href="#" class="view-offer-button">Ver Oferta</a>
-            <div class="partner-section">
-                <h4>Parceiros:</h4>
-                <div class="partner-logos">
-                    <img src="https://img.icons8.com/color/48/skyscanner.png" alt="Skyscanner">
-                    <img src="https://img.icons8.com/color/48/booking.com.png" alt="Booking.com">
-                </div>
-                <p class="disclaimer-text">Preços podem variar de acordo com a data.</p>
-            </div>
-        </div>
-
-        <div class="plan-card rgb-glow">
-            <div class="plan-card-content">
-                <h3>Escapada Romântica em Paris</h3>
-                <p class="plan-price">€ 750<span>/pessoa</span></p>
-                <ul>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Voo direto + Hotel Boutique</li>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> 3 noites, café da manhã incluso</li>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Cruzeiro no Sena ao pôr do sol</li>
-                </ul>
-            </div>
-            <a href="#" class="view-offer-button">Ver Oferta</a>
-            <div class="partner-section">
-                <h4>Parceiros:</h4>
-                <div class="partner-logos">
-                    <img src="https://img.icons8.com/color/48/expedia.png" alt="Expedia">
-                    <img src="https://img.icons8.com/color/48/trivago.png" alt="Trivago">
-                </div>
-                <p class="disclaimer-text">Oferta especial limitada! Reserve já.</p>
-            </div>
-        </div>
-
-        <div class="plan-card">
-            <div class="plan-card-content">
-                <h3>Relax no Caribe</h3>
-                <p class="plan-price">€ 980<span>/pessoa</span></p>
-                <ul>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Voos + Resort All-Inclusive</li>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> 5 noites em Punta Cana</li>
-                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Atividades aquáticas inclusas</li>
-                </ul>
-            </div>
-            <a href="#" class="view-offer-button">Ver Oferta</a>
-            <div class="partner-section">
-                <h4>Parceiros:</h4>
-                <div class="partner-logos">
-                    <img src="https://img.icons8.com/color/48/google-flights.png" alt="Google Flights">
-                    <img src="https://img.icons8.com/color/48/agoda.png" alt="Agoda">
-                </div>
-                <p class="disclaimer-text">Disponibilidade limitada na alta temporada.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="ofertas">
-    <h2 class="section-title">Junte-se à Nossa Equipe! 🚀</h2>
-    <p class="section-subtitle">Estamos sempre à procura de talentos para nos ajudar a crescer. Confira as vagas abertas:</p>
-
-    <div class="job-offer-grid">
-        <div class="job-card">
-            <h3>Desenvolvedor Frontend Sênior</h3>
-            <p>Lisboa, Portugal - Full-time</p>
-            <div class="requirements">
-                <h4>Requisitos:</h4>
-                <ul>
-                    <li>Experiência com React/Vue/Angular</li>
-                    <li>Sólidos conhecimentos em HTML, CSS, JavaScript</li>
-                    <li>Portfólio comprovado</li>
-                </ul>
-            </div>
-            <p class="salary">Salário: <span>A combinar</span></p>
-            <p class="vacancies">Vagas: <span>1</span></p>
-            <button class="apply-button" data-job-title="Desenvolvedor Frontend Sênior">Candidatar</button>
-        </div>
-
-        <div class="job-card">
-            <h3>Especialista em Marketing Digital</h3>
-            <p>Remoto - Full-time</p>
-            <div class="requirements">
-                <h4>Requisitos:</h4>
-                <ul>
-                    <li>Experiência em SEO/SEM, Mídias Sociais</li>
-                    <li>Conhecimento de Google Analytics</li>
-                    <li>Inglês fluente</li>
-                </ul>
-            </div>
-            <p class="salary">Salário: <span>€1.500 - €2.000 / mês</span></p>
-            <p class="vacancies closed">Vagas: <span style="color: #dc3545;">Fechadas</span></p>
-            <button class="apply-button" data-job-title="Especialista em Marketing Digital" disabled>Candidatar (Fechado)</button>
-        </div>
-
-        <div class="job-card">
-            <h3>Customer Support Representative</h3>
-            <p>Porto, Portugal - Full-time</p>
-            <div class="requirements">
-                <h4>Requisitos:</h4>
-                <ul>
-                    <li>Excelente comunicação e empatia</li>
-                    <li>Fluência em Português e Inglês</li>
-                    <li>Experiência com CRM</li>
-                </ul>
-            </div>
-            <p class="salary">Salário: <span>€900 - €1.200 / mês</span></p>
-            <p class="vacancies">Vagas: <span>2</span></p>
-            <button class="apply-button" data-job-title="Customer Support Representative">Candidatar</button>
-        </div>
-    </div>
-</section>
-
-<section id="advertisements">
-    <h2 class="section-title">Nossos Destaques Publicitários</h2>
-    <div class="ad-carousel-container">
-        <div class="ad-carousel-track">
-            <a href="https://aondevamos.pt/" target="_blank" class="ad-carousel-item">
-                <img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" alt="Anúncio Festival Comida Continente">
-            </a>
-            <a href="https://www.google.com/search?q=publicidade+profissional" target="_blank" class="ad-carousel-item">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" alt="Anúncio Genérico Profissional">
-            </a>
-            <a href="https://www.peugeot.pt/" target="_blank" class="ad-carousel-item">
-                <img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" alt="Anúncio Peugeot">
-            </a>
-            <a href="https://www.amazon.es/primeday" target="_blank" class="ad-carousel-item">
-                <img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" alt="Anúncio Prime Day Amazon">
-            </a>
-        </div>
-    </div>
-</section>
-
-<section id="advertise-form">
-    <h2 class="section-title">Quer Anunciar Conosco? 📣</h2>
-    <p class="section-subtitle">Alcance milhões de viajantes interessados! Preencha o formulário abaixo e nossa equipe de publicidade entrará em contato para discutir as melhores opções para sua marca.</p>
-
-    <div class="advertise-form-container">
-        <form id="publicity-form" action="processa_anuncio.php" method="POST"> <div class="form-group">
-                <label for="company-name">Nome da Empresa:</label>
-                <input type="text" id="company-name" name="companyName" required>
-            </div>
-
-            <div class="form-group">
-                <label for="advertiser-name">Seu Nome:</label>
-                <input type="text" id="advertiser-name" name="advertiserName" required>
-            </div>
-
-            <div class="form-group">
-                <label for="advertiser-email">Seu Email:</label>
-                <input type="email" id="advertiser-email" name="advertiserEmail" required>
-            </div>
-
-            <div class="form-group">
-                <label for="advertiser-phone">Seu Telefone (opcional):</label>
-                <input type="tel" id="advertiser-phone" name="advertiserPhone">
-            </div>
-
-            <div class="form-group">
-                <label for="ad-message">Mensagem / Tipo de Anúncio Desejado:</label>
-                <textarea id="ad-message" name="adMessage" rows="5" placeholder="Descreva brevemente sua necessidade de publicidade ou tipo de anúncio que busca (ex: banner em rodapé, destaque em pesquisa, etc.)"></textarea>
-            </div>
-
-            <button type="submit">Enviar Proposta de Anúncio</button>
-            <div class="form-status-message" id="advertise-form-status"></div>
-        </form>
-    </div>
-</section>
-
-<footer id="meuRodape">
-    <p>&copy; 2025 ExploreMundo. Todos os direitos reservados.</p>
-    <p>Contactos: info@exploremundo.com | +351 123 456 789</p>
-    <div style="margin-top: 10px;">
-        <a href="#" style="color: var(--subtle-text-color); margin: 0 10px; text-decoration: none;">Política de Privacidade</a>
-        <a href="#" style="color: var(--subtle-text-color); margin: 0 10px; text-decoration: none;">Termos de Uso</a>
-    </div>
-</footer>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Preloader
-        const preloader = document.querySelector('.preloader');
-        const body = document.body;
-
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                preloader.classList.add('hidden');
-                body.classList.remove('no-scroll');
-                body.classList.add('loaded'); // Adiciona a classe 'loaded' ao body para mudar o background
-                // Ativar animações da hero section após o carregamento
-                setTimeout(() => {
-                    document.querySelector('.hero h1').style.opacity = '1';
-                    document.querySelector('.hero h1').style.transform = 'translateY(0)';
-                    document.querySelector('.hero p').style.opacity = '1';
-                    document.querySelector('.hero p').style.transform = 'translateY(0)';
-                    document.querySelector('.hero .cta-button').style.opacity = '1';
-                    document.querySelector('.hero .cta-button').style.transform = 'translateY(0)';
-                }, 500); // Pequeno atraso para o fade do preloader
-            }, 1000); // Tempo para o preloader ser visível
-        });
-
-        // Navbar Scroll Effect
-        const nav = document.querySelector('nav');
-        window.addEventListener('scroll', function() {
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
-            }
-        });
-
-        // Popup para ofertas de emprego (Candidacy Info)
-        const candidacyPopupInfo = document.getElementById('candidacy-popup-info');
-        const candidacyPopupCloseButtons = document.querySelectorAll('#candidacy-popup-info .popup-close, #candidacy-popup-info .popup-close-button');
-
-        // Exibir popup após 3 segundos, se não foi visto antes na sessão
-        if (!sessionStorage.getItem('candidacyPopupShown')) {
-            setTimeout(() => {
-                candidacyPopupInfo.classList.add('active');
-                body.classList.add('no-scroll');
-            }, 3000);
-        }
-
-        candidacyPopupCloseButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                candidacyPopupInfo.classList.remove('active');
-                body.classList.remove('no-scroll');
-                sessionStorage.setItem('candidacyPopupShown', 'true'); // Marcar como visto
-            });
-        });
-
-        // Popup de Formulário de Candidatura
-        const candidacyFormOverlay = document.getElementById('candidacy-form-overlay');
-        const applyButtons = document.querySelectorAll('.apply-button');
-        const candidacyFormCloseButtons = document.querySelectorAll('#candidacy-form-overlay .popup-close');
-        const jobTitleHiddenInput = document.getElementById('job-title-hidden');
-
-        applyButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                if (!this.disabled) {
-                    const jobTitle = this.getAttribute('data-job-title');
-                    jobTitleHiddenInput.value = jobTitle; // Preenche o campo oculto com o título da vaga
-                    candidacyFormOverlay.classList.add('active');
-                    body.classList.add('no-scroll');
-                }
-            });
-        });
-
-        candidacyFormCloseButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                candidacyFormOverlay.classList.remove('active');
-                body.classList.remove('no-scroll');
-            });
-        });
-
-        // Simulação de envio de formulário de Candidatura
-        const candidacyForm = document.getElementById('candidacy-form');
-        candidacyForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Impede o envio real do formulário
-
-            const formData = new FormData(this);
-            const formMessage = document.createElement('div');
-            formMessage.classList.add('form-message');
-            this.appendChild(formMessage);
-
-            // Simular um atraso para "envio"
-            setTimeout(() => {
-                const success = Math.random() > 0.3; // 70% de chance de sucesso
-
-                if (success) {
-                    formMessage.classList.add('success');
-                    formMessage.textContent = 'Candidatura enviada com sucesso! Entraremos em contato em breve.';
-                    this.reset(); // Limpa o formulário
-                } else {
-                    formMessage.classList.add('error');
-                    formMessage.textContent = 'Erro ao enviar a candidatura. Tente novamente mais tarde.';
-                }
-                formMessage.style.display = 'block';
-
-                setTimeout(() => {
-                    formMessage.style.display = 'none';
-                    formMessage.remove(); // Remove a mensagem após um tempo
-                    candidacyFormOverlay.classList.remove('active'); // Fecha o popup
-                    body.classList.remove('no-scroll');
-                }, 3000); // Mensagem visível por 3 segundos
-            }, 1500); // Simula 1.5 segundos de envio
-        });
-
-
-        // JavaScript para o carrossel de anúncios no rodapé
-        const adCarouselTrack = document.querySelector('.ad-carousel-track');
-        if (adCarouselTrack) {
-            // Duplicar os itens para criar um efeito de loop contínuo
-            const originalItems = Array.from(adCarouselTrack.children);
-            originalItems.forEach(item => {
-                const clone = item.cloneNode(true); // Clonar cada item (incluindo a tag <a> se existir)
-                adCarouselTrack.appendChild(clone); // Adicionar o clone ao final
-            });
-        }
-
-        // JavaScript para o formulário "Quer Anunciar?"
-        const publicityForm = document.getElementById('publicity-form');
-        if (publicityForm) {
-            publicityForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // Previne o envio padrão do formulário
-
-                const formStatusMessage = document.getElementById('advertise-form-status');
-                formStatusMessage.style.display = 'none'; // Esconde a mensagem anterior
-
-                // Simulação de envio de dados
-                setTimeout(() => {
-                    const success = Math.random() > 0.2; // 80% de chance de sucesso
-
-                    if (success) {
-                        formStatusMessage.classList.remove('error');
-                        formStatusMessage.classList.add('success');
-                        formStatusMessage.textContent = 'Sua proposta de anúncio foi enviada com sucesso! Entraremos em contato em breve.';
-                        publicityForm.reset(); // Limpa o formulário
-                    } else {
-                        formStatusMessage.classList.remove('success');
-                        formStatusMessage.classList.add('error');
-                        formStatusMessage.textContent = 'Ocorreu um erro ao enviar sua proposta. Por favor, tente novamente.';
-                    }
-                    formStatusMessage.style.display = 'block';
-
-                    // Opcional: esconder a mensagem e o formulário após alguns segundos
-                    setTimeout(() => {
-                        formStatusMessage.style.display = 'none';
-                    }, 5000);
-
-                }, 1500); // Simula um atraso de 1.5 segundos para o envio
-            });
-        }
-
-        // Seções ativas
-        const sections = document.querySelectorAll('section, header.hero');
-        const navLinks = document.querySelectorAll('nav a');
-
-        function activateSection(id) {
-            sections.forEach(section => {
-                if (section.id === id.replace('#', '')) {
-                    section.classList.add('active');
-                } else {
-                    section.classList.remove('active');
-                }
-            });
-
-            navLinks.forEach(link => {
-                if (link.getAttribute('href') === id) {
-                    link.classList.add('active'); // Adiciona classe 'active' ao link de navegação
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        }
-
-        // Ativar a seção hero na carga inicial
-        activateSection('#hero');
-
-        // Adicionar listener para os links de navegação
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault(); // Previne o comportamento padrão do link
-                const targetId = this.getAttribute('href');
-
-                // Esconde todas as seções e mostra apenas a selecionada
-                sections.forEach(s => s.classList.remove('active'));
-                const targetSection = document.querySelector(targetId);
-                if (targetSection) {
-                    targetSection.classList.add('active');
-                }
-
-                // Scroll suave
-                window.scrollTo({
-                    top: targetSection.offsetTop,
-                    behavior: 'smooth'
-                });
-
-                // Atualiza a classe 'active' nos links da navegação
-                navLinks.forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.querySelector('.anuncios-rodape');
+      const clones = Array.from(container.children);
+      clones.forEach(el => container.appendChild(el.cloneNode(true)));
     });
-</script>
+  </script>
 
 </body>
 </html>
