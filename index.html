@@ -8,651 +8,832 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1216547502773589"
-        crossorigin="anonymous"></script>
-
-<style>
-    :root {
-        --primary-color: #0a192f; /* Azul escuro principal */
-        --secondary-color: #ffca42; /* Amarelo vibrante */
-        --accent-gradient: linear-gradient(45deg, #ffca42, #ffb700);
-        --background-color: #f8f9fa; /* Cinza claro para o fundo das seções */
-        --light-background: #ffffff; /* Branco para cards e popups */
-        --text-color: #333; /* Cor padrão do texto */
-        --light-text-color: #e6f1ff; /* Cinzento claro, para texto em fundos escuros */
-        --subtle-text-color: #a8b2d1;
-        --shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
-        --border-radius: 16px;
-        --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
-    }
-
-    /* RESET E CONFIGURAÇÕES GLOBAIS */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-        font-family: 'Poppins', sans-serif;
-        background-color: var(--primary-color); /* Fundo inicial escuro para o preloader */
-        color: var(--text-color);
-        overflow-x: hidden;
-    }
-    body.loaded { background-color: var(--background-color); } /* Fundo claro para o restante do site */
-    body.no-scroll { overflow-y: hidden; }
-
-    /* PRELOADER */
-    .preloader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: var(--primary-color);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-        opacity: 1;
-        visibility: visible;
-        transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
-    }
-    .preloader.hidden {
-        opacity: 0;
-        visibility: hidden;
-    }
-    .preloader .logo { 
-        font-size: clamp(2.5rem, 8vw, 4rem); 
-        font-weight: 700; 
-        color: var(--secondary-color); /* Amarelo vibrante */
-        animation: pulse 1.5s infinite ease-in-out; 
-    }
-    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
-
-    /* CABEÇALHO E NAVEGAÇÃO */
-    .hero {
-        height: 100vh;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        overflow: hidden;
-        /* Fundo de imagem para a hero */
-        background-image: url('https://tse4.mm.bing.net/th/id/OIP.mo-319Lf35facIz4DuqiyAHaEo?pid=Api&P=0&h=220');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        color: var(--light-text-color); /* Cor de texto padrão para o hero */
-    }
-
-    .hero-overlay { /* Overlay escuro para melhorar o contraste do texto sobre a imagem */
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.4); /* Escurece a imagem */
-        z-index: 0; /* Abaixo do conteúdo principal */
-    }
-    .hero-content { 
-        z-index: 1; /* Acima do overlay */
-        padding: 20px;
-        max-width: 900px;
-        margin: 0 auto;
-    }
-    .hero h1 {
-        font-size: clamp(4rem, 10vw, 6rem); 
-        font-weight: 800;
-        line-height: 1.1;
-        margin-bottom: 0.7rem;
-        color: var(--secondary-color); /* Amarelo vibrante para o título */
-        text-shadow: 2px 2px 8px rgba(0,0,0,0.5); /* Sombra para pop-out */
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    .hero p {
-        font-size: clamp(1.2rem, 4vw, 1.6rem); 
-        font-weight: 400;
-        color: var(--light-text-color); /* Cinzento claro para o subtítulo */
-        margin-bottom: 2rem;
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    .hero .cta-button { 
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    nav { 
-        position: fixed; 
-        top: 0; 
-        left: 0; 
-        width: 100%; 
-        z-index: 1000; 
-        padding: 20px 50px; 
-        display: flex; 
-        justify-content: flex-end; 
-        align-items: center; 
-        transition: var(--transition); 
-        background-color: transparent; /* Transparente por padrão */
-    }
-    nav.scrolled { 
-        background-color: rgba(10, 25, 47, 0.85); /* Fundo escuro ao rolar */
-        backdrop-filter: blur(10px); 
-        box-shadow: var(--shadow); 
-        padding: 15px 50px; 
-    }
-    nav a { 
-        color: var(--light-text-color); /* Cinzento claro para os links na hero (fundo de imagem com overlay) */
-        text-decoration: none; 
-        margin: 0 20px; 
-        font-size: 1rem; 
-        font-weight: 500; 
-        transition: var(--transition); 
-    }
-    nav.scrolled a {
-        color: var(--light-text-color); /* Mantém cinzento claro para os links quando a navbar está escura */
-    }
-    nav a:hover { 
-        color: var(--secondary-color); /* Amarelo no hover */
-    }
-    
-    /* ESTILOS GERAIS */
-    main { background-color: var(--background-color); position: relative; }
-    /* Esconder seções por padrão, exceto a hero (que é header.hero) */
-    section {
-        display: none; /* Inicia oculto */
-        opacity: 0; /* Para transição de fade-in */
-        transition: opacity 0.6s ease-in-out;
-        padding: 120px 20px; 
-        max-width: 1200px; 
-        margin: 0 auto;
-    }
-    header.hero.active,
-    section.active {
-        display: block; /* Mostra a seção ativa */
-        opacity: 1; /* Fade-in */
-    }
-
-    .section-title { text-align: center; font-size: 2.8rem; font-weight: 700; margin-bottom: 15px; color: var(--primary-color); }
-    .section-subtitle { text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 80px auto; color: #555; }
-    
-    /* ANIMAÇÃO RGB E BOTÃO PRINCIPAL */
-    .cta-button {
-        display: inline-block;
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--primary-color);
-        background: var(--accent-gradient);
-        padding: 16px 35px;
-        border: none;
-        border-radius: 50px;
-        text-decoration: none;
-        transition: var(--transition);
-        box-shadow: 0 4px 15px rgba(255, 202, 66, 0.4);
-        cursor: pointer;
-    }
-    .cta-button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(255, 202, 66, 0.6);
-    }
-    @keyframes rgb-animation {
-        0% { filter: hue-rotate(0deg); }
-        100% { filter: hue-rotate(360deg); }
-    }
-    .cta-button.rgb-glow, .plan-card.rgb-glow {
-        position: relative;
-        overflow: hidden;
-        z-index: 0; /* Garante que o conteúdo fique por cima do pseudo-elemento */
-    }
-    .cta-button.rgb-glow::before, .plan-card.rgb-glow::before {
-        content: "";
-        position: absolute;
-        top: 50%; left: 50%;
-        width: 200%;
-        height: 200%;
-        background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition: opacity 0.5s ease;
-        animation: rgb-animation 4s linear infinite;
-        z-index: -1; /* Abaixo do conteúdo do botão/card */
-    }
-    .cta-button.rgb-glow:hover::before, .plan-card.rgb-glow:hover::before {
-        opacity: 1;
-    }
-    .plan-card.rgb-glow::before {
-        filter: blur(15px); /* Efeito de brilho mais suave para o card */
-    }
-    
-    /* SEÇÃO FILOSOFIA */
-    .philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-    .philosophy-card { background-color: var(--light-background); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition); }
-    .philosophy-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-    .philosophy-card .image-wrapper { height: 220px; overflow: hidden; }
-    .philosophy-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-    .philosophy-card:hover img { transform: scale(1.05); }
-    .philosophy-card .content { padding: 30px; }
-    .philosophy-card h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
-    .philosophy-card p { font-size: 1rem; line-height: 1.6; color: #666; }
-
-    /* SEÇÃO COMO FUNCIONA (AGREGADOR) */
-    .about-us-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-    .about-us-content p {
-        font-size: 1.1rem;
-        line-height: 1.8;
-        color: #555;
-        margin-bottom: 25px;
-        max-width: 800px;
-    }
-    .about-us-content .highlight {
-        font-weight: 600;
-        color: var(--primary-color);
-    }
-
-    /* SEÇÃO PACOTES COM LOGOS */
-    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; perspective: 2000px; }
-    .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; will-change: transform; transform-style: preserve-3d; display: flex; flex-direction: column; }
-    .plan-card-content { flex-grow: 1; }
-    .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; }
-    .plan-price { 
-        font-size: 2.5rem; 
-        font-weight: 700; 
-        color: var(--primary-color);
-        margin-bottom: 25px; 
-        display: flex; 
-        flex-direction: column;
-        align-items: center; 
-        justify-content: center; 
-    }
-    .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
-    
-    .view-offer-button {
-        background-color: var(--secondary-color);
-        color: var(--primary-color);
-        padding: 12px 25px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        margin-top: 15px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        text-decoration: none;
-        display: inline-block;
-    }
-    .view-offer-button:hover {
-        background-color: #e0b000;
-        transform: translateY(-2px);
-    }
-
-    .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
-    .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
-    .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
-    
-    /* PARCEIROS */
-    .partner-section {
-        border-top: 1px solid #eee;
-        padding-top: 20px;
-        margin-top: 20px;
-    }
-    .partner-section h4 {
-        font-size: 0.9rem;
-        color: #999;
-        margin-bottom: 10px;
-        font-weight: 500;
-    }
-    .partner-section .disclaimer-text {
-        font-size: 0.75rem;
-        color: #777;
-        margin-bottom: 15px;
-    }
-    .partner-logos {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-        min-height: 40px;
-    }
-    .partner-logos img {
-        max-height: 35px;
-        filter: grayscale(100%) contrast(0%) brightness(1.5);
-        transition: var(--transition);
-    }
-    .plan-card:hover .partner-logos img {
-        filter: none;
-    }
-    
-    /* OUTRAS SEÇÕES */
-    #contato { background: var(--light-background); }
-    .contact-form label {
-        display: block; 
-        margin-bottom: 8px; 
-        color: var(--primary-color); 
-        font-weight: 500;
-    }
-    .contact-form input, .contact-form textarea { 
-        width: 100%; 
-        padding: 18px; 
-        border-radius: 12px; 
-        border: 1px solid #ccc; 
-        font-family: 'Poppins', sans-serif; 
-        font-size: 1rem; 
-        transition: border-color 0.3s ease, box-shadow 0.3s ease; 
-    }
-    .contact-form input:focus, .contact-form textarea:focus { 
-        border-color: var(--secondary-color); 
-        outline: none; 
-        box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3); 
-    }
-    #admin { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
-    .admin-container { background: rgba(10, 25, 47, 0.5); backdrop-filter: blur(10px); border-radius: var(--border-radius); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; overflow: hidden; max-width: 900px; margin: auto; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
-    .admin-sidebar { background: rgba(10, 25, 47, 0.7); padding: 40px 30px; width: 250px; display: flex; flex-direction: column; align-items: center; color: var(--light-text-color); }
-    .admin-sidebar svg { width: 60px; height: 60px; fill: var(--secondary-color); margin-bottom: 20px; }
-    .admin-sidebar h3 { font-size: 1.5rem; text-align: center; }
-    .admin-main { padding: 40px; width: 100%; color: var(--light-text-color); }
-    #admin-login input { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 1rem; border-radius: 8px; border: 1px solid #555; background-color: rgba(0,0,0,0.2); color: white; }
-    #admin-login button { width: 100%; }
-    #admin-dashboard { display: none; }
-    #admin-dashboard h3 { margin-bottom: 20px; }
-    .message-item { background: rgba(255,255,255,0.9); color: #333; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
-    .message-item:nth-child(even) { background: rgba(255,255,255,0.8); }
-    .message-item h4 { color: var(--primary-color); margin-bottom: 5px; }
-    .message-item .timestamp { font-size: 0.8rem; color: #777; text-align: right; margin-top: 10px; }
-    footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 50px 20px; }
-
-    /* POPUP STYLES */
-    .popup-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.6);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10000;
-        visibility: hidden;
-        opacity: 0;
-        transition: visibility 0s, opacity 0.3s ease;
-    }
-    .popup-overlay.active {
-        visibility: visible;
-        opacity: 1;
-    }
-    .popup-content {
-        background-color: var(--light-background);
-        padding: 30px;
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow);
-        text-align: center;
-        max-width: 400px;
-        width: 90%;
-        position: relative;
-    }
-    .popup-content h3 {
-        color: var(--primary-color);
-        margin-bottom: 15px;
-        font-size: 1.8rem;
-    }
-    .popup-content p {
-        color: #555;
-        font-size: 1.1rem;
-        margin-bottom: 20px;
-    }
-    .popup-close {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        font-size: 1.5rem;
-        cursor: pointer;
-        color: #999;
-        transition: color 0.2s ease;
-    }
-    .popup-close:hover {
-        color: var(--primary-color);
-    }
-
-    /* OFERTAS DE EMPREGO */
-    #ofertas { background: var(--background-color); }
-    .job-offer-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 40px;
-    }
-    .job-card {
-        background-color: var(--light-background);
-        border-radius: var(--border-radius);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .job-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    }
-    .job-card h3 {
-        font-size: 1.6rem;
-        color: var(--primary-color);
-        margin-bottom: 15px;
-    }
-    .job-card .requirements ul {
-        list-style: none;
-        padding-left: 0;
-        margin-bottom: 20px;
-    }
-    .job-card .requirements ul li {
-        margin-bottom: 8px;
-        color: #666;
-        font-size: 0.95rem;
-        display: flex;
-        align-items: flex-start;
-    }
-    .job-card .requirements ul li::before {
-        content: '✓';
-        color: var(--secondary-color);
-        font-weight: bold;
-        margin-right: 8px;
-    }
-    .job-card .salary, .job-card .vacancies {
-        font-size: 1.05rem;
-        color: var(--primary-color);
-        font-weight: 600;
-        margin-bottom: 10px;
-    }
-    .job-card .salary span, .job-card .vacancies span {
-        font-weight: 400;
-        color: #555;
-    }
-    .job-card .vacancies.closed span {
-        font-weight: 600;
-        color: #dc3545; /* Cor vermelha para indicar que está fechado */
-    }
-    .job-card .apply-button {
-        background-color: var(--secondary-color);
-        color: var(--primary-color);
-        padding: 12px 25px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        margin-top: auto; /* Push button to the bottom */
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        text-decoration: none;
-        display: inline-block;
-        width: 100%;
-        text-align: center;
-    }
-    .job-card .apply-button:hover {
-        background-color: #e0b000;
-        transform: translateY(-2px);
-    }
-    .job-card .apply-button:disabled {
-        background-color: #ccc;
-        color: #888;
-        cursor: not-allowed;
-        transform: none;
-        box-shadow: none;
-    }
-
-
-    /* CANDIDACY FORM POPUP */
-    .candidacy-form-popup {
-        background-color: var(--light-background);
-        padding: 30px;
-        border-radius: var(--border-radius);
-        box-shadow: var(--shadow);
-        max-width: 500px;
-        width: 90%;
-        position: relative;
-    }
-    .candidacy-form-popup h3 {
-        color: var(--primary-color);
-        margin-bottom: 20px;
-        font-size: 1.8rem;
-        text-align: center;
-    }
-    .candidacy-form-popup form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    .candidacy-form-popup label {
-        font-size: 0.9rem;
-        color: #555;
-        font-weight: 500;
-    }
-    .candidacy-form-popup input[type="text"],
-    .candidacy-form-popup input[type="email"],
-    .candidacy-form-popup input[type="tel"],
-    .candidacy-form-popup input[type="file"],
-    .candidacy-form-popup textarea {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        font-family: 'Poppins', sans-serif;
-        font-size: 1rem;
-        transition: border-color 0.3s ease;
-    }
-    .candidacy-form-popup input[type="text"]:focus,
-    .candidacy-form-popup input[type="email"]:focus,
-    .candidacy-form-popup input[type="tel"]:focus,
-    .candidacy-form-popup textarea:focus {
-        border-color: var(--secondary-color);
-        outline: none;
-    }
-    .candidacy-form-popup input[type="file"] {
-        padding: 5px;
-        border: none;
-    }
-    .candidacy-form-popup button[type="submit"] {
-        background-color: var(--primary-color);
-        color: var(--light-text-color);
-        padding: 15px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-    .candidacy-form-popup button[type="submit"]:hover {
-        background-color: #061120;
-        transform: translateY(-2px);
-    }
-    .candidacy-form-popup .form-message {
-        margin-top: 15px;
-        padding: 10px;
-        border-radius: 8px;
-        font-weight: 500;
-        text-align: center;
-        display: none;
-    }
-    .candidacy-form-popup .form-message.success {
-        background-color: #e6ffe6;
-        color: #28a745;
-    }
-    .candidacy-form-popup .form-message.error {
-        background-color: #ffe6e6;
-        color: #dc3545;
-    }
-
-    /* RESPONSIVE DESIGN */
-    @media (max-width: 768px) {
-        nav {
-            padding: 15px 20px;
-            justify-content: center; /* Centraliza links no mobile */
-            flex-wrap: wrap;
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1216547502773589" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary-color: #0a192f; /* Azul escuro principal */
+            --secondary-color: #ffca42; /* Amarelo vibrante */
+            --accent-gradient: linear-gradient(45deg, #ffca42, #ffb700);
+            --background-color: #f8f9fa; /* Cinza claro para o fundo das seções */
+            --light-background: #ffffff; /* Branco para cards e popups */
+            --text-color: #333; /* Cor padrão do texto */
+            --light-text-color: #e6f1ff; /* Cinzento claro, para texto em fundos escuros */
+            --subtle-text-color: #a8b2d1;
+            --shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+            --border-radius: 16px;
+            --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
-        nav a {
-            margin: 5px 10px; /* Ajusta margem para mobile */
-            font-size: 0.9rem;
+
+        /* RESET E CONFIGURAÇÕES GLOBAIS */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-color); /* Fundo inicial escuro para o preloader */
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        body.loaded { background-color: var(--background-color); } /* Fundo claro para o restante do site */
+        body.no-scroll { overflow-y: hidden; }
+
+        /* PRELOADER */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+        }
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader .logo {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            color: var(--secondary-color); /* Amarelo vibrante */
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.7; transform: scale(0.95); } }
+
+        /* CABEÇALHO E NAVEGAÇÃO */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            /* Fundo de imagem para a hero */
+            background-image: url('https://tse4.mm.bing.net/th/id/OIP.mo-319Lf35facIz4DuqiyAHaEo?pid=Api&P=0&h=220');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: var(--light-text-color); /* Cor de texto padrão para o hero */
+        }
+
+        .hero-overlay { /* Overlay escuro para melhorar o contraste do texto sobre a imagem */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Escurece a imagem */
+            z-index: 0; /* Abaixo do conteúdo principal */
+        }
+        .hero-content {
+            z-index: 1; /* Acima do overlay */
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
         }
         .hero h1 {
-            font-size: clamp(3rem, 9vw, 5rem);
+            font-size: clamp(4rem, 10vw, 6rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 0.7rem;
+            color: var(--secondary-color); /* Amarelo vibrante para o título */
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5); /* Sombra para pop-out */
+            opacity: 0;
+            transform: translateY(20px);
         }
         .hero p {
-            font-size: clamp(1rem, 3.5vw, 1.4rem);
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            font-weight: 400;
+            color: var(--light-text-color); /* Cinzento claro para o subtítulo */
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
         }
-        .section-title {
-            font-size: 2.2rem;
+        .hero .cta-button {
+            opacity: 0;
+            transform: translateY(20px);
         }
-        .section-subtitle {
-            font-size: 1rem;
-            margin-bottom: 50px;
-        }
-        .philosophy-grid, .plans-grid, .job-offer-grid {
-            grid-template-columns: 1fr; /* Coluna única para mobile */
-        }
-        .philosophy-card, .plan-card, .job-card {
-            margin-bottom: 20px; /* Espaçamento entre cards no mobile */
-        }
-        .admin-container {
-            flex-direction: column; /* Coloca sidebar acima do main no mobile */
-        }
-        .admin-sidebar {
-            width: 100%;
-            padding: 20px;
-        }
-        .admin-main {
-            padding: 20px;
-        }
-    }
-
-    @media (max-width: 480px) {
         nav {
-            flex-direction: column; /* Links em coluna */
-            align-items: stretch;
-            padding: 10px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            transition: var(--transition);
+            background-color: transparent; /* Transparente por padrão */
+        }
+        nav.scrolled {
+            background-color: rgba(10, 25, 47, 0.85); /* Fundo escuro ao rolar */
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            padding: 15px 50px;
         }
         nav a {
-            margin: 5px 0;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1); /* Separador entre links */
-            padding-bottom: 5px;
+            color: var(--light-text-color); /* Cinzento claro para os links na hero (fundo de imagem com overlay) */
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
         }
-        nav a:last-child {
-            border-bottom: none;
+        nav.scrolled a {
+            color: var(--light-text-color); /* Mantém cinzento claro para os links quando a navbar está escura */
         }
+        nav a:hover {
+            color: var(--secondary-color); /* Amarelo no hover */
+        }
+
+        /* ESTILOS GERAIS */
+        main { background-color: var(--background-color); position: relative; }
+        /* Esconder seções por padrão, exceto a hero (que é header.hero) */
         section {
-            padding: 80px 15px; /* Reduz padding das seções */
+            display: none; /* Inicia oculto */
+            opacity: 0; /* Para transição de fade-in */
+            transition: opacity 0.6s ease-in-out;
+            padding: 120px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header.hero.active,
+        section.active {
+            display: block; /* Mostra a seção ativa */
+            opacity: 1; /* Fade-in */
+        }
+
+        .section-title { text-align: center; font-size: 2.8rem; font-weight: 700; margin-bottom: 15px; color: var(--primary-color); }
+        .section-subtitle { text-align: center; font-size: 1.2rem; max-width: 700px; margin: 0 auto 80px auto; color: #555; }
+
+        /* ANIMAÇÃO RGB E BOTÃO PRINCIPAL */
+        .cta-button {
+            display: inline-block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background: var(--accent-gradient);
+            padding: 16px 35px;
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 202, 66, 0.4);
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 202, 66, 0.6);
+        }
+        @keyframes rgb-animation {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        .cta-button.rgb-glow, .plan-card.rgb-glow {
+            position: relative;
+            overflow: hidden;
+            z-index: 0; /* Garante que o conteúdo fique por cima do pseudo-elemento */
+        }
+        .cta-button.rgb-glow::before, .plan-card.rgb-glow::before {
+            content: "";
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            animation: rgb-animation 4s linear infinite;
+            z-index: -1; /* Abaixo do conteúdo do botão/card */
+        }
+        .cta-button.rgb-glow:hover::before, .plan-card.rgb-glow:hover::before {
+            opacity: 1;
+        }
+        .plan-card.rgb-glow::before {
+            filter: blur(15px); /* Efeito de brilho mais suave para o card */
+        }
+
+        /* SEÇÃO FILOSOFIA */
+        .philosophy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .philosophy-card { background-color: var(--light-background); border-radius: var(--border-radius); overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: var(--transition); }
+        .philosophy-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .philosophy-card .image-wrapper { height: 220px; overflow: hidden; }
+        .philosophy-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .philosophy-card:hover img { transform: scale(1.05); }
+        .philosophy-card .content { padding: 30px; }
+        .philosophy-card h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
+        .philosophy-card p { font-size: 1rem; line-height: 1.6; color: #666; }
+
+        /* SEÇÃO COMO FUNCIONA (AGREGADOR) */
+        .about-us-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .about-us-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 25px;
+            max-width: 800px;
+        }
+        .about-us-content .highlight {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* SEÇÃO PACOTES COM LOGOS */
+        .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 40px; perspective: 2000px; }
+        .plan-card { background-color: var(--light-background); border-radius: var(--border-radius); padding: 40px; text-align: center; border: 1px solid #eee; transition: all 0.3s ease; will-change: transform; transform-style: preserve-3d; display: flex; flex-direction: column; }
+        .plan-card-content { flex-grow: 1; }
+        .plan-card h3 { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 15px; }
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .plan-price span { font-size: 1rem; font-weight: 400; color: #6c757d; }
+
+        .view-offer-button {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+        .view-offer-button:hover {
+            background-color: #e0b000;
+            transform: translateY(-2px);
+        }
+
+        .plan-card ul { list-style: none; margin: 30px 0; text-align: left; }
+        .plan-card ul li { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; font-size: 1rem; }
+        .plan-card ul li svg { width: 24px; height: 24px; fill: var(--secondary-color); }
+
+        /* PARCEIROS */
+        .partner-section {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+        .partner-section h4 {
+            font-size: 0.9rem;
+            color: #999;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        .partner-section .disclaimer-text {
+            font-size: 0.75rem;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 40px;
+        }
+        .partner-logos img {
+            max-height: 35px;
+            filter: grayscale(100%) contrast(0%) brightness(1.5);
+            transition: var(--transition);
+        }
+        .plan-card:hover .partner-logos img {
+            filter: none;
+        }
+
+        /* OUTRAS SEÇÕES */
+        #contato { background: var(--light-background); }
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            font-weight: 500;
         }
         .contact-form input, .contact-form textarea {
-            padding: 12px;
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-    }
-</style>
+        .contact-form input:focus, .contact-form textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3);
+        }
+        #admin { background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); }
+        .admin-container { background: rgba(10, 25, 47, 0.5); backdrop-filter: blur(10px); border-radius: var(--border-radius); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; overflow: hidden; max-width: 900px; margin: auto; box-shadow: 0 8px 32px 0 rgba(0,0,0,0.3); }
+        .admin-sidebar { background: rgba(10, 25, 47, 0.7); padding: 40px 30px; width: 250px; display: flex; flex-direction: column; align-items: center; color: var(--light-text-color); }
+        .admin-sidebar svg { width: 60px; height: 60px; fill: var(--secondary-color); margin-bottom: 20px; }
+        .admin-sidebar h3 { font-size: 1.5rem; text-align: center; }
+        .admin-main { padding: 40px; width: 100%; color: var(--light-text-color); }
+        #admin-login input { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 1rem; border-radius: 8px; border: 1px solid #555; background-color: rgba(0,0,0,0.2); color: white; }
+        #admin-login button { width: 100%; }
+        #admin-dashboard { display: none; }
+        #admin-dashboard h3 { margin-bottom: 20px; }
+        .message-item { background: rgba(255,255,255,0.9); color: #333; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
+        .message-item:nth-child(even) { background: rgba(255,255,255,0.8); }
+        .message-item h4 { color: var(--primary-color); margin-bottom: 5px; }
+        .message-item .timestamp { font-size: 0.8rem; color: #777; text-align: right; margin-top: 10px; }
+        footer { background-color: var(--primary-color); color: var(--subtle-text-color); text-align: center; padding: 50px 20px; }
+
+        /* POPUP STYLES */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease;
+        }
+        .popup-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .popup-content {
+            background-color: var(--light-background);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+        .popup-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        .popup-content p {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.2s ease;
+        }
+        .popup-close:hover {
+            color: var(--primary-color);
+        }
+
+        /* OFERTAS DE EMPREGO */
+        #ofertas { background: var(--background-color); }
+        .job-offer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+        .job-card {
+            background-color: var(--light-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .job-card h3 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        .job-card .requirements ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+        .job-card .requirements ul li {
+            margin-bottom: 8px;
+            color: #666;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        .job-card .requirements ul li::before {
+            content: '✓';
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .job-card .salary, .job-card .vacancies {
+            font-size: 1.05rem;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .job-card .salary span, .job-card .vacancies span {
+            font-weight: 400;
+            color: #555;
+        }
+        .job-card .vacancies.closed span {
+            font-weight: 600;
+            color: #dc3545; /* Cor vermelha para indicar que está fechado */
+        }
+        .job-card .apply-button {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: auto; /* Push button to the bottom */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+        .job-card .apply-button:hover {
+            background-color: #e0b000;
+            transform: translateY(-2px);
+        }
+        .job-card .apply-button:disabled {
+            background-color: #ccc;
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+
+        /* CANDIDACY FORM POPUP */
+        .candidacy-form-popup {
+            background-color: var(--light-background);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+        .candidacy-form-popup h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        .candidacy-form-popup form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .candidacy-form-popup label {
+            font-size: 0.9rem;
+            color: #555;
+            font-weight: 500;
+        }
+        .candidacy-form-popup input[type="text"],
+        .candidacy-form-popup input[type="email"],
+        .candidacy-form-popup input[type="tel"],
+        .candidacy-form-popup input[type="file"],
+        .candidacy-form-popup textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .candidacy-form-popup input[type="text"]:focus,
+        .candidacy-form-popup input[type="email"]:focus,
+        .candidacy-form-popup input[type="tel"]:focus,
+        .candidacy-form-popup textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        .candidacy-form-popup input[type="file"] {
+            padding: 5px;
+            border: none;
+        }
+        .candidacy-form-popup button[type="submit"] {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .candidacy-form-popup button[type="submit"]:hover {
+            background-color: #061120;
+            transform: translateY(-2px);
+        }
+        .candidacy-form-popup .form-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            display: none;
+        }
+        .candidacy-form-popup .form-message.success {
+            background-color: #e6ffe6;
+            color: #28a745;
+        }
+        .candidacy-form-popup .form-message.error {
+            background-color: #ffe6e6;
+            color: #dc3545;
+        }
+
+        /* NEW ADVERTISEMENTS SECTION */
+        #advertisements {
+            background-color: var(--primary-color);
+            padding: 60px 0; /* Adjust padding for banner */
+            overflow: hidden; /* Hide overflowing images */
+            position: relative;
+            z-index: 1;
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        #advertisements .section-title {
+            color: var(--light-text-color);
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+        }
+
+        .ad-carousel-container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .ad-carousel-track {
+            display: flex;
+            width: fit-content; /* Allow content to dictate width */
+            animation: scroll-ads 30s linear infinite; /* Adjust duration as needed */
+        }
+
+        .ad-carousel-item {
+            flex-shrink: 0; /* Prevent items from shrinking */
+            width: 300px; /* Fixed width for each ad item */
+            margin: 0 15px; /* Spacing between ads */
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+            background-color: var(--light-background); /* Background for ads */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 180px; /* Fixed height for ads */
+        }
+
+        .ad-carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: var(--border-radius);
+        }
+
+        .ad-carousel-track:hover {
+            animation-play-state: paused; /* Pause animation on hover */
+        }
+
+        /* Duplicate the track content to create a seamless loop */
+        .ad-carousel-track::after {
+            content: attr(data-content); /* Use data attribute to duplicate content */
+            display: flex;
+            width: fit-content;
+        }
+
+        @keyframes scroll-ads {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } /* Scroll exactly half the track length */
+        }
+
+        /* NEW ADVERTISE FORM SECTION */
+        #advertise-form {
+            background-color: var(--light-background);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        #advertise-form .section-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        #advertise-form .section-subtitle {
+            color: #666;
+            margin-bottom: 50px;
+            max-width: 600px;
+        }
+
+        #advertise-form .advertise-form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: var(--light-background);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            text-align: left;
+        }
+
+        #advertise-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        #advertise-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        #advertise-form input[type="text"],
+        #advertise-form input[type="email"],
+        #advertise-form input[type="tel"],
+        #advertise-form textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #advertise-form input[type="text"]:focus,
+        #advertise-form input[type="email"]:focus,
+        #advertise-form input[type="tel"]:focus,
+        #advertise-form textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 202, 66, 0.3);
+        }
+
+        #advertise-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        #advertise-form button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #advertise-form button:hover {
+            background-color: #061120;
+            transform: translateY(-2px);
+        }
+
+        .form-status-message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            display: none; /* Hidden by default */
+        }
+
+        .form-status-message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .form-status-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+                justify-content: center; /* Centraliza links no mobile */
+                flex-wrap: wrap;
+            }
+            nav a {
+                margin: 5px 10px; /* Ajusta margem para mobile */
+                font-size: 0.9rem;
+            }
+            .hero h1 {
+                font-size: clamp(3rem, 9vw, 5rem);
+            }
+            .hero p {
+                font-size: clamp(1rem, 3.5vw, 1.4rem);
+            }
+            .section-title {
+                font-size: 2.2rem;
+            }
+            .section-subtitle {
+                font-size: 1rem;
+                margin-bottom: 50px;
+            }
+            .philosophy-grid, .plans-grid, .job-offer-grid {
+                grid-template-columns: 1fr; /* Coluna única para mobile */
+            }
+            .philosophy-card, .plan-card, .job-card {
+                margin-bottom: 20px; /* Espaçamento entre cards no mobile */
+            }
+            .admin-container {
+                flex-direction: column; /* Coloca sidebar acima do main no mobile */
+            }
+            .admin-sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            .admin-main {
+                padding: 20px;
+            }
+            .ad-carousel-item {
+                width: 250px; /* Smaller width for mobile ads */
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav {
+                flex-direction: column; /* Links em coluna */
+                align-items: stretch;
+                padding: 10px;
+            }
+            nav a {
+                margin: 5px 0;
+                text-align: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1); /* Separador entre links */
+                padding-bottom: 5px;
+            }
+            nav a:last-child {
+                border-bottom: none;
+            }
+            section {
+                padding: 80px 15px; /* Reduz padding das seções */
+            }
+            .contact-form input, .contact-form textarea {
+                padding: 12px;
+            }
+            #advertisements {
+                padding: 40px 0;
+            }
+            #advertisements .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body class="no-scroll">
 
@@ -660,7 +841,6 @@
     <div class="logo">ExploreMundo</div>
 </div>
 
-<!-- O pop-up de candidatura foi desativado no JavaScript para não aparecer, já que as vagas estão fechadas -->
 <div class="popup-overlay" id="candidacy-popup-info">
     <div class="popup-content">
         <span class="popup-close">×</span>
@@ -700,27 +880,27 @@
 </div>
 
 
-<header class="hero" id="hero"> 
+<header class="hero" id="hero">
     <div class="hero-overlay"></div>
-    
+
     <nav id="navbar">
-        <a href="#hero" class="nav-link interactive">Início</a> 
+        <a href="#hero" class="nav-link interactive">Início</a>
         <a href="#philosophy" class="nav-link interactive">Nossa Filosofia</a>
         <a href="#how-it-works" class="nav-link interactive">Como Funciona</a>
         <a href="#pacotes" class="nav-link interactive">Pacotes</a>
         <a href="#ofertas" class="nav-link interactive">Ofertas</a>
-        <a href="#contato" class="nav-link interactive">Contato</a>
+        <a href="#advertise-form" class="nav-link interactive">Quer Anunciar?</a> <a href="#contato" class="nav-link interactive">Contato</a>
         <a href="#admin" class="nav-link interactive">Admin</a>
     </nav>
 
     <div class="hero-content">
-        <h1 class="main-title">ExploreMundo</h1> 
+        <h1 class="main-title">ExploreMundo</h1>
         <p>Faça já a sua conta! <br>Registe-se para planear as suas viagens, aceder a ofertas exclusivas e solicitar suporte dedicado.</p>
         <a href="https://hotel-checkout-confused-benz.trycloudflare.com/" class="cta-button interactive rgb-glow" target="_blank" rel="noopener noreferrer">
             Registe-se já no nosso APP Oficial
         </a>
     </div>
-</header> 
+</header>
 
 <main id="main-content">
 
@@ -794,61 +974,143 @@
                     <ul>
                         <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Voo Direto</li>
                         <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Bagagem de Mão Incluída</li>
-                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-.82l-1.43.21c-.43-.34-.9-.63-1.41-.85L15.5 1.5c-.13-.58-.64-1-1.25-1h-4.5c-.61 0-1.12.42-1.25 1L8.23 3.44c-.51.22-.98-.51-1.41.85l-1.43-.21c-.55-.06-1.07.28-1.23.82l-.9 2.99c-.11.35-.03.74.25 1.02l1.22 1.22c-.04.33-.08-.66-.08-1s.04-.67.08-1l-1.22 1.22c-.28.28-.36.67-.25 1.02l.9 2.99c.16.54.68.88 1.23.82l1.43-.21c.43.34.9.63 1.41.85l.27 1.71c.13.58.64 1 1.25 1h4.5c.61 0 1.12-.42 1.25-1l.27-1.71c.51-.22.98-.51 1.41-.85l1.43.21c.55.06 1.07-.28 1.23-.82l.9-2.99c.11-.36.03-.75-.25-1.03zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"></path></svg>Conexões Flexíveis</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-"></path></svg>Conexão Rápida</li>
                     </ul>
                 </div>
                 <div class="partner-section">
                     <h4>Disponível em:</h4>
                     <p class="disclaimer-text">Oferta encontrada na companhia aérea</p>
                     <div class="partner-logos">
-                        <img src="https://triplover.com.br/wp-content/uploads/2019/05/logo-ryanair.jpg" alt="Logo Ryanair">
+                        <img src="https://logodownload.org/wp-content/uploads/2019/08/ryanair-logo.png" alt="Logo Ryanair">
                     </div>
                 </div>
             </div>
+            <div class="plan-card interactive rgb-glow">
+                <div class="plan-card-content">
+                    <h3>Férias de Luxo nas Maldivas</h3>
+                    <div class="plan-price">
+                        €4.500 <span>/ pessoa</span>
+                    </div>
+                    <a href="https://www.abreujourneys.com/" target="_blank" class="view-offer-button interactive">Ver na Abreu Journeys</a>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Resort 5 Estrelas</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Refeições Gourmet</li>
+                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-"></path></svg>Atividades Exclusivas</li>
+                    </ul>
+                </div>
+                <div class="partner-section">
+                    <h4>Disponível em:</h4>
+                    <p class="disclaimer-text">Oferta encontrada na agência de viagens</p>
+                    <div class="partner-logos">
+                        <img src="https://viagens.expresso.pt/files/2018/01/abreu-logo.jpg" alt="Logo Abreu Journeys">
+                    </div>
+                </div>
             </div>
+        </div>
+    </section>
+
+    ---
+
+    <section id="advertisements" class="active"> <h2 class="section-title">Anúncios de Parceiros</h2>
+        <div class="ad-carousel-container">
+            <div class="ad-carousel-track" data-content='
+                <div class="ad-carousel-item"><img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" alt="Anúncio Festival Comida Continente"></div>
+                <div class="ad-carousel-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" alt="Anúncio Profissional"></div>
+                <div class="ad-carousel-item"><img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" alt="Anúncio Peugeot"></div>
+                <div class="ad-carousel-item"><img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" alt="Anúncio Prime Day Amazon"></div>
+            '>
+                <div class="ad-carousel-item"><img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" alt="Anúncio Festival Comida Continente"></div>
+                <div class="ad-carousel-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" alt="Anúncio Profissional"></div>
+                <div class="ad-carousel-item"><img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" alt="Anúncio Peugeot"></div>
+                <div class="ad-carousel-item"><img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" alt="Anúncio Prime Day Amazon"></div>
+            </div>
+        </div>
     </section>
 
     ---
 
     <section id="ofertas">
-        <h2 class="section-title">Oportunidades de Emprego</h2>
+        <h2 class="section-title">Oportunidades de Carreira na ExploreMundo</h2>
         <p class="section-subtitle">
-            As nossas vagas encontram-se de momento fechadas.
+            Junte-se à nossa equipa e ajude-nos a conectar viajantes com as melhores experiências!
             <br>
-            Agradecemos o seu interesse e convidamo-lo a visitar esta página futuramente para novas oportunidades.
+            <em style="font-size:0.9em; color:#777;">As vagas listadas abaixo são apenas para a equipa interna da ExploreMundo, não para as agências parceiras.</em>
         </p>
         <div class="job-offer-grid">
             <div class="job-card interactive">
-                <h3>Técnico Sénior de Sistemas Informáticos</h3>
+                <h3>Especialista em Suporte ao Cliente</h3>
                 <div class="requirements">
-                    <h4>Requisitos:</h4>
                     <ul>
-                        <li>12º ano completo</li>
-                        <li>Experiência profissional anterior na área (mínimo 1 ano)</li>
-                        <li>Conhecimentos avançados em redes e segurança informática</li>
-                        <li>Capacidade de resolução de problemas e proatividade</li>
+                        <li><p>Atendimento multicanal (email, chat, telefone).</p></li>
+                        <li><p>Resolução de problemas e dúvidas dos utilizadores.</p></li>
+                        <li><p>Gestão de feedback e melhoria contínua.</p></li>
                     </ul>
                 </div>
-                <div class="salary">Salário: <span>980 euros/mês brutos</span></div>
-                <div class="vacancies closed">Vagas: <span>Fechadas</span></div>
-                <!-- Botão de candidatura removido -->
+                <p class="salary">Salário: <span>A combinar</span></p>
+                <p class="vacancies closed">Vagas: <span>Fechadas</span></p>
+                <button class="apply-button" data-job="Especialista em Suporte ao Cliente" disabled>Candidaturas Fechadas</button>
             </div>
-
             <div class="job-card interactive">
-                <h3>Assistente de Suporte ao Cliente</h3>
+                <h3>Analista de Dados de Viagem</h3>
                 <div class="requirements">
-                    <h4>Requisitos:</h4>
                     <ul>
-                        <li>9º ano escolaridade ou 12º ano</li>
-                        <li>Experiência anterior em suporte ao cliente (mínimo 4 meses)</li>
-                        <li>Boa comunicação e capacidade de relacionamento interpessoal</li>
-                        <li>Conhecimentos básicos de informática</li>
+                        <li><p>Coleta e análise de dados de mercado.</p></li>
+                        <li><p>Identificação de tendências e oportunidades.</p></li>
+                        <li><p>Criação de relatórios e dashboards.</p></li>
                     </ul>
                 </div>
-                <div class="salary">Salário: <span>570 euros/mês brutos</span></div>
-                <div class="vacancies closed">Vagas: <span>Fechadas</span></div>
-                <!-- Botão de candidatura removido -->
+                <p class="salary">Salário: <span>A combinar</span></p>
+                <p class="vacancies closed">Vagas: <span>Fechadas</span></p>
+                <button class="apply-button" data-job="Analista de Dados de Viagem" disabled>Candidaturas Fechadas</button>
             </div>
+            <div class="job-card interactive">
+                <h3>Desenvolvedor Front-end Júnior</h3>
+                <div class="requirements">
+                    <ul>
+                        <li><p>Desenvolvimento de interfaces de utilizador responsivas.</p></li>
+                        <li><p>Manutenção e otimização do código existente.</p></li>
+                        <li><p>Colaboração com a equipa de design e back-end.</p></li>
+                    </ul>
+                </div>
+                <p class="salary">Salário: <span>A combinar</span></p>
+                <p class="vacancies closed">Vagas: <span>Fechadas</span></p>
+                <button class="apply-button" data-job="Desenvolvedor Front-end Júnior" disabled>Candidaturas Fechadas</button>
+            </div>
+        </div>
+    </section>
+
+    ---
+
+    <section id="advertise-form">
+        <h2 class="section-title">Quer Anunciar Conosco?</h2>
+        <p class="section-subtitle">
+            Aumente a visibilidade da sua empresa e alcance milhares de viajantes ávidos por novas experiências. Preencha o formulário abaixo e entraremos em contato para discutir as melhores opções de publicidade.
+        </p>
+        <div class="advertise-form-container">
+            <form id="ad-inquiry-form">
+                <div class="form-group">
+                    <label for="ad-company-name">Nome da Empresa:</label>
+                    <input type="text" id="ad-company-name" name="companyName" required>
+                </div>
+                <div class="form-group">
+                    <label for="ad-contact-person">Pessoa de Contato:</label>
+                    <input type="text" id="ad-contact-person" name="contactPerson" required>
+                </div>
+                <div class="form-group">
+                    <label for="ad-email">Email:</label>
+                    <input type="email" id="ad-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="ad-phone">Telefone (opcional):</label>
+                    <input type="tel" id="ad-phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="ad-message">Mensagem / Interesse:</label>
+                    <textarea id="ad-message" name="message" rows="6" placeholder="Descreva o tipo de anúncio que você procura, orçamento estimado ou qualquer outra informação relevante."></textarea>
+                </div>
+                <button type="submit">Enviar Solicitação</button>
+                <div class="form-status-message" id="ad-form-status"></div>
+            </form>
         </div>
     </section>
 
@@ -856,45 +1118,49 @@
 
     <section id="contato">
         <h2 class="section-title">Fale Conosco</h2>
-        <p class="section-subtitle">Tem alguma dúvida ou sugestão? Envie-nos uma mensagem!</p>
-        <form class="contact-form" id="contact-form-mailto">
-            <div style="margin-bottom: 20px;">
-                <label for="name-contact">Seu Nome</label>
-                <input type="text" id="name-contact" name="name" required placeholder="Nome Completo">
-            </div>
-            <div style="margin-bottom: 20px;">
-                <label for="email-contact">Seu Email</label>
-                <input type="email" id="email-contact" name="email" required placeholder="seu.email@example.com">
-            </div>
-            <div style="margin-bottom: 20px;">
-                <label for="message-contact">Sua Mensagem</label>
-                <textarea id="message-contact" name="message" rows="6" required placeholder="Escreva sua mensagem aqui..."></textarea>
-            </div>
-            <button type="submit" class="cta-button rgb-glow" style="width: auto; padding: 15px 30px; display: block; margin: 0 auto;">Enviar Mensagem</button>
-        </form>
+        <p class="section-subtitle">Tem alguma dúvida ou sugestão? Envie-nos uma mensagem e teremos todo o gosto em ajudar!</p>
+        <div class="contact-form">
+            <form id="contactForm">
+                <div style="margin-bottom: 20px;">
+                    <label for="name">Nome:</label>
+                    <input type="text" id="name" name="name" required />
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label for="email_contact">Email:</label>
+                    <input type="email" id="email_contact" name="email" required />
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <label for="message_contact">Mensagem:</label>
+                    <textarea id="message_contact" name="message" rows="6" required></textarea>
+                </div>
+                <button type="submit" class="cta-button interactive rgb-glow">Enviar Mensagem</button>
+            </form>
+        </div>
     </section>
 
     ---
 
     <section id="admin">
         <h2 class="section-title" style="color: var(--light-text-color);">Área Administrativa</h2>
-        <p class="section-subtitle" style="color: var(--subtle-text-color);">Acesso restrito para administração do site e visualização de mensagens.</p>
+        <p class="section-subtitle" style="color: var(--subtle-text-color);">Acesso restrito para administração do site.</p>
         <div class="admin-container">
             <div class="admin-sidebar">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path></svg>
-                <h3>Login do Administrador</h3>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                <h3>Login Admin</h3>
+                <p>Gerencie mensagens e conteúdos.</p>
             </div>
             <div class="admin-main">
                 <div id="admin-login">
-                    <input type="text" id="admin-username" placeholder="Usuário">
-                    <input type="password" id="admin-password" placeholder="Senha">
+                    <input type="text" id="username" placeholder="Usuário" />
+                    <input type="password" id="password" placeholder="Senha" />
                     <button class="cta-button" onclick="loginAdmin()">Entrar</button>
-                    <p id="login-message" style="color: red; margin-top: 10px; display: none;">Usuário ou senha inválidos.</p>
+                    <p id="login-message" style="color: red; margin-top: 10px;"></p>
                 </div>
                 <div id="admin-dashboard">
-                    <h3 style="color: var(--secondary-color);">Mensagens Recebidas</h3>
+                    <h3>Mensagens Recebidas</h3>
                     <div id="message-list">
                         </div>
+                    <button class="cta-button" onclick="logoutAdmin()">Sair</button>
                 </div>
             </div>
         </div>
@@ -903,65 +1169,48 @@
 </main>
 
 <footer>
-    <p>© 2025 ExploreMundo. Todos os direitos reservados.</p>
-    <p>Criado com paixão por viagens e tecnologia.</p>
+    <p>&copy; 2025 ExploreMundo. Todos os direitos reservados.</p>
 </footer>
 
 <script>
-    // PRELOADER
+    // General Utilities
+    function $(selector) { return document.querySelector(selector); }
+    function $$(selector) { return document.querySelectorAll(selector); }
+
+    // Preloader
     window.addEventListener('load', () => {
-        const preloader = document.querySelector('.preloader');
-        document.body.classList.remove('no-scroll'); // Permite o scroll após o preloader
-        
-        preloader.classList.add('hidden'); // Inicia a transição de opacidade
-        setTimeout(() => {
-            preloader.style.display = 'none'; // Esconde o preloader após a transição
-            document.body.classList.add('loaded'); // Adiciona classe para estilos pós-carregamento
-            
-            const mainTitle = document.querySelector('.main-title');
-            const heroParagraph = document.querySelector('.hero p');
-            const ctaButton = document.querySelector('.hero .cta-button');
-
-            // Animação manual para elementos do hero
-            if (mainTitle) {
-                mainTitle.style.opacity = 1;
-                mainTitle.style.transform = 'translateY(0)';
-                mainTitle.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
-                mainTitle.style.transitionDelay = '0.5s';
-            }
-            if (heroParagraph) {
-                heroParagraph.style.opacity = 1;
-                heroParagraph.style.transform = 'translateY(0)';
-                heroParagraph.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
-                heroParagraph.style.transitionDelay = '0.7s';
-            }
-            if (ctaButton) {
-                ctaButton.style.opacity = 1;
-                ctaButton.style.transform = 'translateY(0)';
-                ctaButton.style.transition = 'opacity 1s ease-out, transform 1s ease-out';
-                ctaButton.style.transitionDelay = '0.9s';
-            }
-
-            // [MODIFICADO] O pop-up de candidaturas foi desativado pois as vagas estão fechadas.
-            /* 
-            const candidacyPopupInfo = document.getElementById('candidacy-popup-info');
-            if (candidacyPopupInfo) {
-                candidacyPopupInfo.classList.add('active');
-            }
-            */
-
-            // Mostrar a seção hero por padrão
-            const heroSection = document.getElementById('hero');
-            if (heroSection) {
-                heroSection.classList.add('active');
-            }
-
-        }, 800); // Tempo para a transição de opacidade do preloader
+        const preloader = $('.preloader');
+        if (preloader) {
+            preloader.classList.add('hidden');
+            document.body.classList.remove('no-scroll');
+            // Animate hero content after preloader hides
+            setTimeout(() => {
+                const heroTitle = $('.hero h1');
+                const heroSubtitle = $('.hero p');
+                const heroCtaButton = $('.hero .cta-button');
+                if (heroTitle) heroTitle.style.animation = 'fadeInUp 1s forwards ease-out';
+                if (heroSubtitle) heroSubtitle.style.animation = 'fadeInUp 1s 0.2s forwards ease-out';
+                if (heroCtaButton) heroCtaButton.style.animation = 'fadeInUp 1s 0.4s forwards ease-out';
+                $('.hero').classList.add('active'); // Show hero after preloader
+            }, 800); // Wait for preloader transition to finish
+        }
     });
 
-    // Animação da Navbar ao Scroll
+    // FadeInUp animation for hero content
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = `
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    `;
+    document.head.appendChild(styleSheet);
+
+
+    // Navbar Scroll Effect
     window.addEventListener('scroll', () => {
-        const navbar = document.getElementById('navbar');
+        const navbar = $('#navbar');
         if (navbar) {
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
@@ -971,218 +1220,231 @@
         }
     });
 
-    // POPUP LOGIC for Candidaturas Abertas (Atualmente desativado)
-    const candidacyPopupInfo = document.getElementById('candidacy-popup-info');
-    const popupCloseButtons = document.querySelectorAll('#candidacy-popup-info .popup-close, .popup-close-button');
+    // Smooth Scrolling for Navigation
+    document.querySelectorAll('nav a.nav-link').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetSection = $(targetId);
+
+            if (targetSection) {
+                // Hide all sections first
+                $$('section').forEach(section => section.classList.remove('active'));
+                $('header.hero').classList.remove('active');
+
+                // Show the target section
+                targetSection.classList.add('active');
+
+                // Scroll to the target section
+                targetSection.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Initially show the hero section
+    document.addEventListener('DOMContentLoaded', () => {
+        $('#hero').classList.add('active');
+    });
+
+
+    // Popup functionality (Candidacy Info) - Currently disabled per instruction
+    /*
+    const candidacyPopupInfo = $('#candidacy-popup-info');
+    const popupCloseButtons = $$('.popup-close, .popup-close-button');
+
+    function openPopup(popupElement) {
+        if (popupElement) {
+            popupElement.classList.add('active');
+            document.body.classList.add('no-scroll');
+        }
+    }
+
+    function closePopup(popupElement) {
+        if (popupElement) {
+            popupElement.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        }
+    }
+
+    // Uncomment the following to enable the candidacy info popup
+    // setTimeout(() => {
+    //     openPopup(candidacyPopupInfo);
+    // }, 3000); // Shows popup after 3 seconds
 
     popupCloseButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (candidacyPopupInfo) {
-                candidacyPopupInfo.classList.remove('active');
-            }
+        button.addEventListener('click', (e) => {
+            closePopup(e.target.closest('.popup-overlay'));
         });
     });
+    */
 
-    // FORMULÁRIO DE CANDIDATURA POPUP LOGIC
-    const candidacyFormOverlay = document.getElementById('candidacy-form-overlay');
-    const applyButtons = document.querySelectorAll('.apply-button');
-    const candidacyFormCloseButtons = candidacyFormOverlay ? candidacyFormOverlay.querySelectorAll('.popup-close') : [];
-    const candidacyForm = document.getElementById('candidacy-form');
-    const formSubmissionMessage = document.getElementById('form-submission-message');
-    const jobTitleHiddenInput = document.getElementById('job-title-hidden');
+    // Candidacy Form Popup (for job applications)
+    const candidacyFormOverlay = $('#candidacy-form-overlay');
+    const applyButtons = $$('.apply-button');
+    const jobTitleHidden = $('#job-title-hidden');
+    const candidacyForm = $('#candidacy-form');
+    const formSubmissionMessage = $('#form-submission-message');
 
     applyButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const jobTitle = button.getAttribute('data-job');
-            if (jobTitleHiddenInput) {
-                jobTitleHiddenInput.value = jobTitle; // Define o título da vaga no campo escondido
-            }
-            if (candidacyFormOverlay) {
+        button.addEventListener('click', function() {
+            if (!this.disabled) {
+                const jobTitle = this.dataset.job;
+                jobTitleHidden.value = jobTitle;
                 candidacyFormOverlay.classList.add('active');
-            }
-            document.body.classList.add('no-scroll'); // Previne scroll quando o form está aberto
-        });
-    });
-
-    candidacyFormCloseButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (candidacyFormOverlay) {
-                candidacyFormOverlay.classList.remove('active');
-            }
-            document.body.classList.remove('no-scroll'); // Permite scroll novamente
-            if (formSubmissionMessage) {
-                formSubmissionMessage.style.display = 'none'; // Esconde a mensagem 
-            }
-            if (candidacyForm) {
-                candidacyForm.reset(); // Limpa o formulário
+                document.body.classList.add('no-scroll');
             }
         });
     });
 
-    if (candidacyForm) {
-        candidacyForm.addEventListener('submit', (event) => {
-            event.preventDefault(); // Previne o envio padrão do formulário
+    // Close button for candidacy form popup
+    candidacyFormOverlay.querySelector('.popup-close').addEventListener('click', () => {
+        candidacyFormOverlay.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+        candidacyForm.reset(); // Clear form
+        formSubmissionMessage.style.display = 'none'; // Hide message
+    });
 
-            // Simulação de envio
-            console.log("Candidatura para:", jobTitleHiddenInput ? jobTitleHiddenInput.value : 'N/A');
-            // ... (restante da lógica de simulação)
-
-            setTimeout(() => {
-                if (formSubmissionMessage) {
-                    formSubmissionMessage.classList.remove('error', 'success');
-                    formSubmissionMessage.style.display = 'block';
-                    formSubmissionMessage.classList.add('success');
-                    formSubmissionMessage.textContent = 'Candidatura enviada com sucesso! No máximo em até 3 horas receberá uma resposta.';
-                    
-                    candidacyForm.reset(); // Limpa o formulário após o envio
-
-                    setTimeout(() => {
-                        if (candidacyFormOverlay) {
-                            candidacyFormOverlay.classList.remove('active');
-                        }
-                        document.body.classList.remove('no-scroll');
-                        formSubmissionMessage.style.display = 'none';
-                    }, 5000); // Esconde após 5 segundos
-                }
-            }, 1000); // Simula atraso da rede
+    // Simulate form submission for candidacy form
+    candidacyForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // In a real application, you would send this data to a server
+        console.log('Candidacy Form Data:', {
+            jobTitle: this.jobTitle.value,
+            fullName: this.fullName.value,
+            email: this.email.value,
+            phone: this.phone.value,
+            // CV file would need to be handled by a backend
+            message: this.message.value
         });
-    }
 
-    // ADMIN LOGIN
-    function loginAdmin() {
-        const usernameInput = document.getElementById('admin-username');
-        const passwordInput = document.getElementById('admin-password');
-        const loginMessage = document.getElementById('login-message');
-        const adminLoginDiv = document.getElementById('admin-login');
-        const adminDashboardDiv = document.getElementById('admin-dashboard');
-        const messageList = document.getElementById('message-list');
+        formSubmissionMessage.textContent = 'A sua candidatura foi enviada com sucesso! Entraremos em contacto brevemente.';
+        formSubmissionMessage.classList.remove('error');
+        formSubmissionMessage.classList.add('success');
+        formSubmissionMessage.style.display = 'block';
 
-        if (!usernameInput || !passwordInput || !loginMessage || !adminLoginDiv || !adminDashboardDiv || !messageList) {
-            console.error("Elementos do admin não encontrados.");
-            return;
-        }
+        setTimeout(() => {
+            candidacyFormOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            candidacyForm.reset();
+            formSubmissionMessage.style.display = 'none';
+        }, 3000); // Close popup after 3 seconds
+    });
 
-        // Credenciais simples para demonstração
-        if (usernameInput.value === 'admin' && passwordInput.value === 'admin123') {
-            loginMessage.style.display = 'none';
-            adminLoginDiv.style.display = 'none';
-            adminDashboardDiv.style.display = 'block';
 
-            // Simula o carregamento de mensagens
-            const messages = [
-                { name: "João Silva", email: "joao.silva@example.com", message: "Gostaria de saber mais sobre o pacote para o Sudeste Asiático.", timestamp: "2025-06-25 10:30:00" },
-                { name: "Maria Oliveira", email: "maria.ol@example.com", message: "Os preços dos voos são realmente finais ou existem taxas ocultas?", timestamp: "2025-06-24 15:00:00" },
-                { name: "Carlos Pereira", email: "carlos.p@example.com", message: "Interessado em parcerias para divulgação de pacotes.", timestamp: "2025-06-23 09:00:00" }
-            ];
-
-            messageList.innerHTML = ''; // Limpa mensagens anteriores
-            messages.forEach(msg => {
-                const messageItem = document.createElement('div');
-                messageItem.classList.add('message-item');
-                messageItem.innerHTML = `
-                    <h4>De: ${msg.name} (${msg.email})</h4>
-                    <p>${msg.message}</p>
-                    <div class="timestamp">${msg.timestamp}</div>
-                `;
-                messageList.appendChild(messageItem);
+    // Contact Form Submission (simulate)
+    const contactForm = $('#contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Contact Form Data:', {
+                name: this.name.value,
+                email: this.email.value,
+                message: this.message.value
             });
-
-        } else {
-            loginMessage.style.display = 'block';
-        }
-    }
-
-    // Gerenciamento de Seções Dinâmicas (SPA-like)
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('main section, header.hero');
-
-    function showSection(targetId) {
-        sections.forEach(section => {
-            const sectionId = section.id;
-            const targetIdClean = targetId.startsWith('#') ? targetId.substring(1) : targetId;
-
-            if (sectionId === targetIdClean) { 
-                section.classList.add('active');
-            } else {
-                section.classList.remove('active');
-            }
-        });
-    }
-
-    // Ajuste para que os links de navegação controlem a exibição das seções
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault(); // Previne o comportamento padrão de âncora
-            const targetId = link.getAttribute('href');
-            showSection(targetId);
-
-            // Rola suavemente para a seção
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
-
-    // Ação do CTA button da hero para pacotes 
-    const heroCtaButton = document.querySelector('.hero .cta-button');
-    if (heroCtaButton && heroCtaButton.getAttribute('href') === '#pacotes') { // Garante que não afeta o novo botão do APP
-        heroCtaButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            showSection('#pacotes'); 
-            const pacotesSection = document.querySelector('#pacotes');
-            if (pacotesSection) {
-                pacotesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    }
-
-    // Ajuste para o pop-up de candidaturas, que também direciona para #ofertas
-    const popupCloseButton = document.querySelector('#candidacy-popup-info .popup-close-button');
-    if (popupCloseButton) {
-        popupCloseButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (candidacyPopupInfo) {
-                candidacyPopupInfo.classList.remove('active');
-            }
-            showSection('#ofertas'); 
-            const ofertasSection = document.querySelector('#ofertas');
-            if (ofertasSection) {
-                ofertasSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    }
-
-    // Ativa a primeira seção (hero) no carregamento
-    document.addEventListener('DOMContentLoaded', () => {
-        const heroSection = document.getElementById('hero');
-        if (heroSection && !heroSection.classList.contains('active')) {
-            showSection('#hero');
-        }
-    });
-
-    // Lógica para o formulário de contato com mailto
-    const contactFormMailto = document.getElementById('contact-form-mailto');
-    if (contactFormMailto) {
-        contactFormMailto.addEventListener('submit', function(event) {
-            event.preventDefault(); // Impede o envio normal do formulário
-
-            const name = document.getElementById('name-contact').value;
-            const email = document.getElementById('email-contact').value;
-            const message = document.getElementById('message-contact').value;
-
-            // Construir o link mailto
-            const subject = encodeURIComponent(`Mensagem de ${name} via ExploreMundo`);
-            const body = encodeURIComponent(`De: ${name}\nEmail: ${email}\n\nMensagem:\n${message}`);
-            const mailtoLink = `mailto:exploremundo@consultant.com?subject=${subject}&body=${body}`;
-
-            // Abrir o cliente de email
-            window.location.href = mailtoLink;
-
-            // Limpar o formulário após o "envio" (abertura do email)
+            alert('Mensagem enviada com sucesso! Entraremos em contacto brevemente.');
             this.reset();
         });
     }
+
+    // Admin Login (simple client-side simulation)
+    function loginAdmin() {
+        const usernameInput = $('#username').value;
+        const passwordInput = $('#password').value;
+        const loginMessage = $('#login-message');
+
+        if (usernameInput === 'admin' && passwordInput === 'password123') { // Example credentials
+            $('#admin-login').style.display = 'none';
+            $('#admin-dashboard').style.display = 'block';
+            loginMessage.textContent = '';
+            loadMessages(); // Simulate loading messages
+        } else {
+            loginMessage.textContent = 'Credenciais inválidas.';
+        }
+    }
+
+    function logoutAdmin() {
+        $('#admin-dashboard').style.display = 'none';
+        $('#admin-login').style.display = 'block';
+        $('#username').value = '';
+        $('#password').value = '';
+        $('#message-list').innerHTML = ''; // Clear messages
+    }
+
+    function loadMessages() {
+        const messageList = $('#message-list');
+        messageList.innerHTML = ''; // Clear existing messages
+
+        // Simulate fetching messages
+        const messages = [
+            { sender: 'João Silva', email: 'joao.silva@email.com', message: 'Gostaria de saber mais sobre os pacotes para a Ásia.', timestamp: '2025-07-10 14:30' },
+            { sender: 'Maria Fernandes', email: 'maria.f@email.com', message: 'Tive um problema com a reserva que fiz através de um dos links. Podem ajudar?', timestamp: '2025-07-09 10:00' },
+            { sender: 'Carlos Nuno', email: 'carlos.n@email.com', message: 'Excelente plataforma! Encontrei ótimas ofertas.', timestamp: '2025-07-08 17:45' }
+        ];
+
+        if (messages.length === 0) {
+            messageList.innerHTML = '<p>Nenhuma mensagem nova.</p>';
+            return;
+        }
+
+        messages.forEach(msg => {
+            const msgItem = document.createElement('div');
+            msgItem.classList.add('message-item');
+            msgItem.innerHTML = `
+                <h4>De: ${msg.sender} (${msg.email})</h4>
+                <p>${msg.message}</p>
+                <div class="timestamp">${msg.timestamp}</div>
+            `;
+            messageList.appendChild(msgItem);
+        });
+    }
+
+    // AD INQUIRY FORM (New Form)
+    const adInquiryForm = $('#ad-inquiry-form');
+    const adFormStatus = $('#ad-form-status');
+
+    if (adInquiryForm) {
+        adInquiryForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Advertisement Inquiry Form Data:', {
+                companyName: this.companyName.value,
+                contactPerson: this.contactPerson.value,
+                email: this.email.value,
+                phone: this.phone.value,
+                message: this.message.value
+            });
+
+            // Simulate success or error
+            const isSuccess = Math.random() > 0.1; // 90% chance of success for demo
+
+            if (isSuccess) {
+                adFormStatus.textContent = 'Sua solicitação foi enviada com sucesso! Entraremos em contato em breve.';
+                adFormStatus.classList.remove('error');
+                adFormStatus.classList.add('success');
+            } else {
+                adFormStatus.textContent = 'Ocorreu um erro ao enviar sua solicitação. Por favor, tente novamente mais tarde.';
+                adFormStatus.classList.remove('success');
+                adFormStatus.classList.add('error');
+            }
+            adFormStatus.style.display = 'block';
+            this.reset(); // Clear the form
+
+            // Optionally hide message after a few seconds
+            setTimeout(() => {
+                adFormStatus.style.display = 'none';
+            }, 5000);
+        });
+    }
+
+    // Duplicate carousel items for infinite scroll effect
+    document.addEventListener('DOMContentLoaded', () => {
+        const carouselTrack = $('.ad-carousel-track');
+        if (carouselTrack) {
+            const originalContent = carouselTrack.innerHTML;
+            carouselTrack.setAttribute('data-content', originalContent);
+        }
+    });
 
 </script>
 </body>
