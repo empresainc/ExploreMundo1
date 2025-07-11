@@ -593,6 +593,7 @@
             position: relative;
             z-index: 1;
             box-shadow: inset 0 5px 15px rgba(0,0,0,0.3);
+            margin-top: 50px; /* Space from previous section */
         }
 
         #advertisements .section-title {
@@ -607,17 +608,20 @@
             max-width: 1200px;
             margin: 0 auto;
             overflow: hidden;
+            position: relative; /* For the absolute positioning of track */
         }
 
         .ad-carousel-track {
             display: flex;
             width: fit-content; /* Allow content to dictate width */
             animation: scroll-ads 30s linear infinite; /* Adjust duration as needed */
+            padding-bottom: 20px; /* Space below ads */
         }
 
         .ad-carousel-item {
             flex-shrink: 0; /* Prevent items from shrinking */
             width: 300px; /* Fixed width for each ad item */
+            height: 180px; /* Fixed height for ads */
             margin: 0 15px; /* Spacing between ads */
             border-radius: var(--border-radius);
             overflow: hidden;
@@ -627,7 +631,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 180px; /* Fixed height for ads */
+            border: 2px solid var(--secondary-color); /* Professional border */
+            box-sizing: border-box; /* Include padding and border in width/height */
         }
 
         .ad-carousel-item img {
@@ -642,13 +647,8 @@
             animation-play-state: paused; /* Pause animation on hover */
         }
 
-        /* Duplicate the track content to create a seamless loop */
-        .ad-carousel-track::after {
-            content: attr(data-content); /* Use data attribute to duplicate content */
-            display: flex;
-            width: fit-content;
-        }
-
+        /* Duplicate the track content for seamless loop */
+        /* This is handled by JS for more robust duplication, but CSS can assist if needed */
         @keyframes scroll-ads {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); } /* Scroll exactly half the track length */
@@ -770,6 +770,9 @@
                 margin: 5px 10px; /* Ajusta margem para mobile */
                 font-size: 0.9rem;
             }
+            nav.scrolled {
+                padding: 10px 20px; /* Adjust padding for scrolled nav on mobile */
+            }
             .hero h1 {
                 font-size: clamp(3rem, 9vw, 5rem);
             }
@@ -832,6 +835,9 @@
             #advertisements .section-title {
                 font-size: 2rem;
             }
+            #advertise-form .advertise-form-container {
+                padding: 30px;
+            }
         }
     </style>
 </head>
@@ -874,578 +880,470 @@
             <textarea id="message" name="message" rows="4"></textarea>
 
             <button type="submit">Enviar Candidatura</button>
-            <div class="form-message" id="form-submission-message"></div>
         </form>
     </div>
 </div>
 
+<nav>
+    <a href="#hero">Home</a>
+    <a href="#about">Como Funciona</a>
+    <a href="#plans">Pacotes</a>
+    <a href="#ofertas">Ofertas de Emprego</a>
+    <a href="#contato">Contato</a>
+    <a href="#advertise-form">Quer Anunciar?</a> </nav>
 
-<header class="hero" id="hero">
+<header class="hero active" id="hero">
     <div class="hero-overlay"></div>
-
-    <nav id="navbar">
-        <a href="#hero" class="nav-link interactive">Início</a>
-        <a href="#philosophy" class="nav-link interactive">Nossa Filosofia</a>
-        <a href="#how-it-works" class="nav-link interactive">Como Funciona</a>
-        <a href="#pacotes" class="nav-link interactive">Pacotes</a>
-        <a href="#ofertas" class="nav-link interactive">Ofertas</a>
-        <a href="#advertise-form" class="nav-link interactive">Quer Anunciar?</a> <a href="#contato" class="nav-link interactive">Contato</a>
-        <a href="#admin" class="nav-link interactive">Admin</a>
-    </nav>
-
     <div class="hero-content">
-        <h1 class="main-title">ExploreMundo</h1>
-        <p>Faça já a sua conta! <br>Registe-se para planear as suas viagens, aceder a ofertas exclusivas e solicitar suporte dedicado.</p>
-        <a href="https://hotel-checkout-confused-benz.trycloudflare.com/" class="cta-button interactive rgb-glow" target="_blank" rel="noopener noreferrer">
-            Registe-se já no nosso APP Oficial
-        </a>
+        <h1>Explore o Mundo, Compare e Viaje Mais Barato!</h1>
+        <p>Sua plataforma inteligente para encontrar as melhores ofertas de viagens, voos e hotéis.</p>
+        <a href="#about" class="cta-button rgb-glow">Começar a Explorar</a>
     </div>
 </header>
 
-<main id="main-content">
+<section id="about">
+    <h2 class="section-title">Como Funciona?</h2>
+    <p class="section-subtitle">
+        O ExploreMundo atua como um agregador de viagens, conectando você às melhores ofertas de diversas fontes.
+        Simplificamos sua busca para que você encontre a viagem ideal em segundos.
+    </p>
+    <div class="about-us-content">
+        <p>Nossa plataforma reúne milhares de opções de voos, hotéis e pacotes de viagem de **centenas de parceiros confiáveis** ao redor do mundo. Com uma interface intuitiva, você pesquisa, compara e reserva tudo em um só lugar. Nossa missão é **poupar seu tempo e dinheiro**, oferecendo transparência e as melhores escolhas para a sua próxima aventura. </p>
+        <p>Simples assim: <span class="highlight">você busca, nós encontramos as melhores opções para você comparar e escolher!</span></p>
+    </div>
+</section>
 
-    <section id="philosophy">
-        <h2 class="section-title">Nossa Filosofia</h2>
-        <p class="section-subtitle">Nossa missão é transformar seu desejo de viajar em uma experiência impecável, do planejamento ao retorno.</p>
-        <div class="philosophy-grid">
-            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=600&q=80" alt="Homem olhando para um lago nas montanhas"></div><div class="content"><h3>O Sonho</h3><p>Tudo começa com a sua visão. Ouvimos seus desejos para criar algo que vai além do esperado.</p></div></div>
-            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://st3.idealista.pt/news/arquivos/styles/fullwidth_xl/public/2011-07/islasanjose13_0.jpg?VersionId=eIDntk.o3lbkY8_B.vrB9b7r_Cwy87n4&itok=eYEf_vlU" alt="Mapa e bússola sobre uma mesa de madeira"></div><div class="content"><h3>O Roteiro</h3><p>Nossos especialistas tecem sua visão em um itinerário impecável, cuidando de cada detalhe com precisão.</p></div></div>
-            <div class="philosophy-card interactive"><div class="image-wrapper"><img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=600&q=80" alt="Pessoa sentada na proa de um barco"></div><div class="content"><h3>A Experiência</h3><p>Entregamos mais do que uma viagem; entregamos a tranquilidade para que você possa criar memórias inesquecíveis.</p></div></div>
-        </div>
-    </section>
-
-    ---
-
-    <section id="how-it-works">
-        <h2 class="section-title">Como o ExploreMundo Funciona?</h2>
-        <p class="section-subtitle">
-            O **ExploreMundo** não é uma agência de viagens. Somos a sua plataforma de confiança para **descobrir e comparar pacotes de viagens** de <span class="highlight">agências de viagens reais e renomadas</span>.
-            Nossa missão é simplificar sua busca, apresentando as melhores ofertas do mercado para que você encontre a viagem perfeita.
-        </p>
-        <div class="about-us-content">
-            <p>
-                Nós pesquisamos, filtramos e organizamos pacotes de diversas agências, garantindo que você tenha acesso a **preços autênticos** e possa escolher a opção que melhor se encaixa no seu sonho e no seu orçamento.
-                Quando você clica em um pacote, nós o **redirecionamos diretamente para o site da agência ou companhia aérea**, onde você poderá finalizar sua compra com total segurança e transparência.
-            </p>
-            <p>
-                Comece a explorar e deixe o **ExploreMundo** ser o seu guia para a próxima aventura!
-            </p>
-        </div>
-    </section>
-
-    ---
-
-    <section id="pacotes">
-        <h2 class="section-title">Pacotes de Viagem Selecionados para Você</h2>
-        <p class="section-subtitle">
-            Descubra roteiros incríveis com **preços referenciais** encontrados nas principais agências e companhias aéreas. Clique para ver os detalhes e o valor final no site do provedor!
-            <br>
-            <em style="font-size:0.9em; color:#777;">Os preços são meramente indicativos e podem variar. Verifique no site da agência a disponibilidade e o valor atual.</em>
-        </p>
-        <div class="plans-grid">
-            <div class="plan-card interactive rgb-glow">
-                <div class="plan-card-content">
-                    <h3>Aventura no Sudeste Asiático</h3>
-                    <div class="plan-price">
-                        €1.850 <span>/ pessoa</span>
-                    </div>
-                    <a href="https://www.logitravel.pt/" target="_blank" class="view-offer-button interactive">Ver na Logitravel</a>
-                    <ul>
-                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Roteiro Otimizado</li>
-                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Hospedagem Confortável</li>
-                        <li><svg viewBox="0 0 24 24"><path d="M19.5 12.5c0 .63-.23 1.22-.63 1.69l-1.4-1.4c.1-.24.13-.5.13-.79 0-1.1-.9-2-2-2s-2 .9-2 2 .9 2 2 2c.29 0 .55-.04.79-.13l1.4 1.4c-.47.4-1.06.63-1.69.63-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path></svg>Suporte Essencial</li>
-                    </ul>
-                </div>
-                <div class="partner-section">
-                    <h4>Disponível em:</h4>
-                    <p class="disclaimer-text">Oferta encontrada na agência de viagens</p>
-                    <div class="partner-logos">
-                        <img src="https://triplover.com.br/wp-content/uploads/2019/05/logo-logitravel.jpg" alt="Logo Logitravel">
-                    </div>
-                </div>
+<section id="philosophy">
+    <h2 class="section-title">Nossa Filosofia</h2>
+    <p class="section-subtitle">Acreditamos que viajar deve ser acessível e inspirador para todos. Guiamos nossa plataforma por princípios que garantem a melhor experiência ao usuário.</p>
+    <div class="philosophy-grid">
+        <div class="philosophy-card">
+            <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1517400508595-d72b535d8e75?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Transparência">
             </div>
-            <div class="plan-card interactive rgb-glow">
-                <div class="plan-card-content">
-                    <h3>Voos Económicos para a Europa</h3>
-                    <div class="plan-price">
-                        €380 <span>/ pessoa (ida e volta)</span>
-                    </div>
-                    <a href="https://www.ryanair.com/gb/en" target="_blank" class="view-offer-button interactive">Ver na Ryanair</a>
-                    <ul>
-                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Voo Direto</li>
-                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Bagagem de Mão Incluída</li>
-                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-"></path></svg>Conexão Rápida</li>
-                    </ul>
-                </div>
-                <div class="partner-section">
-                    <h4>Disponível em:</h4>
-                    <p class="disclaimer-text">Oferta encontrada na companhia aérea</p>
-                    <div class="partner-logos">
-                        <img src="https://logodownload.org/wp-content/uploads/2019/08/ryanair-logo.png" alt="Logo Ryanair">
-                    </div>
-                </div>
-            </div>
-            <div class="plan-card interactive rgb-glow">
-                <div class="plan-card-content">
-                    <h3>Férias de Luxo nas Maldivas</h3>
-                    <div class="plan-price">
-                        €4.500 <span>/ pessoa</span>
-                    </div>
-                    <a href="https://www.abreujourneys.com/" target="_blank" class="view-offer-button interactive">Ver na Abreu Journeys</a>
-                    <ul>
-                        <li><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"></path></svg>Resort 5 Estrelas</li>
-                        <li><svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path></svg>Refeições Gourmet</li>
-                        <li><svg viewBox="0 0 24 24"><path d="M21.04 12.13l-1.22-1.22c.04-.33.08-.66.08-1s-.04-.67-.08-1l1.22-1.22c.28-.28.36-.67.25-1.02l-.9-2.99c-.16-.54-.68-.88-1.23-"></path></svg>Atividades Exclusivas</li>
-                    </ul>
-                </div>
-                <div class="partner-section">
-                    <h4>Disponível em:</h4>
-                    <p class="disclaimer-text">Oferta encontrada na agência de viagens</p>
-                    <div class="partner-logos">
-                        <img src="https://viagens.expresso.pt/files/2018/01/abreu-logo.jpg" alt="Logo Abreu Journeys">
-                    </div>
-                </div>
+            <div class="content">
+                <h3>Transparência Total</h3>
+                <p>Mostramos todos os custos e condições de forma clara, sem surpresas ocultas, para que você tome a melhor decisão.</p>
             </div>
         </div>
-    </section>
-
-    ---
-
-    <section id="advertisements" class="active"> <h2 class="section-title">Anúncios de Parceiros</h2>
-        <div class="ad-carousel-container">
-            <div class="ad-carousel-track" data-content='
-                <div class="ad-carousel-item"><img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" alt="Anúncio Festival Comida Continente"></div>
-                <div class="ad-carousel-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" alt="Anúncio Profissional"></div>
-                <div class="ad-carousel-item"><img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" alt="Anúncio Peugeot"></div>
-                <div class="ad-carousel-item"><img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" alt="Anúncio Prime Day Amazon"></div>
-            '>
-                <div class="ad-carousel-item"><img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" alt="Anúncio Festival Comida Continente"></div>
-                <div class="ad-carousel-item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" alt="Anúncio Profissional"></div>
-                <div class="ad-carousel-item"><img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" alt="Anúncio Peugeot"></div>
-                <div class="ad-carousel-item"><img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" alt="Anúncio Prime Day Amazon"></div>
+        <div class="philosophy-card">
+            <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1542840981-e6834015024e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Facilidade">
+            </div>
+            <div class="content">
+                <h3>Facilidade de Uso</h3>
+                <p>Nossa interface é intuitiva e descomplicada, projetada para você encontrar o que precisa rapidamente.</p>
             </div>
         </div>
-    </section>
-
-    ---
-
-    <section id="ofertas">
-        <h2 class="section-title">Oportunidades de Carreira na ExploreMundo</h2>
-        <p class="section-subtitle">
-            Junte-se à nossa equipa e ajude-nos a conectar viajantes com as melhores experiências!
-            <br>
-            <em style="font-size:0.9em; color:#777;">As vagas listadas abaixo são apenas para a equipa interna da ExploreMundo, não para as agências parceiras.</em>
-        </p>
-        <div class="job-offer-grid">
-            <div class="job-card interactive">
-                <h3>Especialista em Suporte ao Cliente</h3>
-                <div class="requirements">
-                    <ul>
-                        <li><p>Atendimento multicanal (email, chat, telefone).</p></li>
-                        <li><p>Resolução de problemas e dúvidas dos utilizadores.</p></li>
-                        <li><p>Gestão de feedback e melhoria contínua.</p></li>
-                    </ul>
-                </div>
-                <p class="salary">Salário: <span>A combinar</span></p>
-                <p class="vacancies closed">Vagas: <span>Fechadas</span></p>
-                <button class="apply-button" data-job="Especialista em Suporte ao Cliente" disabled>Candidaturas Fechadas</button>
+        <div class="philosophy-card">
+            <div class="image-wrapper">
+                <img src="https://images.unsplash.com/photo-1522071820081-00ffb57b9e28?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Variedade">
             </div>
-            <div class="job-card interactive">
-                <h3>Analista de Dados de Viagem</h3>
-                <div class="requirements">
-                    <ul>
-                        <li><p>Coleta e análise de dados de mercado.</p></li>
-                        <li><p>Identificação de tendências e oportunidades.</p></li>
-                        <li><p>Criação de relatórios e dashboards.</p></li>
-                    </ul>
-                </div>
-                <p class="salary">Salário: <span>A combinar</span></p>
-                <p class="vacancies closed">Vagas: <span>Fechadas</span></p>
-                <button class="apply-button" data-job="Analista de Dados de Viagem" disabled>Candidaturas Fechadas</button>
-            </div>
-            <div class="job-card interactive">
-                <h3>Desenvolvedor Front-end Júnior</h3>
-                <div class="requirements">
-                    <ul>
-                        <li><p>Desenvolvimento de interfaces de utilizador responsivas.</p></li>
-                        <li><p>Manutenção e otimização do código existente.</p></li>
-                        <li><p>Colaboração com a equipa de design e back-end.</p></li>
-                    </ul>
-                </div>
-                <p class="salary">Salário: <span>A combinar</span></p>
-                <p class="vacancies closed">Vagas: <span>Fechadas</span></p>
-                <button class="apply-button" data-job="Desenvolvedor Front-end Júnior" disabled>Candidaturas Fechadas</button>
+            <div class="content">
+                <h3>Variedade de Escolhas</h3>
+                <p>Oferecemos uma vasta gama de opções para todos os orçamentos e estilos de viagem.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    ---
+<section id="plans">
+    <h2 class="section-title">Nossos Pacotes em Destaque</h2>
+    <p class="section-subtitle">Confira algumas das ofertas exclusivas que você pode encontrar ao usar nossa plataforma. Preços dinâmicos sujeitos a alterações.</p>
 
-    <section id="advertise-form">
-        <h2 class="section-title">Quer Anunciar Conosco?</h2>
-        <p class="section-subtitle">
-            Aumente a visibilidade da sua empresa e alcance milhares de viajantes ávidos por novas experiências. Preencha o formulário abaixo e entraremos em contato para discutir as melhores opções de publicidade.
-        </p>
-        <div class="advertise-form-container">
-            <form id="ad-inquiry-form">
-                <div class="form-group">
-                    <label for="ad-company-name">Nome da Empresa:</label>
-                    <input type="text" id="ad-company-name" name="companyName" required>
-                </div>
-                <div class="form-group">
-                    <label for="ad-contact-person">Pessoa de Contato:</label>
-                    <input type="text" id="ad-contact-person" name="contactPerson" required>
-                </div>
-                <div class="form-group">
-                    <label for="ad-email">Email:</label>
-                    <input type="email" id="ad-email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="ad-phone">Telefone (opcional):</label>
-                    <input type="tel" id="ad-phone" name="phone">
-                </div>
-                <div class="form-group">
-                    <label for="ad-message">Mensagem / Interesse:</label>
-                    <textarea id="ad-message" name="message" rows="6" placeholder="Descreva o tipo de anúncio que você procura, orçamento estimado ou qualquer outra informação relevante."></textarea>
-                </div>
-                <button type="submit">Enviar Solicitação</button>
-                <div class="form-status-message" id="ad-form-status"></div>
-            </form>
-        </div>
-    </section>
-
-    ---
-
-    <section id="contato">
-        <h2 class="section-title">Fale Conosco</h2>
-        <p class="section-subtitle">Tem alguma dúvida ou sugestão? Envie-nos uma mensagem e teremos todo o gosto em ajudar!</p>
-        <div class="contact-form">
-            <form id="contactForm">
-                <div style="margin-bottom: 20px;">
-                    <label for="name">Nome:</label>
-                    <input type="text" id="name" name="name" required />
-                </div>
-                <div style="margin-bottom: 20px;">
-                    <label for="email_contact">Email:</label>
-                    <input type="email" id="email_contact" name="email" required />
-                </div>
-                <div style="margin-bottom: 30px;">
-                    <label for="message_contact">Mensagem:</label>
-                    <textarea id="message_contact" name="message" rows="6" required></textarea>
-                </div>
-                <button type="submit" class="cta-button interactive rgb-glow">Enviar Mensagem</button>
-            </form>
-        </div>
-    </section>
-
-    ---
-
-    <section id="admin">
-        <h2 class="section-title" style="color: var(--light-text-color);">Área Administrativa</h2>
-        <p class="section-subtitle" style="color: var(--subtle-text-color);">Acesso restrito para administração do site.</p>
-        <div class="admin-container">
-            <div class="admin-sidebar">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                <h3>Login Admin</h3>
-                <p>Gerencie mensagens e conteúdos.</p>
+    <div class="plans-grid">
+        <div class="plan-card">
+            <div class="plan-card-content">
+                <h3>Aventura na Patagônia</h3>
+                <p class="plan-price">€ 1.200<span>/pessoa</span></p>
+                <ul>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Voos de ida e volta</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> 7 noites em hotel 4 estrelas</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Tour guiado ao Perito Moreno</li>
+                </ul>
             </div>
-            <div class="admin-main">
-                <div id="admin-login">
-                    <input type="text" id="username" placeholder="Usuário" />
-                    <input type="password" id="password" placeholder="Senha" />
-                    <button class="cta-button" onclick="loginAdmin()">Entrar</button>
-                    <p id="login-message" style="color: red; margin-top: 10px;"></p>
+            <a href="#" class="view-offer-button">Ver Oferta</a>
+            <div class="partner-section">
+                <h4>Parceiros:</h4>
+                <div class="partner-logos">
+                    <img src="https://img.icons8.com/color/48/skyscanner.png" alt="Skyscanner">
+                    <img src="https://img.icons8.com/color/48/booking.com.png" alt="Booking.com">
                 </div>
-                <div id="admin-dashboard">
-                    <h3>Mensagens Recebidas</h3>
-                    <div id="message-list">
-                        </div>
-                    <button class="cta-button" onclick="logoutAdmin()">Sair</button>
-                </div>
+                <p class="disclaimer-text">Preços podem variar de acordo com a data.</p>
             </div>
         </div>
-    </section>
 
-</main>
+        <div class="plan-card rgb-glow">
+            <div class="plan-card-content">
+                <h3>Escapada Romântica em Paris</h3>
+                <p class="plan-price">€ 750<span>/pessoa</span></p>
+                <ul>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Voo direto + Hotel Boutique</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> 3 noites, café da manhã incluso</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Cruzeiro no Sena ao pôr do sol</li>
+                </ul>
+            </div>
+            <a href="#" class="view-offer-button">Ver Oferta</a>
+            <div class="partner-section">
+                <h4>Parceiros:</h4>
+                <div class="partner-logos">
+                    <img src="https://img.icons8.com/color/48/expedia.png" alt="Expedia">
+                    <img src="https://img.icons8.com/color/48/trivago.png" alt="Trivago">
+                </div>
+                <p class="disclaimer-text">Oferta especial limitada! Reserve já.</p>
+            </div>
+        </div>
 
-<footer>
+        <div class="plan-card">
+            <div class="plan-card-content">
+                <h3>Relax no Caribe</h3>
+                <p class="plan-price">€ 980<span>/pessoa</span></p>
+                <ul>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Voos + Resort All-Inclusive</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> 5 noites em Punta Cana</li>
+                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8.5l-9 9z"/></svg> Atividades aquáticas inclusas</li>
+                </ul>
+            </div>
+            <a href="#" class="view-offer-button">Ver Oferta</a>
+            <div class="partner-section">
+                <h4>Parceiros:</h4>
+                <div class="partner-logos">
+                    <img src="https://img.icons8.com/color/48/google-flights.png" alt="Google Flights">
+                    <img src="https://img.icons8.com/color/48/agoda.png" alt="Agoda">
+                </div>
+                <p class="disclaimer-text">Disponibilidade limitada na alta temporada.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="ofertas">
+    <h2 class="section-title">Junte-se à Nossa Equipe! 🚀</h2>
+    <p class="section-subtitle">Estamos sempre à procura de talentos para nos ajudar a crescer. Confira as vagas abertas:</p>
+
+    <div class="job-offer-grid">
+        <div class="job-card">
+            <h3>Desenvolvedor Frontend Sênior</h3>
+            <p>Lisboa, Portugal - Full-time</p>
+            <div class="requirements">
+                <h4>Requisitos:</h4>
+                <ul>
+                    <li>Experiência com React/Vue/Angular</li>
+                    <li>Sólidos conhecimentos em HTML, CSS, JavaScript</li>
+                    <li>Portfólio comprovado</li>
+                </ul>
+            </div>
+            <p class="salary">Salário: <span>A combinar</span></p>
+            <p class="vacancies">Vagas: <span>1</span></p>
+            <button class="apply-button" data-job-title="Desenvolvedor Frontend Sênior">Candidatar</button>
+        </div>
+
+        <div class="job-card">
+            <h3>Especialista em Marketing Digital</h3>
+            <p>Remoto - Full-time</p>
+            <div class="requirements">
+                <h4>Requisitos:</h4>
+                <ul>
+                    <li>Experiência em SEO/SEM, Mídias Sociais</li>
+                    <li>Conhecimento de Google Analytics</li>
+                    <li>Inglês fluente</li>
+                </ul>
+            </div>
+            <p class="salary">Salário: <span>€1.500 - €2.000 / mês</span></p>
+            <p class="vacancies closed">Vagas: <span style="color: #dc3545;">Fechadas</span></p>
+            <button class="apply-button" data-job-title="Especialista em Marketing Digital" disabled>Candidatar (Fechado)</button>
+        </div>
+
+        <div class="job-card">
+            <h3>Customer Support Representative</h3>
+            <p>Porto, Portugal - Full-time</p>
+            <div class="requirements">
+                <h4>Requisitos:</h4>
+                <ul>
+                    <li>Excelente comunicação e empatia</li>
+                    <li>Fluência em Português e Inglês</li>
+                    <li>Experiência com CRM</li>
+                </ul>
+            </div>
+            <p class="salary">Salário: <span>€900 - €1.200 / mês</span></p>
+            <p class="vacancies">Vagas: <span>2</span></p>
+            <button class="apply-button" data-job-title="Customer Support Representative">Candidatar</button>
+        </div>
+    </div>
+</section>
+
+<section id="advertisements">
+    <h2 class="section-title">Nossos Destaques Publicitários</h2>
+    <div class="ad-carousel-container">
+        <div class="ad-carousel-track">
+            <a href="https://aondevamos.pt/" target="_blank" class="ad-carousel-item">
+                <img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" alt="Anúncio Festival Comida Continente">
+            </a>
+            <a href="https://www.google.com/search?q=publicidade+profissional" target="_blank" class="ad-carousel-item">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" alt="Anúncio Genérico Profissional">
+            </a>
+            <a href="https://www.peugeot.pt/" target="_blank" class="ad-carousel-item">
+                <img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" alt="Anúncio Peugeot">
+            </a>
+            <a href="https://www.amazon.es/primeday" target="_blank" class="ad-carousel-item">
+                <img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" alt="Anúncio Prime Day Amazon">
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="advertise-form">
+    <h2 class="section-title">Quer Anunciar Conosco? 📣</h2>
+    <p class="section-subtitle">Alcance milhões de viajantes interessados! Preencha o formulário abaixo e nossa equipe de publicidade entrará em contato para discutir as melhores opções para sua marca.</p>
+
+    <div class="advertise-form-container">
+        <form id="publicity-form" action="processa_anuncio.php" method="POST"> <div class="form-group">
+                <label for="company-name">Nome da Empresa:</label>
+                <input type="text" id="company-name" name="companyName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="advertiser-name">Seu Nome:</label>
+                <input type="text" id="advertiser-name" name="advertiserName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="advertiser-email">Seu Email:</label>
+                <input type="email" id="advertiser-email" name="advertiserEmail" required>
+            </div>
+
+            <div class="form-group">
+                <label for="advertiser-phone">Seu Telefone (opcional):</label>
+                <input type="tel" id="advertiser-phone" name="advertiserPhone">
+            </div>
+
+            <div class="form-group">
+                <label for="ad-message">Mensagem / Tipo de Anúncio Desejado:</label>
+                <textarea id="ad-message" name="adMessage" rows="5" placeholder="Descreva brevemente sua necessidade de publicidade ou tipo de anúncio que busca (ex: banner em rodapé, destaque em pesquisa, etc.)"></textarea>
+            </div>
+
+            <button type="submit">Enviar Proposta de Anúncio</button>
+            <div class="form-status-message" id="advertise-form-status"></div>
+        </form>
+    </div>
+</section>
+
+<footer id="meuRodape">
     <p>&copy; 2025 ExploreMundo. Todos os direitos reservados.</p>
+    <p>Contactos: info@exploremundo.com | +351 123 456 789</p>
+    <div style="margin-top: 10px;">
+        <a href="#" style="color: var(--subtle-text-color); margin: 0 10px; text-decoration: none;">Política de Privacidade</a>
+        <a href="#" style="color: var(--subtle-text-color); margin: 0 10px; text-decoration: none;">Termos de Uso</a>
+    </div>
 </footer>
 
 <script>
-    // General Utilities
-    function $(selector) { return document.querySelector(selector); }
-    function $$(selector) { return document.querySelectorAll(selector); }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Preloader
+        const preloader = document.querySelector('.preloader');
+        const body = document.body;
 
-    // Preloader
-    window.addEventListener('load', () => {
-        const preloader = $('.preloader');
-        if (preloader) {
-            preloader.classList.add('hidden');
-            document.body.classList.remove('no-scroll');
-            // Animate hero content after preloader hides
-            setTimeout(() => {
-                const heroTitle = $('.hero h1');
-                const heroSubtitle = $('.hero p');
-                const heroCtaButton = $('.hero .cta-button');
-                if (heroTitle) heroTitle.style.animation = 'fadeInUp 1s forwards ease-out';
-                if (heroSubtitle) heroSubtitle.style.animation = 'fadeInUp 1s 0.2s forwards ease-out';
-                if (heroCtaButton) heroCtaButton.style.animation = 'fadeInUp 1s 0.4s forwards ease-out';
-                $('.hero').classList.add('active'); // Show hero after preloader
-            }, 800); // Wait for preloader transition to finish
-        }
-    });
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                preloader.classList.add('hidden');
+                body.classList.remove('no-scroll');
+                body.classList.add('loaded'); // Adiciona a classe 'loaded' ao body para mudar o background
+                // Ativar animações da hero section após o carregamento
+                setTimeout(() => {
+                    document.querySelector('.hero h1').style.opacity = '1';
+                    document.querySelector('.hero h1').style.transform = 'translateY(0)';
+                    document.querySelector('.hero p').style.opacity = '1';
+                    document.querySelector('.hero p').style.transform = 'translateY(0)';
+                    document.querySelector('.hero .cta-button').style.opacity = '1';
+                    document.querySelector('.hero .cta-button').style.transform = 'translateY(0)';
+                }, 500); // Pequeno atraso para o fade do preloader
+            }, 1000); // Tempo para o preloader ser visível
+        });
 
-    // FadeInUp animation for hero content
-    const styleSheet = document.createElement("style");
-    styleSheet.type = "text/css";
-    styleSheet.innerText = `
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    `;
-    document.head.appendChild(styleSheet);
-
-
-    // Navbar Scroll Effect
-    window.addEventListener('scroll', () => {
-        const navbar = $('#navbar');
-        if (navbar) {
+        // Navbar Scroll Effect
+        const nav = document.querySelector('nav');
+        window.addEventListener('scroll', function() {
             if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+                nav.classList.add('scrolled');
             } else {
-                navbar.classList.remove('scrolled');
+                nav.classList.remove('scrolled');
             }
+        });
+
+        // Popup para ofertas de emprego (Candidacy Info)
+        const candidacyPopupInfo = document.getElementById('candidacy-popup-info');
+        const candidacyPopupCloseButtons = document.querySelectorAll('#candidacy-popup-info .popup-close, #candidacy-popup-info .popup-close-button');
+
+        // Exibir popup após 3 segundos, se não foi visto antes na sessão
+        if (!sessionStorage.getItem('candidacyPopupShown')) {
+            setTimeout(() => {
+                candidacyPopupInfo.classList.add('active');
+                body.classList.add('no-scroll');
+            }, 3000);
         }
-    });
 
-    // Smooth Scrolling for Navigation
-    document.querySelectorAll('nav a.nav-link').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetSection = $(targetId);
+        candidacyPopupCloseButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                candidacyPopupInfo.classList.remove('active');
+                body.classList.remove('no-scroll');
+                sessionStorage.setItem('candidacyPopupShown', 'true'); // Marcar como visto
+            });
+        });
 
-            if (targetSection) {
-                // Hide all sections first
-                $$('section').forEach(section => section.classList.remove('active'));
-                $('header.hero').classList.remove('active');
+        // Popup de Formulário de Candidatura
+        const candidacyFormOverlay = document.getElementById('candidacy-form-overlay');
+        const applyButtons = document.querySelectorAll('.apply-button');
+        const candidacyFormCloseButtons = document.querySelectorAll('#candidacy-form-overlay .popup-close');
+        const jobTitleHiddenInput = document.getElementById('job-title-hidden');
 
-                // Show the target section
-                targetSection.classList.add('active');
+        applyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                if (!this.disabled) {
+                    const jobTitle = this.getAttribute('data-job-title');
+                    jobTitleHiddenInput.value = jobTitle; // Preenche o campo oculto com o título da vaga
+                    candidacyFormOverlay.classList.add('active');
+                    body.classList.add('no-scroll');
+                }
+            });
+        });
 
-                // Scroll to the target section
-                targetSection.scrollIntoView({
+        candidacyFormCloseButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                candidacyFormOverlay.classList.remove('active');
+                body.classList.remove('no-scroll');
+            });
+        });
+
+        // Simulação de envio de formulário de Candidatura
+        const candidacyForm = document.getElementById('candidacy-form');
+        candidacyForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio real do formulário
+
+            const formData = new FormData(this);
+            const formMessage = document.createElement('div');
+            formMessage.classList.add('form-message');
+            this.appendChild(formMessage);
+
+            // Simular um atraso para "envio"
+            setTimeout(() => {
+                const success = Math.random() > 0.3; // 70% de chance de sucesso
+
+                if (success) {
+                    formMessage.classList.add('success');
+                    formMessage.textContent = 'Candidatura enviada com sucesso! Entraremos em contato em breve.';
+                    this.reset(); // Limpa o formulário
+                } else {
+                    formMessage.classList.add('error');
+                    formMessage.textContent = 'Erro ao enviar a candidatura. Tente novamente mais tarde.';
+                }
+                formMessage.style.display = 'block';
+
+                setTimeout(() => {
+                    formMessage.style.display = 'none';
+                    formMessage.remove(); // Remove a mensagem após um tempo
+                    candidacyFormOverlay.classList.remove('active'); // Fecha o popup
+                    body.classList.remove('no-scroll');
+                }, 3000); // Mensagem visível por 3 segundos
+            }, 1500); // Simula 1.5 segundos de envio
+        });
+
+
+        // JavaScript para o carrossel de anúncios no rodapé
+        const adCarouselTrack = document.querySelector('.ad-carousel-track');
+        if (adCarouselTrack) {
+            // Duplicar os itens para criar um efeito de loop contínuo
+            const originalItems = Array.from(adCarouselTrack.children);
+            originalItems.forEach(item => {
+                const clone = item.cloneNode(true); // Clonar cada item (incluindo a tag <a> se existir)
+                adCarouselTrack.appendChild(clone); // Adicionar o clone ao final
+            });
+        }
+
+        // JavaScript para o formulário "Quer Anunciar?"
+        const publicityForm = document.getElementById('publicity-form');
+        if (publicityForm) {
+            publicityForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Previne o envio padrão do formulário
+
+                const formStatusMessage = document.getElementById('advertise-form-status');
+                formStatusMessage.style.display = 'none'; // Esconde a mensagem anterior
+
+                // Simulação de envio de dados
+                setTimeout(() => {
+                    const success = Math.random() > 0.2; // 80% de chance de sucesso
+
+                    if (success) {
+                        formStatusMessage.classList.remove('error');
+                        formStatusMessage.classList.add('success');
+                        formStatusMessage.textContent = 'Sua proposta de anúncio foi enviada com sucesso! Entraremos em contato em breve.';
+                        publicityForm.reset(); // Limpa o formulário
+                    } else {
+                        formStatusMessage.classList.remove('success');
+                        formStatusMessage.classList.add('error');
+                        formStatusMessage.textContent = 'Ocorreu um erro ao enviar sua proposta. Por favor, tente novamente.';
+                    }
+                    formStatusMessage.style.display = 'block';
+
+                    // Opcional: esconder a mensagem e o formulário após alguns segundos
+                    setTimeout(() => {
+                        formStatusMessage.style.display = 'none';
+                    }, 5000);
+
+                }, 1500); // Simula um atraso de 1.5 segundos para o envio
+            });
+        }
+
+        // Seções ativas
+        const sections = document.querySelectorAll('section, header.hero');
+        const navLinks = document.querySelectorAll('nav a');
+
+        function activateSection(id) {
+            sections.forEach(section => {
+                if (section.id === id.replace('#', '')) {
+                    section.classList.add('active');
+                } else {
+                    section.classList.remove('active');
+                }
+            });
+
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === id) {
+                    link.classList.add('active'); // Adiciona classe 'active' ao link de navegação
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Ativar a seção hero na carga inicial
+        activateSection('#hero');
+
+        // Adicionar listener para os links de navegação
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault(); // Previne o comportamento padrão do link
+                const targetId = this.getAttribute('href');
+
+                // Esconde todas as seções e mostra apenas a selecionada
+                sections.forEach(s => s.classList.remove('active'));
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+
+                // Scroll suave
+                window.scrollTo({
+                    top: targetSection.offsetTop,
                     behavior: 'smooth'
                 });
-            }
-        });
-    });
 
-    // Initially show the hero section
-    document.addEventListener('DOMContentLoaded', () => {
-        $('#hero').classList.add('active');
-    });
-
-
-    // Popup functionality (Candidacy Info) - Currently disabled per instruction
-    /*
-    const candidacyPopupInfo = $('#candidacy-popup-info');
-    const popupCloseButtons = $$('.popup-close, .popup-close-button');
-
-    function openPopup(popupElement) {
-        if (popupElement) {
-            popupElement.classList.add('active');
-            document.body.classList.add('no-scroll');
-        }
-    }
-
-    function closePopup(popupElement) {
-        if (popupElement) {
-            popupElement.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-        }
-    }
-
-    // Uncomment the following to enable the candidacy info popup
-    // setTimeout(() => {
-    //     openPopup(candidacyPopupInfo);
-    // }, 3000); // Shows popup after 3 seconds
-
-    popupCloseButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            closePopup(e.target.closest('.popup-overlay'));
-        });
-    });
-    */
-
-    // Candidacy Form Popup (for job applications)
-    const candidacyFormOverlay = $('#candidacy-form-overlay');
-    const applyButtons = $$('.apply-button');
-    const jobTitleHidden = $('#job-title-hidden');
-    const candidacyForm = $('#candidacy-form');
-    const formSubmissionMessage = $('#form-submission-message');
-
-    applyButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            if (!this.disabled) {
-                const jobTitle = this.dataset.job;
-                jobTitleHidden.value = jobTitle;
-                candidacyFormOverlay.classList.add('active');
-                document.body.classList.add('no-scroll');
-            }
-        });
-    });
-
-    // Close button for candidacy form popup
-    candidacyFormOverlay.querySelector('.popup-close').addEventListener('click', () => {
-        candidacyFormOverlay.classList.remove('active');
-        document.body.classList.remove('no-scroll');
-        candidacyForm.reset(); // Clear form
-        formSubmissionMessage.style.display = 'none'; // Hide message
-    });
-
-    // Simulate form submission for candidacy form
-    candidacyForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        // In a real application, you would send this data to a server
-        console.log('Candidacy Form Data:', {
-            jobTitle: this.jobTitle.value,
-            fullName: this.fullName.value,
-            email: this.email.value,
-            phone: this.phone.value,
-            // CV file would need to be handled by a backend
-            message: this.message.value
-        });
-
-        formSubmissionMessage.textContent = 'A sua candidatura foi enviada com sucesso! Entraremos em contacto brevemente.';
-        formSubmissionMessage.classList.remove('error');
-        formSubmissionMessage.classList.add('success');
-        formSubmissionMessage.style.display = 'block';
-
-        setTimeout(() => {
-            candidacyFormOverlay.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-            candidacyForm.reset();
-            formSubmissionMessage.style.display = 'none';
-        }, 3000); // Close popup after 3 seconds
-    });
-
-
-    // Contact Form Submission (simulate)
-    const contactForm = $('#contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            console.log('Contact Form Data:', {
-                name: this.name.value,
-                email: this.email.value,
-                message: this.message.value
+                // Atualiza a classe 'active' nos links da navegação
+                navLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
             });
-            alert('Mensagem enviada com sucesso! Entraremos em contacto brevemente.');
-            this.reset();
         });
-    }
-
-    // Admin Login (simple client-side simulation)
-    function loginAdmin() {
-        const usernameInput = $('#username').value;
-        const passwordInput = $('#password').value;
-        const loginMessage = $('#login-message');
-
-        if (usernameInput === 'admin' && passwordInput === 'password123') { // Example credentials
-            $('#admin-login').style.display = 'none';
-            $('#admin-dashboard').style.display = 'block';
-            loginMessage.textContent = '';
-            loadMessages(); // Simulate loading messages
-        } else {
-            loginMessage.textContent = 'Credenciais inválidas.';
-        }
-    }
-
-    function logoutAdmin() {
-        $('#admin-dashboard').style.display = 'none';
-        $('#admin-login').style.display = 'block';
-        $('#username').value = '';
-        $('#password').value = '';
-        $('#message-list').innerHTML = ''; // Clear messages
-    }
-
-    function loadMessages() {
-        const messageList = $('#message-list');
-        messageList.innerHTML = ''; // Clear existing messages
-
-        // Simulate fetching messages
-        const messages = [
-            { sender: 'João Silva', email: 'joao.silva@email.com', message: 'Gostaria de saber mais sobre os pacotes para a Ásia.', timestamp: '2025-07-10 14:30' },
-            { sender: 'Maria Fernandes', email: 'maria.f@email.com', message: 'Tive um problema com a reserva que fiz através de um dos links. Podem ajudar?', timestamp: '2025-07-09 10:00' },
-            { sender: 'Carlos Nuno', email: 'carlos.n@email.com', message: 'Excelente plataforma! Encontrei ótimas ofertas.', timestamp: '2025-07-08 17:45' }
-        ];
-
-        if (messages.length === 0) {
-            messageList.innerHTML = '<p>Nenhuma mensagem nova.</p>';
-            return;
-        }
-
-        messages.forEach(msg => {
-            const msgItem = document.createElement('div');
-            msgItem.classList.add('message-item');
-            msgItem.innerHTML = `
-                <h4>De: ${msg.sender} (${msg.email})</h4>
-                <p>${msg.message}</p>
-                <div class="timestamp">${msg.timestamp}</div>
-            `;
-            messageList.appendChild(msgItem);
-        });
-    }
-
-    // AD INQUIRY FORM (New Form)
-    const adInquiryForm = $('#ad-inquiry-form');
-    const adFormStatus = $('#ad-form-status');
-
-    if (adInquiryForm) {
-        adInquiryForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            console.log('Advertisement Inquiry Form Data:', {
-                companyName: this.companyName.value,
-                contactPerson: this.contactPerson.value,
-                email: this.email.value,
-                phone: this.phone.value,
-                message: this.message.value
-            });
-
-            // Simulate success or error
-            const isSuccess = Math.random() > 0.1; // 90% chance of success for demo
-
-            if (isSuccess) {
-                adFormStatus.textContent = 'Sua solicitação foi enviada com sucesso! Entraremos em contato em breve.';
-                adFormStatus.classList.remove('error');
-                adFormStatus.classList.add('success');
-            } else {
-                adFormStatus.textContent = 'Ocorreu um erro ao enviar sua solicitação. Por favor, tente novamente mais tarde.';
-                adFormStatus.classList.remove('success');
-                adFormStatus.classList.add('error');
-            }
-            adFormStatus.style.display = 'block';
-            this.reset(); // Clear the form
-
-            // Optionally hide message after a few seconds
-            setTimeout(() => {
-                adFormStatus.style.display = 'none';
-            }, 5000);
-        });
-    }
-
-    // Duplicate carousel items for infinite scroll effect
-    document.addEventListener('DOMContentLoaded', () => {
-        const carouselTrack = $('.ad-carousel-track');
-        if (carouselTrack) {
-            const originalContent = carouselTrack.innerHTML;
-            carouselTrack.setAttribute('data-content', originalContent);
-        }
     });
-
 </script>
+
 </body>
 </html>
