@@ -1,340 +1,327 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>ExploreMundo Ads</title>
   <style>
     :root {
-      --cor-principal: #1f2e3d;
-      --cor-clara: #f4f4f4;
-      --destaque: #f39c12;
-      --branco: #fff;
+      --bg: #f5f7fa;
+      --dark: #1b262c;
+      --light: #ffffff;
+      --accent: #e85d04;
+      --shade: rgba(27,38,44,0.8);
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin:0;padding:0;box-sizing:border-box; }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--cor-clara);
-      color: #333;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      overflow-x: hidden;
     }
 
-    /* INTRO SPLASH BONITA */
+    /* 🛫 Intro Splash */
     #intro {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: var(--cor-principal);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      font-size: 34px;
-      z-index: 9999;
-      animation: hideIntro 3.5s forwards;
+      position: fixed;inset:0;
+      background: var(--dark);
+      color: var(--light);
+      display:flex;align-items:center;justify-content:center;
+      flex-direction:column;
+      z-index:999;
+      animation:introAnim 3s forwards;
     }
-
-    #intro p {
-      font-size: 18px;
-      margin-top: 10px;
-      opacity: 0.8;
+    #intro h1 { font-size: 3rem; }
+    #intro p { margin-top:10px; font-size:1.2rem; opacity:0.9; }
+    #intro button {
+      margin-top:20px;
+      background: var(--accent);
+      color: var(--light);
+      border: none;
+      padding: 12px 24px;
+      font-size:1rem;
+      border-radius:30px;
+      cursor:pointer;
+      transition: background 0.3s;
     }
+    #intro button:hover { background: #d14f03; }
 
-    @keyframes hideIntro {
-      0% { opacity: 1; transform: scale(1); }
-      80% { opacity: 1; transform: scale(1.05); }
-      100% { opacity: 0; visibility: hidden; transform: scale(0.9); }
+    @keyframes introAnim {
+      0% { opacity:1; transform: scale(1); }
+      80% { opacity:1; transform: scale(1.05); }
+      100% { opacity:0; transform: scale(0.8); visibility:hidden; }
     }
 
     header {
-      background-color: var(--cor-principal);
-      color: white;
-      padding: 20px;
-      text-align: center;
+      background: var(--light);
+      padding:20px;
+      display:flex;justify-content:space-between;align-items:center;
+      box-shadow:0 2px 6px rgba(0,0,0,0.05);
+      position:sticky;top:0;z-index:10;
+    }
+    header h1 {
+      color: var(--dark);
+      font-size:1.5rem;
     }
 
     nav {
-      background-color: #34495e;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
+      display:flex;
+      gap:15px;
     }
-
     nav button {
-      background: none;
-      color: white;
-      padding: 15px 25px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background 0.3s;
+      background:none;
+      border:none;
+      color: var(--dark);
+      font-size:1rem;
+      padding:8px 12px;
+      cursor:pointer;
+      border-radius:4px;
+      transition:background 0.3s;
     }
-
     nav button:hover, nav button.active {
-      background-color: #2c3e50;
+      background: var(--accent);
+      color: var(--light);
     }
 
-    /* CARROSSEL DE ANÚNCIOS */
-    .carrossel {
-      overflow: hidden;
-      white-space: nowrap;
-      background: white;
-      padding: 20px 0;
-      border-bottom: 1px solid #ccc;
+    .carousel {
+      margin:20px 0;
+      overflow:hidden;
+      position:relative;
+    }
+    .carousel-track {
+      display:flex;
+      gap:15px;
+      animation:scroll 30s linear infinite;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0) }
+      100% { transform: translateX(-50%) }
     }
 
-    .anuncios {
-      display: inline-flex;
-      animation: rolar 40s linear infinite;
+    .carousel img {
+      width:280px;
+      height:160px;
+      object-fit:cover;
+      border-radius:8px;
+      cursor:pointer;
+      transition:transform 0.3s, box-shadow 0.3s;
+    }
+    .carousel img:hover {
+      transform:scale(1.05);
+      box-shadow:0 8px 20px rgba(0,0,0,0.15);
     }
 
-    .anuncio {
-      width: 260px;
-      height: 150px;
-      object-fit: cover;
-      margin: 0 10px;
-      border-radius: 10px;
-      border: 2px solid #eee;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      cursor: pointer;
-      transition: transform 0.3s;
+    .tab-content {
+      display:none;
+      padding:30px;
+      max-width:900px;
+      margin:auto;
     }
+    .tab-content.active { display:block; }
 
-    .anuncio:hover {
-      transform: scale(1.05);
+    .form {
+      margin-top:20px;
+      background:var(--light);
+      padding:20px;
+      border-radius:8px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.05);
     }
-
-    @keyframes rolar {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+    .form input, .form textarea {
+      width:100%;
+      padding:12px;
+      margin:10px 0;
+      border:1px solid #ccc;
+      border-radius:4px;
+      font-size:1rem;
     }
-
-    .conteudo {
-      display: none;
-      padding: 40px 20px;
-      max-width: 1100px;
-      margin: auto;
+    .form button {
+      background:var(--accent);
+      color: var(--light);
+      padding:12px 24px;
+      font-size:1rem;
+      border:none;
+      border-radius:4px;
+      cursor:pointer;
+      transition:background 0.3s;
     }
+    .form button:hover { background:#d14f03; }
 
-    .conteudo.active {
-      display: block;
+    .modal {
+      position:fixed; inset:0;
+      background: var(--shade);
+      display:flex; justify-content:center; align-items:center;
+      visibility:hidden;
+      opacity:0;
+      transition: visibility 0s, opacity 0.3s ease;
     }
-
-    .formulario {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      margin-top: 30px;
+    .modal.open {
+      visibility: visible;
+      opacity: 1;
     }
-
-    .formulario input, .formulario textarea {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+    .modal-content {
+      background: var(--light);
+      border-radius:8px;
+      padding:20px;
+      max-width:600px;
+      width:90%;
+      text-align:center;
+      position:relative;
+      box-shadow:0 8px 24px rgba(0,0,0,0.2);
     }
-
-    .formulario button {
-      background-color: var(--destaque);
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
+    .modal-content img {
+      width:100%;
+      border-radius:8px;
+      margin-bottom:16px;
+    }
+    .modal-close {
+      position:absolute;
+      top:12px;
+      right:16px;
+      font-size:1.5rem;
+      color:#555;
+      cursor:pointer;
     }
 
     footer {
-      text-align: center;
-      padding: 20px;
-      background: #eee;
-      margin-top: 40px;
+      padding:20px;
+      background: var(--light);
+      text-align:center;
+      font-size:0.9rem;
+      color:#555;
+      margin-top:40px;
     }
 
-    /* MODAL POPUP */
-    .modal {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0,0,0,0.7);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 600px;
-      width: 90%;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      text-align: center;
-    }
-
-    .modal-content img {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin-bottom: 15px;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 28px;
-      color: white;
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-      .anuncio { width: 200px; height: 120px; }
+    @media (max-width:768px) {
+      .carousel img { width:220px; height:130px; }
+      header { flex-direction:column; gap:10px; }
     }
   </style>
 </head>
 <body>
-
-<!-- INTRO -->
-<div id="intro">
-  ExploreMundo Ads
-  <p>Os melhores anúncios do seu mundo</p>
-</div>
-
-<header>
-  <h1>ExploreMundo Ads</h1>
-  <p>Descubra anúncios incríveis por categoria</p>
-</header>
-
-<nav>
-  <button class="tab active" data-tab="geral">Início</button>
-  <button class="tab" data-tab="moda">Moda</button>
-  <button class="tab" data-tab="tecnologia">Tecnologia</button>
-  <button class="tab" data-tab="viagens">Viagens</button>
-</nav>
-
-<section class="carrossel">
-  <div class="anuncios" id="anunciosContainer">
-    <!-- Anúncios são gerados via JavaScript -->
+  <div id="intro">
+    <h1>ExploreMundo Ads</h1>
+    <p>Os melhores anúncios estão prestes a começar...</p>
+    <button onclick="document.getElementById('intro').style.display='none'">Explorar</button>
   </div>
-</section>
 
-<!-- CATEGORIAS -->
-<div id="geral" class="conteudo active">
-  <h2>Anúncios em Destaque</h2>
-  <p>Explore os principais anúncios disponíveis no portal.</p>
-</div>
+  <header>
+    <h1>ExploreMundo Ads</h1>
+    <nav>
+      <button class="tab active" data-tab="geral">Início</button>
+      <button class="tab" data-tab="moda">Moda</button>
+      <button class="tab" data-tab="tecnologia">Tecnologia</button>
+      <button class="tab" data-tab="viagens">Viagens</button>
+      <button class="tab" data-tab="continente">Continente</button>
+      <button class="tab" data-tab="peugeot">Peugeot</button>
+      <button class="tab" data-tab="amazon">Amazon Prime</button>
+    </nav>
+  </header>
 
-<div id="moda" class="conteudo">
-  <h2>Moda</h2>
-  <p>Anúncios sobre roupas, estilo e tendências.</p>
-  <div class="formulario">
-    <h3>Quer anunciar em Moda?</h3>
-    <input type="text" placeholder="Seu nome" />
-    <input type="email" placeholder="Seu e-mail" />
-    <textarea placeholder="Descrição do anúncio"></textarea>
-    <button>Enviar</button>
+  <section class="carousel">
+    <div class="carousel-track" id="track"></div>
+  </section>
+
+  <div id="geral" class="tab-content active">
+    <h2>Bem-vindo ao ExploreMundo Ads</h2>
+    <p>Use o menu para navegar entre categorias e encontrar o que deseja.</p>
   </div>
-</div>
 
-<div id="tecnologia" class="conteudo">
-  <h2>Tecnologia</h2>
-  <p>Promoções e lançamentos tecnológicos.</p>
-  <div class="formulario">
-    <h3>Quer anunciar em Tecnologia?</h3>
-    <input type="text" placeholder="Seu nome" />
-    <input type="email" placeholder="Seu e-mail" />
-    <textarea placeholder="Descrição do anúncio"></textarea>
-    <button>Enviar</button>
+  <div id="moda" class="tab-content">
+    <h2>Moda</h2>
+    <p>Roupas, tendências e muito estilo.</p>
+    <div class="form">
+      <h3>Anuncie aqui:</h3>
+      <input type="text" placeholder="Nome da empresa" required/>
+      <input type="email" placeholder="E‑mail para contato" required/>
+      <textarea rows="4" placeholder="Detalhes do anúncio" required></textarea>
+      <button>Enviar</button>
+    </div>
   </div>
-</div>
 
-<div id="viagens" class="conteudo">
-  <h2>Viagens</h2>
-  <p>Ofertas de destinos e pacotes incríveis.</p>
-  <div class="formulario">
-    <h3>Quer anunciar em Viagens?</h3>
-    <input type="text" placeholder="Seu nome" />
-    <input type="email" placeholder="Seu e-mail" />
-    <textarea placeholder="Descrição do anúncio"></textarea>
-    <button>Enviar</button>
+  <div id="tecnologia" class="tab-content">
+    <h2>Tecnologia</h2><p>Gadgets e promoções tech.</p>
+    <div class="form">
+      <h3>Anuncie aqui:</h3><input type="text" required/>
+      <input type="email" required/>
+      <textarea rows="4" required></textarea><button>Enviar</button>
+    </div>
   </div>
-</div>
 
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-close" onclick="fecharModal()">✖</div>
-  <div class="modal-content">
-    <img id="modalImg" src="" alt="Anúncio Grande">
-    <p id="modalDesc"></p>
+  <div id="viagens" class="tab-content">
+    <h2>Viagens</h2><p>Destinos e pacotes exclusivos.</p>
+    <div class="form"><h3>Anuncie aqui:</h3>
+      <input type="text" required/><input type="email" required/>
+      <textarea rows="4" required></textarea><button>Enviar</button>
+    </div>
   </div>
-</div>
 
-<footer>
-  <p>&copy; 2025 ExploreMundo Ads. Todos os direitos reservados.</p>
-</footer>
+  <div id="continente" class="tab-content">
+    <h2>Continente</h2><p>Festival de comida e novidades.</p>
+    <div class="form"><h3>Anuncie aqui:</h3>
+      <input type="text" required/><input type="email" required/>
+      <textarea rows="4" required></textarea><button>Enviar</button>
+    </div>
+  </div>
 
-<script>
-  const anuncios = [
-    {
-      img: "https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg",
-      desc: "Festival de Comida Continente – gastronomia, diversão e cultura!"
-    },
-    {
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s",
-      desc: "Anúncio profissional para empresas de destaque."
-    },
-    {
-      img: "https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg",
-      desc: "Peugeot 208 - Campanha de Verão, aproveite agora!"
-    },
-    {
-      img: "https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg",
-      desc: "Amazon Prime Day 2025 - descontos incríveis por tempo limitado."
-    }
-  ];
+  <div id="peugeot" class="tab-content">
+    <h2>Peugeot</h2><p>Campanhas e lançamentos da Peugeot.</p>
+    <div class="form"><h3>Anuncie aqui:</h3>
+      <input type="text" required/><input type="email" required/>
+      <textarea rows="4" required></textarea><button>Enviar</button>
+    </div>
+  </div>
 
-  const container = document.getElementById("anunciosContainer");
-  anuncios.forEach((a, i) => {
-    for (let j = 0; j < 2; j++) { // duplicar para efeito de rolagem
-      const img = document.createElement("img");
-      img.src = a.img;
-      img.className = "anuncio";
-      img.alt = "Anúncio";
-      img.dataset.index = i;
-      img.onclick = () => abrirModal(i);
-      container.appendChild(img);
-    }
-  });
+  <div id="amazon" class="tab-content">
+    <h2>Amazon Prime</h2><p>Ofertas especiais Prime Day.</p>
+    <div class="form"><h3>Anuncie aqui:</h3>
+      <input type="text" required/><input type="email" required/>
+      <textarea rows="4" required></textarea><button>Enviar</button>
+    </div>
+  </div>
 
-  function abrirModal(index) {
-    const modal = document.getElementById("modal");
-    document.getElementById("modalImg").src = anuncios[index].img;
-    document.getElementById("modalDesc").innerText = anuncios[index].desc;
-    modal.style.display = "flex";
-  }
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal()">✕</span>
+      <img id="modal-img" src="" alt="Anúncio">
+      <p id="modal-desc"></p>
+    </div>
+  </div>
 
-  function fecharModal() {
-    document.getElementById("modal").style.display = "none";
-  }
+  <footer>&copy; 2025 ExploreMundo Ads. Todos os direitos reservados.</footer>
 
-  const tabs = document.querySelectorAll(".tab");
-  const contents = document.querySelectorAll(".conteudo");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      contents.forEach(c => c.classList.remove("active"));
-      tab.classList.add("active");
-      document.getElementById(tab.dataset.tab).classList.add("active");
+  <script>
+    const ads = [
+      {img:'https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg',desc:'Festival Continente: gastronomia pra todos!'},
+      {img:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s',desc:'Anúncio Corporativo profissional.'},
+      {img:'https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg',desc:'Peugeot 208 – campanha especial.'},
+      {img:'https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg',desc:'Amazon Prime Day com super ofertas!'}
+    ];
+    const track = document.getElementById('track');
+    ads.forEach((a,i) => {
+      [0,1].forEach(() => {
+        const img = document.createElement('img');
+        img.src = a.img;
+        img.alt = a.desc;
+        img.onclick = ()=>openModal(i);
+        track.append(img);
+      });
     });
-  });
-</script>
+    function openModal(i){
+      document.getElementById('modal-img').src = ads[i].img;
+      document.getElementById('modal-desc').innerText = ads[i].desc;
+      document.getElementById('modal').classList.add('open');
+    }
+    function closeModal(){
+      document.getElementById('modal').classList.remove('open');
+    }
+    document.querySelectorAll('.tab').forEach(btn=>{
+      btn.onclick = ()=>{
+        document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      };
+    });
+  </script>
 
 </body>
 </html>
