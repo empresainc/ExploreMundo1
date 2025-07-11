@@ -20,7 +20,7 @@
       color: #333;
     }
 
-    /* INTRO SPLASH */
+    /* INTRO SPLASH BONITA */
     #intro {
       position: fixed;
       top: 0; left: 0;
@@ -31,15 +31,22 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 32px;
+      flex-direction: column;
+      font-size: 34px;
       z-index: 9999;
-      animation: hideIntro 3s forwards;
+      animation: hideIntro 3.5s forwards;
+    }
+
+    #intro p {
+      font-size: 18px;
+      margin-top: 10px;
+      opacity: 0.8;
     }
 
     @keyframes hideIntro {
-      0% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { opacity: 0; visibility: hidden; }
+      0% { opacity: 1; transform: scale(1); }
+      80% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 0; visibility: hidden; transform: scale(0.9); }
     }
 
     header {
@@ -47,11 +54,6 @@
       color: white;
       padding: 20px;
       text-align: center;
-    }
-
-    header h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
     }
 
     nav {
@@ -90,13 +92,14 @@
     }
 
     .anuncio {
-      width: 280px;
-      height: 160px;
+      width: 260px;
+      height: 150px;
       object-fit: cover;
       margin: 0 10px;
       border-radius: 10px;
       border: 2px solid #eee;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
       transition: transform 0.3s;
     }
 
@@ -109,7 +112,6 @@
       100% { transform: translateX(-50%); }
     }
 
-    /* CONTEÚDO DAS CATEGORIAS */
     .conteudo {
       display: none;
       padding: 40px 20px;
@@ -119,11 +121,6 @@
 
     .conteudo.active {
       display: block;
-    }
-
-    .conteudo h2 {
-      margin-bottom: 20px;
-      color: var(--cor-principal);
     }
 
     .formulario {
@@ -159,28 +156,62 @@
       margin-top: 40px;
     }
 
-    @media (max-width: 768px) {
-      .anuncio {
-        width: 220px;
-        height: 120px;
-      }
+    /* MODAL POPUP */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
 
-      nav button {
-        flex: 1 1 100%;
-      }
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .modal-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 28px;
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .anuncio { width: 200px; height: 120px; }
     }
   </style>
 </head>
 <body>
 
-<div id="intro">ExploreMundo Ads</div>
+<!-- INTRO -->
+<div id="intro">
+  ExploreMundo Ads
+  <p>Os melhores anúncios do seu mundo</p>
+</div>
 
 <header>
   <h1>ExploreMundo Ads</h1>
-  <p>Encontre os melhores anúncios por categoria</p>
+  <p>Descubra anúncios incríveis por categoria</p>
 </header>
 
-<!-- MENU -->
 <nav>
   <button class="tab active" data-tab="geral">Início</button>
   <button class="tab" data-tab="moda">Moda</button>
@@ -188,30 +219,21 @@
   <button class="tab" data-tab="viagens">Viagens</button>
 </nav>
 
-<!-- CARROSSEL INICIAL -->
 <section class="carrossel">
-  <div class="anuncios">
-    <img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" class="anuncio" />
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" class="anuncio" />
-    <img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" class="anuncio" />
-    <img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" class="anuncio" />
-    <!-- Clones para loop infinito -->
-    <img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" class="anuncio" />
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" class="anuncio" />
-    <img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" class="anuncio" />
-    <img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" class="anuncio" />
+  <div class="anuncios" id="anunciosContainer">
+    <!-- Anúncios são gerados via JavaScript -->
   </div>
 </section>
 
 <!-- CATEGORIAS -->
 <div id="geral" class="conteudo active">
   <h2>Anúncios em Destaque</h2>
-  <p>Explore os principais anúncios disponíveis no portal. Use as abas para filtrar por categoria.</p>
+  <p>Explore os principais anúncios disponíveis no portal.</p>
 </div>
 
 <div id="moda" class="conteudo">
   <h2>Moda</h2>
-  <p>Confira os melhores anúncios do mundo da moda.</p>
+  <p>Anúncios sobre roupas, estilo e tendências.</p>
   <div class="formulario">
     <h3>Quer anunciar em Moda?</h3>
     <input type="text" placeholder="Seu nome" />
@@ -223,7 +245,7 @@
 
 <div id="tecnologia" class="conteudo">
   <h2>Tecnologia</h2>
-  <p>Os melhores gadgets, apps e promoções de tecnologia.</p>
+  <p>Promoções e lançamentos tecnológicos.</p>
   <div class="formulario">
     <h3>Quer anunciar em Tecnologia?</h3>
     <input type="text" placeholder="Seu nome" />
@@ -235,7 +257,7 @@
 
 <div id="viagens" class="conteudo">
   <h2>Viagens</h2>
-  <p>Pacotes promocionais e destinos imperdíveis.</p>
+  <p>Ofertas de destinos e pacotes incríveis.</p>
   <div class="formulario">
     <h3>Quer anunciar em Viagens?</h3>
     <input type="text" placeholder="Seu nome" />
@@ -245,19 +267,69 @@
   </div>
 </div>
 
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-close" onclick="fecharModal()">✖</div>
+  <div class="modal-content">
+    <img id="modalImg" src="" alt="Anúncio Grande">
+    <p id="modalDesc"></p>
+  </div>
+</div>
+
 <footer>
   <p>&copy; 2025 ExploreMundo Ads. Todos os direitos reservados.</p>
 </footer>
 
 <script>
+  const anuncios = [
+    {
+      img: "https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg",
+      desc: "Festival de Comida Continente – gastronomia, diversão e cultura!"
+    },
+    {
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s",
+      desc: "Anúncio profissional para empresas de destaque."
+    },
+    {
+      img: "https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg",
+      desc: "Peugeot 208 - Campanha de Verão, aproveite agora!"
+    },
+    {
+      img: "https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg",
+      desc: "Amazon Prime Day 2025 - descontos incríveis por tempo limitado."
+    }
+  ];
+
+  const container = document.getElementById("anunciosContainer");
+  anuncios.forEach((a, i) => {
+    for (let j = 0; j < 2; j++) { // duplicar para efeito de rolagem
+      const img = document.createElement("img");
+      img.src = a.img;
+      img.className = "anuncio";
+      img.alt = "Anúncio";
+      img.dataset.index = i;
+      img.onclick = () => abrirModal(i);
+      container.appendChild(img);
+    }
+  });
+
+  function abrirModal(index) {
+    const modal = document.getElementById("modal");
+    document.getElementById("modalImg").src = anuncios[index].img;
+    document.getElementById("modalDesc").innerText = anuncios[index].desc;
+    modal.style.display = "flex";
+  }
+
+  function fecharModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+
   const tabs = document.querySelectorAll(".tab");
   const contents = document.querySelectorAll(".conteudo");
-
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
       tabs.forEach(t => t.classList.remove("active"));
       contents.forEach(c => c.classList.remove("active"));
-
       tab.classList.add("active");
       document.getElementById(tab.dataset.tab).classList.add("active");
     });
