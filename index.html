@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Site de Anúncios Profissionais</title>
+  <title>Portal de Anúncios Profissionais</title>
   <style>
+    :root {
+      --cor-primaria: #2c3e50;
+      --cor-secundaria: #ecf0f1;
+      --cor-destaque: #e67e22;
+      --cor-rodape: #f9f9f9;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -13,68 +20,69 @@
 
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #fafafa;
+      background-color: var(--cor-secundaria);
       color: #333;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
 
+    /* CABEÇALHO */
     header {
-      background-color: #20232a;
+      background: linear-gradient(to right, #34495e, #2c3e50);
       color: white;
       padding: 20px;
       text-align: center;
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
     header h1 {
       font-size: 28px;
-    }
-
-    nav {
-      margin-top: 10px;
+      margin-bottom: 10px;
     }
 
     nav a {
-      color: #61dafb;
+      color: #f1c40f;
       text-decoration: none;
       margin: 0 15px;
       font-weight: bold;
+      font-size: 16px;
+      transition: 0.3s;
     }
 
+    nav a:hover {
+      color: #ffffff;
+    }
+
+    /* CONTEÚDO */
     main {
       padding: 40px 20px;
       flex-grow: 1;
-      max-width: 1000px;
+      max-width: 1100px;
       margin: auto;
     }
 
     section {
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
 
-    .sobre {
-      background-color: #ffffff;
+    section h2 {
+      margin-bottom: 15px;
+      font-size: 24px;
+      color: var(--cor-primaria);
+    }
+
+    .bloco {
+      background-color: white;
       padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
 
-    #formulario-anuncio {
-      background-color: #fff8e1;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    #formulario-anuncio h2 {
-      margin-bottom: 20px;
-      color: #444;
-    }
-
+    /* FORMULÁRIO */
     #formulario-anuncio input,
     #formulario-anuncio textarea {
       width: 100%;
@@ -85,7 +93,7 @@
     }
 
     #formulario-anuncio button {
-      background-color: #ff5722;
+      background-color: var(--cor-destaque);
       color: white;
       padding: 12px 20px;
       border: none;
@@ -95,33 +103,43 @@
     }
 
     #formulario-anuncio button:hover {
-      background-color: #e64a19;
+      background-color: #d35400;
     }
 
+    /* RODAPÉ COM ANÚNCIOS */
     footer {
-      background-color: #f0f0f0;
+      background-color: var(--cor-rodape);
       padding: 30px 0 10px 0;
       text-align: center;
-      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .anuncios-rodape-container {
+      overflow: hidden;
+      position: relative;
     }
 
     .anuncios-rodape {
       display: flex;
-      animation: scrollAnuncios 20s linear infinite;
+      animation: scrollAnuncios 40s linear infinite;
       white-space: nowrap;
-      overflow: hidden;
-      justify-content: flex-start;
     }
 
     .anuncio-item {
       flex-shrink: 0;
-      width: 250px;
-      height: 140px;
+      width: 280px;
+      height: 160px;
       object-fit: cover;
       margin: 0 10px;
-      border-radius: 8px;
+      border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      border: 1px solid #ddd;
+      border: 2px solid #eee;
+      transition: transform 0.3s;
+    }
+
+    .anuncio-item:hover {
+      transform: scale(1.05);
     }
 
     @keyframes scrollAnuncios {
@@ -129,23 +147,20 @@
       100% { transform: translateX(-50%); }
     }
 
-    @media (max-width: 600px) {
+    /* RESPONSIVO */
+    @media (max-width: 700px) {
       .anuncio-item {
-        width: 200px;
-        height: 110px;
-      }
-
-      header h1 {
-        font-size: 20px;
+        width: 220px;
+        height: 120px;
       }
 
       nav a {
         display: block;
-        margin: 10px 0;
+        margin: 8px 0;
       }
 
-      main {
-        padding: 20px;
+      section h2 {
+        font-size: 20px;
       }
     }
   </style>
@@ -156,51 +171,49 @@
     <h1>Portal de Anúncios Profissionais</h1>
     <nav>
       <a href="#sobre">Sobre</a>
+      <a href="#parceiros">Parceiros</a>
       <a href="#anunciar">Quer Anunciar?</a>
     </nav>
   </header>
 
   <main>
-    <section class="bem-vindo">
-      <h2>Bem-vindo ao nosso portal!</h2>
-      <p>Espaço dedicado à divulgação de grandes marcas, eventos e campanhas.</p>
+    <section id="sobre" class="bloco">
+      <h2>Sobre o Portal</h2>
+      <p>Somos especializados em exibir anúncios promocionais para empresas, marcas e eventos. Anúncios animados, visual atrativo e contato direto com o público.</p>
     </section>
 
-    <section id="sobre" class="sobre">
-      <h2>Sobre Nós</h2>
-      <p>Somos uma plataforma de publicidade online com espaço para banners, anúncios animados e formulários de contato para empresas que desejam promover seus produtos e serviços.</p>
+    <section id="parceiros" class="bloco">
+      <h2>Parceiros em Destaque</h2>
+      <p>Trabalhamos com grandes marcas como Continente, Peugeot, Amazon e outros parceiros de destaque no mercado.</p>
     </section>
 
-    <section id="anunciar">
-      <div id="formulario-anuncio">
-        <h2>Quer anunciar?</h2>
-        <form>
-          <input type="text" placeholder="Seu nome ou empresa" required />
-          <input type="email" placeholder="Seu e-mail" required />
-          <textarea rows="4" placeholder="Descreva seu anúncio..." required></textarea>
-          <button type="submit">Enviar Pedido</button>
-        </form>
-      </div>
+    <section id="anunciar" class="bloco">
+      <h2>Quer anunciar com a gente?</h2>
+      <form id="formulario-anuncio">
+        <input type="text" placeholder="Nome da empresa" required>
+        <input type="email" placeholder="E-mail para contato" required>
+        <textarea rows="4" placeholder="Descreva sua campanha..." required></textarea>
+        <button type="submit">Enviar Pedido</button>
+      </form>
     </section>
   </main>
 
   <footer>
-    <div class="anuncios-rodape">
-      <img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" class="anuncio-item" alt="Anúncio Festival Comida Continente">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" class="anuncio-item" alt="Anúncio Profissional">
-      <img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" class="anuncio-item" alt="Peugeot Campanha">
-      <img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" class="anuncio-item" alt="Amazon Prime Day 2025">
+    <div class="anuncios-rodape-container">
+      <div class="anuncios-rodape">
+        <img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" class="anuncio-item" alt="Continente Festival">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" class="anuncio-item" alt="Anúncio Profissional">
+        <img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" class="anuncio-item" alt="Peugeot">
+        <img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" class="anuncio-item" alt="Amazon">
+        <!-- Clones para loop -->
+        <img src="https://aondevamos.pt/storage/2025/06/festival_comida-continente-768x432.jpg" class="anuncio-item" alt="Continente Festival">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr8Si9ssE4AjroPNxl6EZe-3jKbiBfn1hndg&s" class="anuncio-item" alt="Anúncio Profissional">
+        <img src="https://filintomota.s3.eu-west-3.amazonaws.com/wp-content/uploads/2025/01/GFM-Marcas-Peugeot-Camp25JAN-208-HeaderCampanha.jpg" class="anuncio-item" alt="Peugeot">
+        <img src="https://www.pcguia.pt/wp-content/uploads/2025/07/Prime-Day-Amazon-2025.jpg" class="anuncio-item" alt="Amazon">
+      </div>
     </div>
-    <p style="margin-top: 20px; color: #555;">&copy; 2025 Seu Site. Todos os direitos reservados.</p>
+    <p style="margin-top: 20px; color: #777;">&copy; 2025 Seu Site. Todos os direitos reservados.</p>
   </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const container = document.querySelector('.anuncios-rodape');
-      const clones = Array.from(container.children);
-      clones.forEach(el => container.appendChild(el.cloneNode(true)));
-    });
-  </script>
 
 </body>
 </html>
